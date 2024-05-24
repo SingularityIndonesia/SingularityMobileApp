@@ -21,8 +21,7 @@ kotlin {
             implementation("shared:common")
             implementation("shared:webrepository")
 
-            implementation(project(":example:presentation"))
-            implementation(project(":example:model"))
+            implementation(project(":home:presentation"))
         }
     }
 }

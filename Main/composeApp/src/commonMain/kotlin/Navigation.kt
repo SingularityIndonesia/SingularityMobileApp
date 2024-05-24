@@ -5,75 +5,32 @@
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import main.example.model.TodoID
-import main.example.presentation.ExampleTodoDetailScreen
-import main.example.presentation.ExampleTodoDetailScreenPld
-import main.example.presentation.ExampleTodoListScreen
-import main.example.presentation.ExampleTodoListScreenPld
+import main.home.presentation.HomeScreen
+import main.home.presentation.HomeScreenPLD
 import system.core.lifecycle.SaveAbleState
 
 
 @Composable
-fun ExampleNavigation() {
+fun MainNavigation() {
     val saveAbleState = remember { SaveAbleState() }
     val navController = rememberNavController()
 
-    val goToTodoDetail = remember {
-        { todoID: TodoID ->
-            navController.navigate("todo-detail/${todoID.value}")
-        }
-    }
-
     NavHost(
         navController = navController,
-        startDestination = "todo-list"
+        startDestination = "home"
     ) {
 
         composable(
-            route = "todo-list",
+            route = "home",
         ) { backstackEntry ->
-
-            val payload = remember {
-                ExampleTodoListScreenPld(
-                    goToTodoDetail = goToTodoDetail
-                )
+            val pld = remember {
+                HomeScreenPLD()
             }
-
-            ExampleTodoListScreen(
-                pld = payload,
-                saveAbleState = saveAbleState
-            )
-        }
-
-        composable(
-            route = "todo-detail/{todoID}",
-            arguments = listOf(
-                navArgument("todoID") {
-                    type = NavType.StringType
-                }
-            )
-        ) { backstackEntry ->
-
-            val userID = backstackEntry.arguments
-                ?.getString("todoID")
-                ?: throw Error("I'm too lazy to handle error.")
-
-            val payload = remember(userID) {
-                ExampleTodoDetailScreenPld(
-                    id = userID,
-                    onBack = {
-                        navController.popBackStack()
-                    }
-                )
-            }
-
-            ExampleTodoDetailScreen(
-                pld = payload,
+            HomeScreen(
+                pld = pld,
                 saveAbleState = saveAbleState
             )
         }

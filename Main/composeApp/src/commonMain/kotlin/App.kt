@@ -41,7 +41,7 @@ fun App() {
                         top = topPadding
                     )
             ) {
-                ExampleNavigation()
+                MainNavigation()
             }
         }
     }

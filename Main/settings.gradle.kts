@@ -69,3 +69,16 @@ File(settingsDir, "./ex_apigenerator")
     ?.forEach { dir ->
         include(":ex_apigenerator:${dir.name}")
     }
+
+
+File(settingsDir, "./home")
+    .listFiles()
+    ?.asSequence()
+    ?.filter { it.isDirectory }
+    ?.filterNot { it.name.contains("gradle") }
+    ?.filterNot { it.name.contains("build") }
+    ?.filterNot { it.name.contains(".") }
+    ?.toList()
+    ?.forEach { dir ->
+        include(":home:${dir.name}")
+    }
