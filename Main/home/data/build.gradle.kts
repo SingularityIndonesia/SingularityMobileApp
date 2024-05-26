@@ -1,6 +1,8 @@
 plugins {
     id("LibraryConventionV1")
-    kotlin("plugin.serialization")
+    id("CompileIOS")
+    id("FeatureSerialization")
+    id("FeatureHttpClient")
 }
 
 kotlin {
