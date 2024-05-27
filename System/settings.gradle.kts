@@ -37,10 +37,8 @@ File(settingsDir, "./")
     .listFiles()
     ?.asSequence()
     ?.filter { it.isDirectory }
-    ?.filterNot { it.name.contains("gradle") }
-    ?.filterNot { it.name.contains("build") }
-    ?.filterNot { it.name.contains(".") }
-    ?.toList()
-    ?.forEach { dir ->
+    ?.filter { it.listFiles()?.map { it.name }?.contains("build.gradle.kts") == true }
+    ?.onEach { dir ->
         include(":${dir.name}")
     }
+    ?.toList()

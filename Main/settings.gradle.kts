@@ -36,10 +36,7 @@ dependencyResolutionManagement {
                     .listFiles()
                     ?.asSequence()
                     ?.filter { it.isDirectory }
-                    ?.filterNot { it.name.contains("gradle") }
-                    ?.filterNot { it.name.contains("build") }
-                    ?.filterNot { it.name.contains("iosApp") }
-                    ?.filterNot { it.name.contains(".") }
+                    ?.filter { it.listFiles()?.map { it.name }?.contains("build.gradle.kts") == true }
                     ?.onEach { dir ->
                         substitute(module("system:${dir.name}")).using(project(":${dir.name}"))
                     }
@@ -54,10 +51,7 @@ dependencyResolutionManagement {
                     .listFiles()
                     ?.asSequence()
                     ?.filter { it.isDirectory }
-                    ?.filterNot { it.name.contains("gradle") }
-                    ?.filterNot { it.name.contains("build") }
-                    ?.filterNot { it.name.contains("iosApp") }
-                    ?.filterNot { it.name.contains(".") }
+                    ?.filter { it.listFiles()?.map { it.name }?.contains("build.gradle.kts") == true }
                     ?.onEach { dir ->
                         substitute(module("shared:${dir.name}")).using(project(":${dir.name}"))
                     }
@@ -71,36 +65,30 @@ File(settingsDir, "./")
     .listFiles()
     ?.asSequence()
     ?.filter { it.isDirectory }
-    ?.filterNot { it.name.contains("gradle") }
-    ?.filterNot { it.name.contains("build") }
-    ?.filterNot { it.name.contains(".") }
-    ?.toList()
-    ?.forEach { dir ->
+    ?.filter { it.listFiles()?.map { it.name }?.contains("build.gradle.kts") == true }
+    ?.onEach { dir ->
         include(":${dir.name}")
     }
+    ?.toList()
 
 
 File(settingsDir, "./example")
     .listFiles()
     ?.asSequence()
     ?.filter { it.isDirectory }
-    ?.filterNot { it.name.contains("gradle") }
-    ?.filterNot { it.name.contains("build") }
-    ?.filterNot { it.name.contains(".") }
-    ?.toList()
-    ?.forEach { dir ->
+    ?.filter { it.listFiles()?.map { it.name }?.contains("build.gradle.kts") == true }
+    ?.onEach { dir ->
         include(":example:${dir.name}")
     }
+    ?.toList()
 
 
 File(settingsDir, "./ex_apigenerator")
     .listFiles()
     ?.asSequence()
     ?.filter { it.isDirectory }
-    ?.filterNot { it.name.contains("gradle") }
-    ?.filterNot { it.name.contains("build") }
-    ?.filterNot { it.name.contains(".") }
-    ?.toList()
-    ?.forEach { dir ->
+    ?.filter { it.listFiles()?.map { it.name }?.contains("build.gradle.kts") == true }
+    ?.onEach { dir ->
         include(":ex_apigenerator:${dir.name}")
     }
+    ?.toList()
