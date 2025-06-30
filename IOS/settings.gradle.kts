@@ -1,4 +1,4 @@
-rootProject.name = "Singularity"
+rootProject.name = "IOS"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -28,5 +28,5 @@ dependencyResolutionManagement {
     }
 }
 
-includeBuild("Android")
-includeBuild("IOS")
+includeBuild("../Main")
+include(":composeApp")
