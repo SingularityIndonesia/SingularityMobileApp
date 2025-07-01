@@ -32,20 +32,37 @@ fun HomePane(
 
     // Scroll to intended section
     LaunchedEffect(intendedSection) {
-        if (pagerState.currentPage != intendedSection.ordinal)
-            pagerState.animateScrollToPage(intendedSection.ordinal)
+        check(!pagerState.isScrollInProgress) {
+            return@LaunchedEffect
+        }
+
+        check(pagerState.currentPage != intendedSection.ordinal) {
+            return@LaunchedEffect
+        }
+
+        pagerState.animateScrollToPage(intendedSection.ordinal)
     }
 
     // Bind Pager State to route
-//    LaunchedEffect(pagerState.currentPage, intendedSection) {
-//        if (pagerState.currentPage != intendedSection.ordinal) {
-//            navController.navigate(
-//                HomeDestinationBuilder(section = HomeSection.entries[pagerState.currentPage])
-//            ) {
-//                launchSingleTop = true
-//            }
-//        }
-//    }
+    LaunchedEffect(
+        pagerState.currentPage,
+        pagerState.isScrollInProgress,
+        intendedSection
+    ) {
+        check(!pagerState.isScrollInProgress) {
+            return@LaunchedEffect
+        }
+
+        check(pagerState.currentPage != intendedSection.ordinal) {
+            return@LaunchedEffect
+        }
+
+        navController.navigate(
+            HomeDestinationBuilder(section = HomeSection.entries[pagerState.currentPage])
+        ) {
+            launchSingleTop = true
+        }
+    }
 
     HorizontalPager(
         state = pagerState
