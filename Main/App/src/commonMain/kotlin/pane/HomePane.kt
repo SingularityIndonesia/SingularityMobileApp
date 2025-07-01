@@ -5,11 +5,47 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import navigation.HomeDestinationBuilder
+import navigation.HomeSection
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import utils.currentDestinationArgument
 
+@Preview
 @Composable
-fun HomePane() {
+fun HomePane(
+    navController: NavHostController = rememberNavController()
+) {
+    val argument by currentDestinationArgument(navController)
     val pagerState = rememberPagerState(0) { 4 }
+    val intendedSection = remember(argument) {
+        argument
+            ?.getString("section", HomeSection.Universe.name)
+            ?.let { HomeSection.valueOf(it) }
+            ?: HomeSection.Universe
+    }
+
+    // Scroll to intended section
+    LaunchedEffect(intendedSection) {
+        if (pagerState.currentPage != intendedSection.ordinal)
+            pagerState.animateScrollToPage(intendedSection.ordinal)
+    }
+
+    // Bind Pager State to route
+//    LaunchedEffect(pagerState.currentPage, intendedSection) {
+//        if (pagerState.currentPage != intendedSection.ordinal) {
+//            navController.navigate(
+//                HomeDestinationBuilder(section = HomeSection.entries[pagerState.currentPage])
+//            ) {
+//                launchSingleTop = true
+//            }
+//        }
+//    }
 
     HorizontalPager(
         state = pagerState
@@ -18,14 +54,20 @@ fun HomePane() {
             0 -> Universe(
                 modifier = Modifier.fillMaxSize()
             )
-            1 -> Universe(
-                modifier = Modifier.fillMaxSize()
+
+            1 -> Text(
+                modifier = Modifier.fillMaxSize(),
+                text = "Page1"
             )
-            2 -> Universe(
-                modifier = Modifier.fillMaxSize()
+
+            2 -> Text(
+                modifier = Modifier.fillMaxSize(),
+                text = "Page2"
             )
-            3 -> Universe(
-                modifier = Modifier.fillMaxSize()
+
+            3 -> Text(
+                modifier = Modifier.fillMaxSize(),
+                text = "Page3"
             )
         }
     }

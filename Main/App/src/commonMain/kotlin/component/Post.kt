@@ -46,7 +46,7 @@ fun PostItem(
             if (item.isHaveImages()) {
                 PostImages(item.imageUrls)
             }
-            Text("Likes: ${item.likeCount}")
+            Text("Likes: ${item.id}")
         }
     }
 }

@@ -5,6 +5,7 @@ import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("Convention")
+    kotlin("plugin.serialization") version "2.2.0"
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
@@ -47,6 +48,7 @@ dependency {
 
         // Navigation dependencies
         implementation(libs.navigation.compose)
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
     }
 }
 
