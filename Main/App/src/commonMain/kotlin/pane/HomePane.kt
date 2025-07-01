@@ -18,9 +18,15 @@ fun HomePane() {
             0 -> Universe(
                 modifier = Modifier.fillMaxSize()
             )
-            1 -> Text("Page 1")
-            2 -> Text("Page 2")
-            3 -> Text("Page 3")
+            1 -> Universe(
+                modifier = Modifier.fillMaxSize()
+            )
+            2 -> Universe(
+                modifier = Modifier.fillMaxSize()
+            )
+            3 -> Universe(
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
