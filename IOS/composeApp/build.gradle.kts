@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import plugin.convention.companion.Main
 
 plugins {
     id("Convention")
