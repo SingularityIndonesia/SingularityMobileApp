@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,29 +39,33 @@ fun HomeScreen() {
             )
         }
     ) {
-        HorizontalPager(
-            modifier = Modifier.padding(it),
-            state = pagerState
-        ) { pageIndex ->
-            when (pageIndex) {
-                0 -> Universe(
-                    modifier = Modifier.fillMaxSize()
-                )
+        Surface(
+            modifier = Modifier
+                .padding(it),
+        ) {
+            HorizontalPager(
+                state = pagerState
+            ) { pageIndex ->
+                when (pageIndex) {
+                    0 -> Universe(
+                        modifier = Modifier.fillMaxSize()
+                    )
 
-                1 -> Text(
-                    modifier = Modifier.fillMaxSize(),
-                    text = "Page1"
-                )
+                    1 -> Text(
+                        modifier = Modifier.fillMaxSize(),
+                        text = "Page1"
+                    )
 
-                2 -> Text(
-                    modifier = Modifier.fillMaxSize(),
-                    text = "Page2"
-                )
+                    2 -> Text(
+                        modifier = Modifier.fillMaxSize(),
+                        text = "Page2"
+                    )
 
-                3 -> Text(
-                    modifier = Modifier.fillMaxSize(),
-                    text = "Page3"
-                )
+                    3 -> Text(
+                        modifier = Modifier.fillMaxSize(),
+                        text = "Page3"
+                    )
+                }
             }
         }
     }

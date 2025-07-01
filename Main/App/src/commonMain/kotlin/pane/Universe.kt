@@ -26,13 +26,13 @@ fun Universe(
     }
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(postItems) {
             PostItem(
                 modifier = Modifier.fillMaxWidth(),
                 item = it,
-                contentPadding = PaddingValues(16.dp)
             )
         }
     }

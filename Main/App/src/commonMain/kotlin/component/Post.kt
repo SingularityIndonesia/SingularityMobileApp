@@ -30,11 +30,8 @@ fun PostItem(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val attr = DesignToken.current
-
     Row(
         modifier = modifier
-            .border(BorderStroke(1.dp, attr.color.onSurface))
             .padding(contentPadding),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
