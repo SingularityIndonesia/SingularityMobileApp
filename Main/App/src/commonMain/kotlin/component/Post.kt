@@ -1,7 +1,6 @@
 package component
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,6 +13,7 @@ import designsystem.DesignToken
 data class PostItemDisplay(
     val id: String = "",
     val avatarUrl: String = "",
+    val postTime: String = "",
     val userName: String = "",
     val postDate: String = "",
     val likeCount: Long = 0L,
@@ -32,20 +32,21 @@ fun PostItem(
 ) {
     val attr = DesignToken.current
 
-    Column(
+    Row(
         modifier = modifier
             .border(BorderStroke(1.dp, attr.color.onSurface))
-            .padding(contentPadding)
+            .padding(contentPadding),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Row {
-            Avatar(item.avatarUrl)
-        }
-        if (item.isHaveImages()) {
-            PostImages(item.imageUrls)
-        }
-        Text("Likes: ${item.likeCount}")
-        if (item.isHaveMessage()) {
-            Text(item.message)
+        Avatar(item.avatarUrl)
+        Column {
+            if (item.isHaveMessage()) {
+                Text(item.message)
+            }
+            if (item.isHaveImages()) {
+                PostImages(item.imageUrls)
+            }
+            Text("Likes: ${item.likeCount}")
         }
     }
 }
@@ -58,7 +59,7 @@ fun Avatar(
     val attr = DesignToken.current
     Box(
         modifier = Modifier
-            .size(60.dp)
+            .size(36.dp)
             .border(BorderStroke(1.dp, attr.color.onSurface), CircleShape)
             .then(modifier)
     )

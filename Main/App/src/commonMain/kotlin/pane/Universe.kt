@@ -19,7 +19,8 @@ fun Universe(
     val postItems = remember {
         (0..100).map {
             PostItemDisplay(
-                id = it.toString()
+                id = it.toString(),
+                message = "Lorem Ipsum"
             )
         }
     }
