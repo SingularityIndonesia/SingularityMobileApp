@@ -51,10 +51,10 @@ kotlin {
 }
 
 android {
+    namespace = "com.singularityuniverse.singularity.main"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.singularityuniverse.singularity.main"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
     }
