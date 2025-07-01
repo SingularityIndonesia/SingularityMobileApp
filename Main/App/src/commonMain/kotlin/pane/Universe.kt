@@ -20,14 +20,13 @@ fun Universe(
         (0..100).map {
             PostItemDisplay(
                 id = it.toString(),
-                message = "Lorem Ipsum"
             )
         }
     }
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
         items(postItems) {
             PostItem(
