@@ -23,6 +23,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
+            freeCompilerArgs += "-Xbinary=bundleId=com.singularityuniverse.main"
             baseName = "MainApp"
             isStatic = true
         }
@@ -43,6 +44,9 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            
+            // Navigation dependencies
+            implementation(libs.navigation.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

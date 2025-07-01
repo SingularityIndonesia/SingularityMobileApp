@@ -1,7 +1,24 @@
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun App() {
-    Text("It is working")
+    val navController = rememberNavController()
+
+    Scaffold(
+        topBar = {
+
+        },
+        bottomBar = {
+
+        }
+    ) {
+        MainNavigation(
+            modifier = Modifier.padding(it),
+            controller = navController
+        )
+    }
 }
