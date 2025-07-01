@@ -7,7 +7,7 @@ package designsystem
 import androidx.compose.material3.Typography
 
 // Set of Material typography styles to start with
-val MaterialTypographyBinder = Typography(
+val TypingSystem = Typography(
     displayLarge = TextSansSerif57NormalLSmin25percentLH64,
     displayMedium = TextSansSerif45NormalLS0LH52,
     displaySmall = TextSansSerif36NormalLS0LH44,

@@ -1,20 +1,18 @@
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import designsystem.DarkThemePalette
-import designsystem.LightThemePalette
+import designsystem.SingularityTheme
 
 @Composable
 fun App() {
     val navController = rememberNavController()
-    val colorScheme = if (isSystemInDarkTheme()) DarkThemePalette else LightThemePalette
+    val isDarkTheme = isSystemInDarkTheme()
 
-    MaterialTheme(
-        colorScheme = colorScheme
+    SingularityTheme(
+        darkTheme = isDarkTheme
     ) {
         Scaffold(
             topBar = {

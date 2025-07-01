@@ -18,9 +18,9 @@ fun SingularityTheme(
 ) {
     val colorScheme = remember("$darkTheme") {
         if (darkTheme)
-            MaterialDarkColorSchemeBinder
+            DarkThemePalette
         else
-            MaterialLightColorSchemeBinder
+            LightThemePalette
     }
 
     @Suppress("DEPRECATION")
@@ -31,7 +31,7 @@ fun SingularityTheme(
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = MaterialTypographyBinder,
+            typography = TypingSystem,
             content = content
         )
     }
