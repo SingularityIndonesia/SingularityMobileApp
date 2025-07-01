@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -19,9 +21,8 @@ import designsystem.DesignToken
 data class PostItemDisplay(
     val id: String = "",
     val avatarUrl: String = "https://raw.githubusercontent.com/SingularityIndonesia/SingularityIndonesia/refs/heads/main/Logo%20Of%20Singularity%20Indonesia%20%C2%A92023%20Stefanus%20Ayudha.png",
-    val postTime: String = "",
-    val userName: String = "",
-    val postDate: String = "",
+    val postTime: String = "2 hours",
+    val userName: String = "Singularity",
     val likeCount: Long = 0L,
     val message: String = """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque congue dictum elit aliquet rutrum. Fusce neque dolor, tempus nec ultricies feugiat, ultrices vel urna. Sed pulvinar nisl sit amet sem luctus efficitur. Pellentesque ultrices dolor enim, in tincidunt ex hendrerit a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam feugiat id est vitae auctor. Sed id ultrices nisi, vitae interdum justo.
@@ -31,7 +32,7 @@ data class PostItemDisplay(
         .replace("\n", "")
         .split(". ")
         .shuffled()
-        .first(),
+        .first() + ".",
     val imageUrls: List<String> = listOf(
         "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
         "https://pbs.twimg.com/media/GllvhtPW4AAUnRR?format=jpg&name=large",
@@ -48,26 +49,48 @@ data class PostItemDisplay(
 fun PostItem(
     item: PostItemDisplay,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    Row(
-        modifier = modifier
-            .padding(contentPadding),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    Column(
+        verticalArrangement = Arrangement
+            .spacedBy(16.dp)
     ) {
-        Avatar(item.avatarUrl)
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        Row(
+            modifier = modifier
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            if (item.isHaveMessage()) {
-                Text(
-                    item.message,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+            Avatar(item.avatarUrl)
+
+            Column(
+                modifier = Modifier.align(Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        item.userName,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = item.postTime,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+                if (item.isHaveMessage()) {
+                    Text(
+                        item.message,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
-            if (item.isHaveImages()) {
-                PostImages(item.imageUrls)
-            }
+        }
+        if (item.isHaveImages()) {
+            PostImages(
+                imageUrls = item.imageUrls,
+                contentPadding = PaddingValues(start = (16 + 36 + 16).dp, end = 16.dp)
+            )
         }
     }
 }
@@ -94,10 +117,13 @@ fun Avatar(
 fun PostImages(
     imageUrls: List<String>,
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(),
 ) {
     val attr = DesignToken.current
     LazyRow(
-        modifier = modifier
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = contentPadding
     ) {
         items(imageUrls) { url ->
             AsyncImage(
@@ -105,7 +131,8 @@ fun PostImages(
                 contentDescription = url,
                 modifier = Modifier
                     .height(200.dp)
-                    .aspectRatio(3 / 2f),
+                    .aspectRatio(3 / 2f)
+                    .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
         }

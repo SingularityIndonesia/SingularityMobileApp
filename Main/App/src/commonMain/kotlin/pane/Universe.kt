@@ -26,7 +26,6 @@ fun Universe(
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(24.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
         items(postItems) {
             PostItem(
