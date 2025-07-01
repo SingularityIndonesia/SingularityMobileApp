@@ -1,8 +1,47 @@
 package plugin.convention.companion
 
+import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+class DependencyScope(private val project: Project) {
+    fun android(bloc: KotlinDependencyHandler.() -> Unit = {}) {
+        with(project) {
+            withKotlinMultiplatformExtension {
+                sourceSets {
+                    androidMain.dependencies(bloc)
+                }
+            }
+        }
+    }
 
+    fun ios(bloc: KotlinDependencyHandler.() -> Unit = {}) {
+        with(project) {
+            withKotlinMultiplatformExtension {
+                sourceSets {
+                    iosMain.dependencies(bloc)
+                }
+            }
+        }
+    }
+
+    fun common(bloc: KotlinDependencyHandler.() -> Unit = {}) {
+        with(project) {
+            withKotlinMultiplatformExtension {
+                sourceSets {
+                    commonMain.dependencies(bloc)
+                }
+            }
+        }
+    }
+}
+
+fun Project.dependency(bloc: DependencyScope.() -> Unit) {
+    val scope = DependencyScope(this)
+    bloc.invoke(scope)
+}
+
+// tobe used in convention plugin
 val ksp: DependencyHandler.(Any) -> Unit =
     { dependencyNotation ->
         add("ksp", dependencyNotation)
