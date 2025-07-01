@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
+    id("Convention")
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
@@ -20,7 +21,6 @@ kotlin {
     }
     
     sourceSets {
-        
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -30,7 +30,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation("main:App")
+            Main("App")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
