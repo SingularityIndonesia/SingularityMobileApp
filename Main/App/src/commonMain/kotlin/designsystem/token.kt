@@ -4,6 +4,7 @@
  */
 package designsystem
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.staticCompositionLocalOf
 
 /**
@@ -17,9 +18,12 @@ import androidx.compose.runtime.staticCompositionLocalOf
         "core.ui.designsystem.DesignToken",
     ),
 )
-class SystemToken
+data class SystemToken(
+    val color: ColorScheme
+)
+
 
 val DesignToken = staticCompositionLocalOf {
     @Suppress("DEPRECATION")
-    SystemToken()
+    SystemToken(LightThemePalette)
 }

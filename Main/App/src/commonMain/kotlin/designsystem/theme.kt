@@ -24,7 +24,7 @@ fun SingularityTheme(
     }
 
     @Suppress("DEPRECATION")
-    val systemToken = remember { SystemToken() }
+    val systemToken = remember { SystemToken(colorScheme) }
 
     CompositionLocalProvider(
         DesignToken provides systemToken,

@@ -94,37 +94,3 @@ val DarkThemePalette = darkColorScheme(
 
     scrim = SpaceDark[0]!!,
 )
-
-val SystemToken.primary get() = HawkingRadiation[60]!!
-val SystemToken.`on-primary` get() = HawkingRadiation[100]!!
-val SystemToken.`primary-container` get() = HawkingRadiation[90]!!
-val SystemToken.`on-primary-container` get() = HawkingRadiation[10]!!
-val SystemToken.secondary get() = HawkingDimRadiation[40]!!
-val SystemToken.`on-secondary` get() = HawkingDimRadiation[100]!!
-val SystemToken.`secondary-container` get() = HawkingDimRadiation[90]!!
-val SystemToken.`on-secondary-container` get() = HawkingDimRadiation[10]!!
-val SystemToken.tertiary get() = HighEnergyPhoton[40]!!
-val SystemToken.`on-tertiary` get() = HighEnergyPhoton[100]!!
-val SystemToken.`tertiary-container` get() = HighEnergyPhoton[90]!!
-val SystemToken.`on-tertiary-container` get() = HighEnergyPhoton[10]!!
-val SystemToken.error get() = Error[40]!!
-val SystemToken.`on-error` get() = Error[100]!!
-val SystemToken.`error-container` get() = Error[90]!!
-val SystemToken.`on-error-container` get() = Error[10]!!
-val SystemToken.`surface-dim` get() = SpaceDark[87]!!
-val SystemToken.surface get() = SpaceDark[98]!!
-val SystemToken.`surface-bright` get() = SpaceDark[98]!!
-val SystemToken.`on-surface` get() = SpaceDark[10]!!
-val SystemToken.`surface-container-lowest` get() = SpaceDark[100]!!
-val SystemToken.`surface-container-low` get() = SpaceDark[96]!!
-val SystemToken.`surface-container` get() = SpaceDark[94]!!
-val SystemToken.`surface-container-high` get() = SpaceDark[92]!!
-val SystemToken.`surface-container-highest` get() = SpaceDark[90]!!
-val SystemToken.`surface-variant` get() = SpaceDarkVariant[90]!!
-val SystemToken.`on-surface-variant` get() = SpaceDarkVariant[30]!!
-val SystemToken.outline get() = SpaceDarkVariant[50]!!
-val SystemToken.`outline-variant` get() = SpaceDarkVariant[80]!!
-val SystemToken.`inverse-surface` get() = SpaceDark[20]!!
-val SystemToken.`inverse-on-surface` get() = SpaceDark[95]!!
-val SystemToken.`inverse-primary` get() = HawkingRadiation[80]!!
-val SystemToken.scrim get() = SpaceDark[0]!!
