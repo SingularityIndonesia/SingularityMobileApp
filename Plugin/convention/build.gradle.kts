@@ -23,7 +23,6 @@ dependencies {
     implementation("com.android.tools.build:gradle:8.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
     implementation("org.jetbrains.compose:compose-gradle-plugin:1.8.2")
-    // implementation(libs.kotlin.allopen)
 }
 
 gradlePlugin {
