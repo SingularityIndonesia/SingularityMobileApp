@@ -1,4 +1,7 @@
 import plugin.convention.companion.Main
+import plugin.convention.companion.compileIOSLibrary
+import plugin.convention.companion.dependency
+import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("Convention")
@@ -7,35 +10,24 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
-kotlin {
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            freeCompilerArgs += "-Xbinary=bundleId=com.singularityuniverse.singularity"
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-    
-    sourceSets {
-        commonMain.dependencies {
+compileIOSLibrary(
+    namespace = "com.singularityuniverse.singularity",
+    baseName = "ComposeApp",
+    isStatic = true
+)
+
+dependency {
+    common {
+        withKotlinMultiplatformExtension {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            Main("App")
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
+        implementation(libs.androidx.lifecycle.viewmodel)
+        implementation(libs.androidx.lifecycle.runtimeCompose)
+        Main("App")
     }
 }
-
-

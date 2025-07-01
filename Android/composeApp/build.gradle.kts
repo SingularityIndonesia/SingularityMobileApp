@@ -1,5 +1,7 @@
 import plugin.convention.companion.Main
 import plugin.convention.companion.compileAndroidApplication
+import plugin.convention.companion.dependency
+import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("Convention")
@@ -16,26 +18,26 @@ compileAndroidApplication(
     versionName = "1.0",
 )
 
-kotlin {
-    sourceSets {
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-        }
-        commonMain.dependencies {
+dependency {
+    common {
+        withKotlinMultiplatformExtension {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            Main("App")
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        implementation(libs.androidx.lifecycle.viewmodel)
+        implementation(libs.androidx.lifecycle.runtimeCompose)
+        Main("App")
+    }
+
+    android {
+        withKotlinMultiplatformExtension {
+            implementation(compose.preview)
         }
+        implementation(libs.androidx.activity.compose)
     }
 }
 

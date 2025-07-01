@@ -7,9 +7,11 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginManager
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 fun Project.withKotlinMultiplatformExtension(
     bloc: KotlinMultiplatformExtension.() -> Unit
@@ -139,4 +141,61 @@ fun Project.compileAndroidLibrary(
             targetCompatibility = JavaVersion.VERSION_11
         }
     }
+}
+
+fun Project.compileIOSLibrary(
+    namespace: String,
+    baseName: String,
+    isStatic: Boolean = false,
+) {
+    withKotlinMultiplatformExtension {
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                freeCompilerArgs += "-Xbinary=bundleId=$namespace"
+                this.baseName = baseName
+                this.isStatic = isStatic
+            }
+        }
+    }
+}
+
+class DependencyScope(private val project: Project) {
+    fun android(bloc: KotlinDependencyHandler.() -> Unit = {}) {
+        with(project) {
+            withKotlinMultiplatformExtension {
+                sourceSets {
+                    androidMain.dependencies(bloc)
+                }
+            }
+        }
+    }
+
+    fun ios(bloc: KotlinDependencyHandler.() -> Unit = {}) {
+        with(project) {
+            withKotlinMultiplatformExtension {
+                sourceSets {
+                    iosMain.dependencies(bloc)
+                }
+            }
+        }
+    }
+
+    fun common(bloc: KotlinDependencyHandler.() -> Unit = {}) {
+        with(project) {
+            withKotlinMultiplatformExtension {
+                sourceSets {
+                    commonMain.dependencies(bloc)
+                }
+            }
+        }
+    }
+}
+
+fun Project.dependency(bloc: DependencyScope.() -> Unit) {
+    val scope = DependencyScope(this)
+    bloc.invoke(scope)
 }

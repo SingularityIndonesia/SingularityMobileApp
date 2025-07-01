@@ -1,4 +1,7 @@
 import plugin.convention.companion.compileAndroidLibrary
+import plugin.convention.companion.compileIOSLibrary
+import plugin.convention.companion.dependency
+import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("Convention")
@@ -12,40 +15,38 @@ compileAndroidLibrary(
     namespace = "com.singularityuniverse.singularity.main"
 )
 
-kotlin {
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            freeCompilerArgs += "-Xbinary=bundleId=com.singularityuniverse.main"
-            baseName = "MainApp"
-            isStatic = true
+compileIOSLibrary(
+    namespace = "com.singularityuniverse.singularity.main",
+    baseName = "MainApp",
+    isStatic = true
+)
+
+dependency {
+    android {
+        withKotlinMultiplatformExtension {
+            implementation(compose.preview)
         }
+        implementation(libs.androidx.activity.compose)
     }
 
-    sourceSets {
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-        }
-        commonMain.dependencies {
+    ios {
+        implementation(libs.kotlin.test)
+    }
+
+    common {
+        withKotlinMultiplatformExtension {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
+        }
+        implementation(libs.androidx.lifecycle.viewmodel)
+        implementation(libs.androidx.lifecycle.runtimeCompose)
 
-            // Navigation dependencies
-            implementation(libs.navigation.compose)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
+        // Navigation dependencies
+        implementation(libs.navigation.compose)
     }
 }
 
