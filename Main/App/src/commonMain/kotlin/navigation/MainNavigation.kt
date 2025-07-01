@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import pane.HomePane
+import screen.home.HomeScreen
 
 @Preview
 @Composable
@@ -30,9 +30,7 @@ fun MainNavigation(
                 }
             ),
         ) {
-            HomePane(
-                navController = controller
-            )
+            HomeScreen()
         }
     }
 }
