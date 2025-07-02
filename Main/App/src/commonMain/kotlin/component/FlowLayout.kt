@@ -16,21 +16,31 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@Immutable
 class FlowLayoutScope {
     internal val leftMagnitude = mutableFloatStateOf(0f)
     internal val rightMagnitude = mutableFloatStateOf(0f)
 
-    private val _items = mutableStateMapOf<Any, @Composable () -> Unit>()
-    val items = _items as Map<Any, @Composable () -> Unit>
+    private val _items = MutableStateFlow<List<Pair<Any, @Composable () -> Unit>>>(emptyList())
+    val items = _items.asStateFlow()
 
-    private val _aspectRatios = mutableStateMapOf<Any, Float>()
-    val aspectRatios = _aspectRatios as Map<Any, Float>
+    private val _aspectRatios = MutableStateFlow<List<Pair<Any, Float>>>(emptyList())
+    val aspectRatios = _aspectRatios.asStateFlow()
 
     fun item(key: Any, ratio: Float, bloc: @Composable () -> Unit) {
-        _aspectRatios[key] = ratio
-        _items[key] = bloc
+        _aspectRatios.update {
+            it.dropWhile { it.first == key } + (key to ratio)
+        }
+
+        _items.update {
+            it.dropWhile { it.first == key } + (key to bloc)
+        }
     }
 }
 
@@ -69,14 +79,14 @@ fun FlowLayout(
         ) {
             check(sectionWidth > 0.dp) { return@Box }
 
-            scope.items.entries.indices.map { index ->
-                val item = remember { scope.items.toList()[index] }
+            val items by scope.items.collectAsStateWithLifecycle()
+            val ratios by scope.aspectRatios.collectAsStateWithLifecycle()
 
-                key(item.first) {
-                    val ratio = remember { scope.aspectRatios.toList()[index].second }
+            items.forEachIndexed { index, item ->
+                key(index, item.first) {
+                    val ratio = remember { ratios.first { it.first == item.first }.second }
                     val isPreferLeft = remember { scope.leftMagnitude.value <= scope.rightMagnitude.value }
-                    val topOffset =
-                        remember { if (isPreferLeft) scope.leftMagnitude.value else scope.rightMagnitude.value }
+                    val topOffset = remember { if (isPreferLeft) scope.leftMagnitude.value else scope.rightMagnitude.value }
 
                     if (isPreferLeft)
                         scope.leftMagnitude.value += (sectionWidth.value * density.density) / ratio
