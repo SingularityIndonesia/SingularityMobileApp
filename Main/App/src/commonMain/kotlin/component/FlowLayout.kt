@@ -1,6 +1,8 @@
 package component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -57,6 +59,7 @@ fun FlowLayout(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalGap: Dp = 0.dp,
     horizontalGap: Dp = 0.dp,
+    enterTransition: EnterTransition = fadeIn(),
     builder: FlowLayoutScope.() -> Unit = {}
 ) {
     val scope = FlowLayoutScope().apply(builder)
@@ -99,6 +102,7 @@ fun FlowLayout(
                     val topOffset =
                         remember { if (isPreferLeft) scope.leftMagnitude.value else scope.rightMagnitude.value }
                     val shouldApplyGap = remember { topOffset > 0f }
+                    val isShownBefore = remember(item) { mutableStateOf(false) }
                     val isVisibleOnScreen = remember(item.first) { mutableStateOf(false) }
 
                     if (isPreferLeft)
@@ -131,8 +135,16 @@ fun FlowLayout(
                                 isVisibleOnScreen.value = boundsVerRange intersects parentVerRange
                             }
                     ) {
-                        if (isVisibleOnScreen.value)
+                        this@Column.AnimatedVisibility(
+                            visible = isVisibleOnScreen.value,
+                            enter = if (!isShownBefore.value) enterTransition else EnterTransition.None,
+                            exit = ExitTransition.None
+                        ) {
                             item.second.invoke()
+                            LaunchedEffect(Unit) {
+                                isShownBefore.value = true
+                            }
+                        }
                     }
                 }
             }

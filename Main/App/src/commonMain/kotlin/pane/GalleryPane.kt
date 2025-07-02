@@ -1,5 +1,6 @@
 package pane
 
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -87,7 +88,8 @@ fun GalleryPane(
         contentPadding = contentPadding,
         scrollState = scrollState,
         verticalGap = 16.dp,
-        horizontalGap = 16.dp
+        horizontalGap = 16.dp,
+        enterTransition = slideInVertically { it }
     ) {
         items.forEach { item ->
             item(item, ratio = listOf(2 / 3f, 3 / 2f, 1 / 2f, 2 / 1f).random()) {
