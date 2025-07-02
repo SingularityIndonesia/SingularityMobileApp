@@ -1,8 +1,6 @@
 package screen.home
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
@@ -11,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import pane.Universe
@@ -38,17 +37,20 @@ fun HomeScreen() {
                 }
             )
         }
-    ) {
+    ) { safeContentPadding ->
+
         Surface(
-            modifier = Modifier
-                .padding(it),
+            modifier = Modifier,
         ) {
             HorizontalPager(
-                state = pagerState
+                modifier = Modifier.padding(safeContentPadding),
+                state = pagerState,
+                userScrollEnabled = false,
             ) { pageIndex ->
                 when (pageIndex) {
                     0 -> Universe(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 16.dp)
                     )
 
                     1 -> Text(

@@ -130,7 +130,7 @@ fun PostImages(
                 model = url,
                 contentDescription = url,
                 modifier = Modifier
-                    .height(200.dp)
+                    .height(250.dp)
                     .aspectRatio(3 / 2f)
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop

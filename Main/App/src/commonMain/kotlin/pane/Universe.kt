@@ -14,10 +14,11 @@ import component.PostItemDisplay
 
 @Composable
 fun Universe(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val postItems = remember {
-        (0..100).map {
+        (0..10).map {
             PostItemDisplay(
                 id = it.toString(),
             )
@@ -26,6 +27,7 @@ fun Universe(
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(24.dp),
+        contentPadding = contentPadding
     ) {
         items(postItems) {
             PostItem(
