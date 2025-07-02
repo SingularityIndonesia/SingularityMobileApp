@@ -13,12 +13,11 @@ import main.app.generated.resources.ic_brush
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-@Preview
 @Composable
 fun MemoriesPane(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     onCreateNewMemories: () -> Unit = {},
-    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val scope = rememberCoroutineScope()
     val dataSource = remember { GalleryItemDisplayPagingSource(scope) }
@@ -49,4 +48,10 @@ fun MemoriesPane(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    MemoriesPane()
 }

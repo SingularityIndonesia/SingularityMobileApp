@@ -47,8 +47,6 @@ class GalleryItemDisplayPagingSource(
         _isLoading.value = true
 
         withContext(Dispatchers.IO) {
-            delay(1000L)
-
             _pageIndex.intValue += 1
             val nextPageIndex = pageIndex.value
 
