@@ -7,11 +7,9 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginManager
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 fun Project.withKotlinMultiplatformExtension(
     bloc: KotlinMultiplatformExtension.() -> Unit
