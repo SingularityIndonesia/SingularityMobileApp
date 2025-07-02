@@ -11,6 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.layout.boundsInParent
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -21,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import utils.intersects
 
 @Immutable
 class FlowLayoutScope {
@@ -55,19 +61,23 @@ fun FlowLayout(
 ) {
     val scope = FlowLayoutScope().apply(builder)
     val density = LocalDensity.current
-    val screenWidth = remember { mutableStateOf(0.dp) }
+    val parentWidth = remember { mutableStateOf(0.dp) }
     val sectionWidth by rememberUpdatedState(
-        (screenWidth.value
+        (parentWidth.value
                 - contentPadding.calculateStartPadding(LayoutDirection.Ltr)
                 - contentPadding.calculateEndPadding(LayoutDirection.Rtl)
                 - horizontalGap)
                 / 2
     )
+    val parentRect = remember { mutableStateOf(Rect.Zero) }
 
     Column(
         modifier = modifier
             .onSizeChanged {
-                screenWidth.value = (it.width / density.density).dp
+                parentWidth.value = (it.width / density.density).dp
+            }
+            .onGloballyPositioned {
+                parentRect.value = it.boundsInWindow()
             }
             .verticalScroll(scrollState)
     ) {
@@ -86,14 +96,16 @@ fun FlowLayout(
                 key(index, item.first) {
                     val ratio = remember { ratios.first { it.first == item.first }.second }
                     val isPreferLeft = remember { scope.leftMagnitude.value <= scope.rightMagnitude.value }
-                    val topOffset = remember { if (isPreferLeft) scope.leftMagnitude.value else scope.rightMagnitude.value }
+                    val topOffset =
+                        remember { if (isPreferLeft) scope.leftMagnitude.value else scope.rightMagnitude.value }
+                    val shouldApplyGap = remember { topOffset > 0f }
+                    val isVisibleOnScreen = remember(item.first) { mutableStateOf(false) }
 
                     if (isPreferLeft)
                         scope.leftMagnitude.value += (sectionWidth.value * density.density) / ratio
                     else
                         scope.rightMagnitude.value += (sectionWidth.value * density.density) / ratio
 
-                    val shouldApplyGap = remember { topOffset > 0f }
                     if (shouldApplyGap) {
                         if (isPreferLeft)
                             scope.leftMagnitude.value += verticalGap.value * density.density
@@ -112,8 +124,16 @@ fun FlowLayout(
                             .width(sectionWidth)
                             .aspectRatio(ratio)
                             .align(if (isPreferLeft) Alignment.TopStart else Alignment.TopEnd)
+                            .onGloballyPositioned {
+                                val bounds = it.boundsInWindow()
+                                val boundsVerRange = bounds.top..bounds.bottom
+                                val parentVerRange = parentRect.value.top .. parentRect.value.bottom
+                                isVisibleOnScreen.value = boundsVerRange intersects parentVerRange
+                            }
                     ) {
-                        item.second.invoke()
+                        if (isVisibleOnScreen.value) {
+                            item.second.invoke()
+                        }
                     }
                 }
             }
