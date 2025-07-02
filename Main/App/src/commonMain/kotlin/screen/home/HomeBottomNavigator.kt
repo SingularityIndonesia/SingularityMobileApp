@@ -26,19 +26,19 @@ fun HomeBottomBar(
 ) {
     val currentSection by rememberUpdatedState(
         runCatching { HomeSection.entries[pagerState.currentPage] }
-            .getOrElse { HomeSection.Universe }
+            .getOrElse { HomeSection.Colors }
     )
 
     BottomAppBar(
         modifier = modifier
     ) {
         NavigationBarItem(
-            selected = currentSection == HomeSection.Universe,
+            selected = currentSection == HomeSection.Colors,
             onClick = {
-                onItemClicked.invoke(HomeSection.Universe)
+                onItemClicked.invoke(HomeSection.Colors)
             },
             label = {
-                Text("Color")
+                Text(HomeSection.Colors.name)
             },
             icon = {
                 Icon(
@@ -50,12 +50,12 @@ fun HomeBottomBar(
         )
 
         NavigationBarItem(
-            selected = currentSection == HomeSection.Page1,
+            selected = currentSection == HomeSection.Memories,
             onClick = {
-                onItemClicked.invoke(HomeSection.Page1)
+                onItemClicked.invoke(HomeSection.Memories)
             },
             label = {
-                Text("Memories")
+                Text(HomeSection.Memories.name)
             },
             icon = {
                 Icon(
@@ -67,12 +67,12 @@ fun HomeBottomBar(
         )
 
         NavigationBarItem(
-            selected = currentSection == HomeSection.Page2,
+            selected = currentSection == HomeSection.Search,
             onClick = {
-                onItemClicked.invoke(HomeSection.Page2)
+                onItemClicked.invoke(HomeSection.Search)
             },
             label = {
-                Text("Search")
+                Text(HomeSection.Search.name)
             },
             icon = {
                 Icon(
@@ -84,12 +84,12 @@ fun HomeBottomBar(
         )
 
         NavigationBarItem(
-            selected = currentSection == HomeSection.Page3,
+            selected = currentSection == HomeSection.Account,
             onClick = {
-                onItemClicked.invoke(HomeSection.Page3)
+                onItemClicked.invoke(HomeSection.Account)
             },
             label = {
-                Text("Account")
+                Text(HomeSection.Account.name)
             },
             icon = {
                 Icon(

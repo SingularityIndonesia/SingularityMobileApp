@@ -11,12 +11,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopAppBar(
+    titleText: String = "Home",
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
         modifier = modifier,
         title = {
-            Text("Home")
+            Text(titleText)
         }
     )
 }

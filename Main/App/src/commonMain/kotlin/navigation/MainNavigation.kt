@@ -25,7 +25,7 @@ fun MainNavigation(
             route = "home?section={section}",
             arguments = listOf(
                 navArgument("section") {
-                    defaultValue = HomeSection.Universe.name
+                    defaultValue = HomeSection.Colors.name
                     nullable = true
                 }
             ),

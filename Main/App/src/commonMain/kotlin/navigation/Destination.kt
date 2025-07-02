@@ -4,14 +4,14 @@ package navigation
 const val HomeDestination = "home?section={section}"
 
 enum class HomeSection {
-    Universe,
-    Page1,
-    Page2,
-    Page3
+    Colors,
+    Memories,
+    Search,
+    Account
 }
 
 fun HomeDestinationBuilder(
-    section: HomeSection = HomeSection.Universe
+    section: HomeSection = HomeSection.Colors
 ): String {
     return HomeDestination
         .replace("{section}", section.name)
