@@ -1,5 +1,8 @@
 package component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,8 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.layout.boundsInParent
-import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
@@ -127,11 +128,15 @@ fun FlowLayout(
                             .onGloballyPositioned {
                                 val bounds = it.boundsInWindow()
                                 val boundsVerRange = bounds.top..bounds.bottom
-                                val parentVerRange = parentRect.value.top .. parentRect.value.bottom
+                                val parentVerRange = parentRect.value.top..parentRect.value.bottom
                                 isVisibleOnScreen.value = boundsVerRange intersects parentVerRange
                             }
                     ) {
-                        if (isVisibleOnScreen.value) {
+                        this@Column.AnimatedVisibility(
+                            visible = isVisibleOnScreen.value,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
                             item.second.invoke()
                         }
                     }
