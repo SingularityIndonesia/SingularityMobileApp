@@ -15,7 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import pane.Universe
+import pane.ColorsPane
+import pane.MemoriesPane
 
 @Preview
 @Composable
@@ -51,14 +52,14 @@ fun HomeScreen() {
                 userScrollEnabled = false,
             ) { pageIndex ->
                 when (pageIndex) {
-                    0 -> Universe(
+                    0 -> ColorsPane(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(bottom = 16.dp)
                     )
 
-                    1 -> Text(
+                    1 -> MemoriesPane(
                         modifier = Modifier.fillMaxSize(),
-                        text = "Page1"
+                        contentPadding = PaddingValues(bottom = 16.dp)
                     )
 
                     2 -> Text(

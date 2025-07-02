@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,26 +57,32 @@ fun PostItem(
     ) {
         Row(
             modifier = modifier
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(start = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Avatar(item.avatarUrl)
+            Avatar(
+                modifier = Modifier,
+                url = item.avatarUrl
+            )
 
             Column(
                 modifier = Modifier.align(Alignment.CenterVertically),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.Bottom
                 ) {
                     Text(
                         item.userName,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    Spacer(Modifier.weight(1f))
+                    Spacer(Modifier.width(8.dp))
                     Text(
                         text = item.postTime,
-                        style = MaterialTheme.typography.labelSmall
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = LocalContentColor.current.copy(
+                            alpha = .6f
+                        )
                     )
                 }
                 if (item.isHaveMessage()) {
@@ -104,11 +111,10 @@ fun Avatar(
     AsyncImage(
         model = url,
         contentDescription = "Avatar",
-        modifier = Modifier
+        modifier = modifier
             .size(36.dp)
             .clip(CircleShape)
-            .border(BorderStroke(1.dp, attr.color.onSurface), CircleShape)
-            .then(modifier),
+            .border(BorderStroke(1.dp, attr.color.onSurface), CircleShape),
         contentScale = ContentScale.Crop
     )
 }

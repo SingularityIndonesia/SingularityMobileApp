@@ -1,10 +1,10 @@
 package screen.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,8 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import main.app.generated.resources.Res
-import main.app.generated.resources.compose_multiplatform
+import main.app.generated.resources.*
 import navigation.HomeSection
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,12 +38,12 @@ fun HomeBottomBar(
                 onItemClicked.invoke(HomeSection.Universe)
             },
             label = {
-                Text("Universe")
+                Text("Color")
             },
             icon = {
-                Image(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(Res.drawable.compose_multiplatform),
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(Res.drawable.ic_color),
                     contentDescription = null
                 )
             }
@@ -56,12 +55,12 @@ fun HomeBottomBar(
                 onItemClicked.invoke(HomeSection.Page1)
             },
             label = {
-                Text("Page1")
+                Text("Memories")
             },
             icon = {
-                Image(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(Res.drawable.compose_multiplatform),
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(Res.drawable.ic_gallery),
                     contentDescription = null
                 )
             }
@@ -73,12 +72,12 @@ fun HomeBottomBar(
                 onItemClicked.invoke(HomeSection.Page2)
             },
             label = {
-                Text("Page2")
+                Text("Search")
             },
             icon = {
-                Image(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(Res.drawable.compose_multiplatform),
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(Res.drawable.ic_search),
                     contentDescription = null
                 )
             }
@@ -90,12 +89,12 @@ fun HomeBottomBar(
                 onItemClicked.invoke(HomeSection.Page3)
             },
             label = {
-                Text("Page3")
+                Text("Account")
             },
             icon = {
-                Image(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(Res.drawable.compose_multiplatform),
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(Res.drawable.ic_person),
                     contentDescription = null
                 )
             }

@@ -13,7 +13,7 @@ import component.PostItem
 import component.PostItemDisplay
 
 @Composable
-fun Universe(
+fun ColorsPane(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
