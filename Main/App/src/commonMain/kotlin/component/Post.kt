@@ -1,6 +1,7 @@
 package component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -11,12 +12,15 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
 import designsystem.DesignToken
 
 data class PostItemDisplay(
@@ -132,15 +136,38 @@ fun PostImages(
         contentPadding = contentPadding
     ) {
         items(imageUrls) { url ->
-            AsyncImage(
-                model = url,
-                contentDescription = url,
+            val isLoading = remember { mutableStateOf(false) }
+            Box(
                 modifier = Modifier
-                    .height(250.dp)
-                    .aspectRatio(3 / 2f)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
+            ) {
+                AsyncImage(
+                    model = url,
+                    contentDescription = url,
+                    onLoading = {
+                        isLoading.value = true
+                    },
+                    onSuccess = {
+                        isLoading.value = false
+                    },
+                    modifier = Modifier
+                        .height(250.dp)
+                        .aspectRatio(3 / 2f)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop,
+                )
+                if (isLoading.value) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                            .aspectRatio(3 / 2f)
+                            .background(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                                RoundedCornerShape(8.dp)
+                            ),
+                    )
+                }
+            }
         }
     }
 }

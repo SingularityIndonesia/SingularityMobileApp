@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import component.PostItem
 import component.PostItemDisplay
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@Preview
 @Composable
 fun ColorsPane(
     modifier: Modifier = Modifier,
