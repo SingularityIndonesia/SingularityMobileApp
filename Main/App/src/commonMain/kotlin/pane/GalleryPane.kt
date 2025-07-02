@@ -1,15 +1,20 @@
 package pane
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import component.FlowLayout
 import kotlinx.coroutines.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -74,43 +79,57 @@ fun GalleryPane(
 ) {
     val scope = rememberCoroutineScope()
     val items = dataSource.items
+    val scrollState = rememberScrollState()
 
-    LazyColumn(
+    FlowLayout(
         modifier = modifier,
         contentPadding = contentPadding,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        scrollState = scrollState,
+        verticalGap = 16.dp,
+        horizontalGap = 16.dp
     ) {
-        items(items) { item ->
-            Card(
-                modifier = Modifier
-                    .height(200.dp)
-                    .fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier.padding(16.dp),
-                    contentAlignment = Alignment.Center
+        items.forEach { item ->
+            item(item, ratio = listOf(2 / 3f, 3 / 2f, 1 / 2f, 2 / 1f).random()) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = .3f))
                 ) {
-                    Text("Item ${item.id}")
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        val imageUrl = listOf(
+                            "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
+                            "https://pbs.twimg.com/media/GllvhtPW4AAUnRR?format=jpg&name=large",
+                            "https://cdn.shopify.com/s/files/1/0469/3927/5428/files/TWICE-Dahyun-for-A-pieu-2023-Juicy-Pang-Tint-documents-2.jpg?v=1738754206",
+                            "https://i.pinimg.com/736x/3f/10/a6/3f10a655fbe33402d858bffa7193df16.jpg"
+                        ).shuffled().first()
+
+                        AsyncImage(
+                            model = imageUrl,
+                            contentDescription = imageUrl,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop,
+                        )
+                    }
                 }
             }
         }
+
         if (dataSource.isCanLoadMore.value)
-            item {
+            item(Unit, 2 / 3f) {
                 Card(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize()
                 ) {
+                    scope.launch { dataSource.loadMore() }
                     Box(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()
                     }
-                }
-                scope.launch {
-                    dataSource.loadMore()
                 }
             }
     }

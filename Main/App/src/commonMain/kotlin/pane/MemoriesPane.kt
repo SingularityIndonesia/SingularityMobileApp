@@ -27,6 +27,7 @@ fun MemoriesPane(
     ) {
         val contentPadding by rememberUpdatedState(
             PaddingValues(
+                top = 0.dp,
                 start = contentPadding.calculateStartPadding(LayoutDirection.Rtl),
                 end = contentPadding.calculateEndPadding(LayoutDirection.Ltr),
                 bottom = 88.dp
