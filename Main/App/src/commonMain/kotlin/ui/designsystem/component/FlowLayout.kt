@@ -63,6 +63,7 @@ fun FlowLayout(
     enterTransition: EnterTransition = slideInVertically { it },
     builder: FlowLayoutScope.() -> Unit = {}
 ) {
+    val isPreviewMode = LocalInspectionMode.current
     val scope = FlowLayoutScope().apply(builder)
     val density = LocalDensity.current
     val parentWidth = remember { mutableStateOf(0.dp) }
@@ -103,7 +104,7 @@ fun FlowLayout(
                     val topOffset =
                         remember { if (isPreferLeft) scope.leftMagnitude.value else scope.rightMagnitude.value }
                     val shouldApplyGap = remember { topOffset > 0f }
-                    val isShownBefore = remember(item) { mutableStateOf(false) }
+                    val isShownBefore = remember(item.first) { mutableStateOf(false) }
                     val isVisibleOnScreen = remember(item.first) { mutableStateOf(false) }
 
                     if (isPreferLeft)
@@ -117,7 +118,6 @@ fun FlowLayout(
                         else
                             scope.rightMagnitude.value += verticalGap.value * density.density
                     }
-
                     Box(
                         modifier = Modifier
                             .padding(top = (topOffset / density.density).dp)
@@ -136,19 +136,17 @@ fun FlowLayout(
                                 isVisibleOnScreen.value = boundsVerRange intersects parentVerRange
                             }
                     ) {
-                        if (LocalInspectionMode.current)
+                        this@Column.AnimatedVisibility(
+                            visible = isVisibleOnScreen.value && !isPreviewMode,
+                            enter = if (!isShownBefore.value) enterTransition else EnterTransition.None,
+                            exit = ExitTransition.None
+                        ) {
                             item.second.invoke()
-                        else
-                            this@Column.AnimatedVisibility(
-                                visible = isVisibleOnScreen.value,
-                                enter = if (!isShownBefore.value) enterTransition else EnterTransition.None,
-                                exit = ExitTransition.None
-                            ) {
-                                item.second.invoke()
-                                LaunchedEffect(Unit) {
-                                    isShownBefore.value = true
-                                }
+
+                            LaunchedEffect(Unit) {
+                                isShownBefore.value = true
                             }
+                        }
                     }
                 }
             }

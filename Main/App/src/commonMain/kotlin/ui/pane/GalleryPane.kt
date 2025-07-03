@@ -99,8 +99,8 @@ fun GalleryPane(
         modifier = modifier,
         contentPadding = contentPadding,
         scrollState = scrollState,
-        verticalGap = 16.dp,
-        horizontalGap = 16.dp,
+        verticalGap = 8.dp,
+        horizontalGap = 4.dp,
         enterTransition = slideInVertically { it }
     ) {
         items.forEach { item ->

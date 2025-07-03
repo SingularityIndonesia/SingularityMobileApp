@@ -64,7 +64,7 @@ fun HomeScreen() {
 
                     1 -> MemoriesPane(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 16.dp, start = 16.dp, end = 16.dp)
+                        contentPadding = PaddingValues(bottom = 16.dp, start = 8.dp, end = 8.dp)
                     )
 
                     2 -> Text(
