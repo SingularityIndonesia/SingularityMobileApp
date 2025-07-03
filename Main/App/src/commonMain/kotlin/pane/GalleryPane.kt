@@ -46,7 +46,13 @@ abstract class PagingSource<T> {
 
 data class GalleryItemDisplay(
     val id: String = "",
-    val imageUrls: List<String> = emptyList(),
+    val imageUrls: List<String> = listOf(
+        "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
+        "https://pbs.twimg.com/media/GllvhtPW4AAUnRR?format=jpg&name=large",
+        "https://cdn.shopify.com/s/files/1/0469/3927/5428/files/TWICE-Dahyun-for-A-pieu-2023-Juicy-Pang-Tint-documents-2.jpg?v=1738754206",
+        "https://i.pinimg.com/736x/3f/10/a6/3f10a655fbe33402d858bffa7193df16.jpg"
+    ).shuffled()
+        .take((1..3).shuffled().first()),
     val postDate: String = ""
 )
 
