@@ -3,7 +3,7 @@ package component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -59,7 +60,7 @@ fun FlowLayout(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalGap: Dp = 0.dp,
     horizontalGap: Dp = 0.dp,
-    enterTransition: EnterTransition = fadeIn(),
+    enterTransition: EnterTransition = slideInVertically { it },
     builder: FlowLayoutScope.() -> Unit = {}
 ) {
     val scope = FlowLayoutScope().apply(builder)
@@ -135,16 +136,19 @@ fun FlowLayout(
                                 isVisibleOnScreen.value = boundsVerRange intersects parentVerRange
                             }
                     ) {
-                        this@Column.AnimatedVisibility(
-                            visible = isVisibleOnScreen.value,
-                            enter = if (!isShownBefore.value) enterTransition else EnterTransition.None,
-                            exit = ExitTransition.None
-                        ) {
+                        if (LocalInspectionMode.current)
                             item.second.invoke()
-                            LaunchedEffect(Unit) {
-                                isShownBefore.value = true
+                        else
+                            this@Column.AnimatedVisibility(
+                                visible = isVisibleOnScreen.value,
+                                enter = if (!isShownBefore.value) enterTransition else EnterTransition.None,
+                                exit = ExitTransition.None
+                            ) {
+                                item.second.invoke()
+                                LaunchedEffect(Unit) {
+                                    isShownBefore.value = true
+                                }
                             }
-                        }
                     }
                 }
             }
@@ -162,7 +166,8 @@ private fun Preview() {
             .fillMaxSize(),
         horizontalGap = 16.dp,
         verticalGap = 16.dp,
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(16.dp),
+        scrollState = rememberScrollState()
     ) {
         item(1, 1f) {
             Text(
