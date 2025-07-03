@@ -2,6 +2,7 @@ package pane
 
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import component.FlowLayout
@@ -82,8 +84,9 @@ fun GalleryPane(
     dataSource: PagingSource<GalleryItemDisplay> = GalleryItemDisplayPagingSource(rememberCoroutineScope()),
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
+    val isPreview = LocalInspectionMode.current
     val scope = rememberCoroutineScope()
-    val items = dataSource.items
+    val items = if (isPreview) (0..10).map { GalleryItemDisplay(id = it.toString()) } else dataSource.items
     val scrollState = rememberScrollState()
 
     FlowLayout(
@@ -105,13 +108,18 @@ fun GalleryPane(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        AsyncImage(
-                            model = item.imageUrls.first(),
-                            contentDescription = item.imageUrls.first(),
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
-                            placeholder = painterResource(Res.drawable.compose_multiplatform)
-                        )
+                        if (isPreview)
+                            Image(
+                                painter = painterResource(Res.drawable.compose_multiplatform),
+                                contentDescription = null
+                            )
+                        else
+                            AsyncImage(
+                                model = item.imageUrls.firstOrNull(),
+                                contentDescription = item.imageUrls.first(),
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop,
+                            )
                     }
                 }
             }
