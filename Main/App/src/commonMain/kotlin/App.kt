@@ -3,9 +3,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import designsystem.SingularityTheme
-import navigation.MainNavigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.designsystem.SingularityTheme
+import ui.navigation.MainNavigation
 
 @Preview
 @Composable

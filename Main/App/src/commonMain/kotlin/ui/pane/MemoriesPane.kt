@@ -1,4 +1,4 @@
-package pane
+package ui.pane
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -6,8 +6,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import component.CreateNewFab
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.designsystem.component.CreateNewFab
 
 @Composable
 fun MemoriesPane(

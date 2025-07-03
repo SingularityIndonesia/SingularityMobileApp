@@ -1,4 +1,4 @@
-package pane
+package ui.pane
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import component.PostItem
-import component.PostItemDisplay
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.designsystem.component.PostItem
+import ui.designsystem.component.PostItemDisplay
 
 @Preview
 @Composable

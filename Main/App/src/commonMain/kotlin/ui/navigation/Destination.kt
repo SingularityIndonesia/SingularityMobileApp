@@ -1,4 +1,4 @@
-package navigation
+package ui.navigation
 
 // region HomeDestination
 const val HomeDestination = "home?section={section}"

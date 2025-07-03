@@ -1,4 +1,4 @@
-package navigation
+package ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import screen.home.HomeScreen
+import ui.screen.home.HomeScreen
 
 @Preview
 @Composable

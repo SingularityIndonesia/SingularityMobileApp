@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION", "ObjectPropertyName")
 
-package designsystem
+package ui.designsystem
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme

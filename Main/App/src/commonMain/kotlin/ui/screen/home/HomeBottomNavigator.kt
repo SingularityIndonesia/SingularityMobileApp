@@ -1,4 +1,4 @@
-package screen.home
+package ui.screen.home
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
@@ -13,9 +13,9 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import main.app.generated.resources.*
-import navigation.HomeSection
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.navigation.HomeSection
 
 @Preview
 @Composable

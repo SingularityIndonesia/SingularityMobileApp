@@ -1,4 +1,4 @@
-package screen.home
+package ui.screen.home
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,10 +16,10 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import navigation.HomeSection
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import pane.ColorsPane
-import pane.MemoriesPane
+import ui.navigation.HomeSection
+import ui.pane.ColorsPane
+import ui.pane.MemoriesPane
 
 @Preview
 @Composable

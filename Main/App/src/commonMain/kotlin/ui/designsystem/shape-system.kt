@@ -3,9 +3,11 @@
  * You are not allowed to remove the copyright. Unless you have a "free software" licence.
  */
 
-package designsystem
+@file:Suppress("DEPRECATION", "ObjectPropertyName")
+
+package ui.designsystem
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 
 
-internal val RoundedCorner100Percent = RoundedCornerShape(100)
+val SystemToken.`fully-rounded-corner` get() = RoundedCornerShape(100)

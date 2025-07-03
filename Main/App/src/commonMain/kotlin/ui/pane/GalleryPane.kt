@@ -1,4 +1,4 @@
-package pane
+package ui.pane
 
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
@@ -18,12 +18,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import component.FlowLayout
 import kotlinx.coroutines.*
 import main.app.generated.resources.Res
 import main.app.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.designsystem.component.FlowLayout
 
 abstract class PagingSource<T> {
     protected val _items = mutableStateListOf<GalleryItemDisplay>()

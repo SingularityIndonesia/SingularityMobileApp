@@ -1,4 +1,4 @@
-package component
+package ui.designsystem.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -20,8 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.compose.AsyncImagePainter
-import designsystem.DesignToken
+import ui.designsystem.DesignToken
 
 data class PostItemDisplay(
     val id: String = "",
