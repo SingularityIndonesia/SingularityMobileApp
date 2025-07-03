@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -17,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import component.FlowLayout
 import kotlinx.coroutines.*
+import main.app.generated.resources.Res
+import main.app.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 abstract class PagingSource<T> {
@@ -72,7 +76,6 @@ class GalleryItemDisplayPagingSource(
     }
 }
 
-@Preview
 @Composable
 fun GalleryPane(
     modifier: Modifier = Modifier,
@@ -102,18 +105,12 @@ fun GalleryPane(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        val imageUrl = listOf(
-                            "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
-                            "https://pbs.twimg.com/media/GllvhtPW4AAUnRR?format=jpg&name=large",
-                            "https://cdn.shopify.com/s/files/1/0469/3927/5428/files/TWICE-Dahyun-for-A-pieu-2023-Juicy-Pang-Tint-documents-2.jpg?v=1738754206",
-                            "https://i.pinimg.com/736x/3f/10/a6/3f10a655fbe33402d858bffa7193df16.jpg"
-                        ).shuffled().first()
-
                         AsyncImage(
-                            model = imageUrl,
-                            contentDescription = imageUrl,
+                            model = item.imageUrls.first(),
+                            contentDescription = item.imageUrls.first(),
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop,
+                            placeholder = painterResource(Res.drawable.compose_multiplatform)
                         )
                     }
                 }
@@ -136,4 +133,15 @@ fun GalleryPane(
                 }
             }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    GalleryPane(
+        modifier = Modifier
+            .systemBarsPadding()
+            .fillMaxSize()
+
+    )
 }
