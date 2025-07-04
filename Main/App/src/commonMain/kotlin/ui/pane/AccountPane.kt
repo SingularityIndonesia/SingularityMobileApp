@@ -1,16 +1,27 @@
 package ui.pane
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.painterResource
@@ -54,6 +65,8 @@ fun AccountPane(
     onHelpClick: () -> Unit = {},
     onSignOutClick: () -> Unit = {}
 ) {
+    var searchQuery by remember { mutableStateOf("") }
+    
     val accountMenuItems = remember {
         listOf(
             AccountMenuItem(
@@ -104,6 +117,17 @@ fun AccountPane(
         )
     }
 
+    val filteredMenuItems = remember(searchQuery, accountMenuItems) {
+        if (searchQuery.isEmpty()) {
+            accountMenuItems
+        } else {
+            accountMenuItems.filter { menuItem ->
+                menuItem.title.contains(searchQuery, ignoreCase = true) ||
+                menuItem.subtitle?.contains(searchQuery, ignoreCase = true) == true
+            }
+        }
+    }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
@@ -113,25 +137,11 @@ fun AccountPane(
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // User Profile Section
+        // Search Bar
         item {
-            UserProfileCard(
-                userProfile = userProfile,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onClick = onProfileClick
-            )
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        // Storage Usage Section
-        item {
-            StorageUsageCard(
-                userProfile = userProfile,
+            SearchBar(
+                query = searchQuery,
+                onQueryChange = { searchQuery = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -142,23 +152,96 @@ fun AccountPane(
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Account Menu Items
-        items(accountMenuItems) { menuItem ->
-            AccountMenuItemCard(
-                menuItem = menuItem,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
-            
-            if (menuItem.showDivider) {
-                Spacer(modifier = Modifier.height(8.dp))
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 32.dp),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
+        // User Profile Section (only show when not searching)
+        if (searchQuery.isEmpty()) {
+            item {
+                UserProfileCard(
+                    userProfile = userProfile,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    onClick = onProfileClick
                 )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            // Storage Usage Section (only show when not searching)
+            item {
+                StorageUsageCard(
+                    userProfile = userProfile,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+
+        // Search Results Header
+        if (searchQuery.isNotEmpty()) {
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Search Results",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "${filteredMenuItems.size} found",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            
+            item {
                 Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+
+        // Account Menu Items (filtered)
+        if (filteredMenuItems.isNotEmpty()) {
+            items(filteredMenuItems) { menuItem ->
+                AccountMenuItemCard(
+                    menuItem = menuItem,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    searchQuery = searchQuery
+                )
+                
+                if (menuItem.showDivider && searchQuery.isEmpty()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 32.dp),
+                        thickness = 1.dp,
+                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+        } else if (searchQuery.isNotEmpty()) {
+            // No Results Found
+            item {
+                NoResultsFound(
+                    searchQuery = searchQuery,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 32.dp)
+                )
             }
         }
 
@@ -303,9 +386,138 @@ private fun StorageUsageCard(
 }
 
 @Composable
+private fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusRequester = remember { FocusRequester() }
+
+    OutlinedTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = modifier
+            .focusRequester(focusRequester),
+        placeholder = {
+            Text(
+                text = "Search settings...",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(Res.drawable.ic_search),
+                contentDescription = "Search",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp)
+            )
+        },
+        trailingIcon = {
+            if (query.isNotEmpty()) {
+                IconButton(
+                    onClick = {
+                        onQueryChange("")
+                        keyboardController?.hide()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_more_horz),
+                        contentDescription = "Clear search",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search
+        ),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                keyboardController?.hide()
+            }
+        ),
+        singleLine = true,
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface
+        )
+    )
+}
+
+@Composable
+private fun NoResultsFound(
+    searchQuery: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.ic_search),
+            contentDescription = "No results",
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(48.dp)
+        )
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Text(
+            text = "No settings found",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        Text(
+            text = "Try searching for \"$searchQuery\" with different keywords",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun highlightSearchText(
+    text: String,
+    searchQuery: String
+): androidx.compose.ui.text.AnnotatedString {
+    if (searchQuery.isEmpty()) {
+        return buildAnnotatedString { append(text) }
+    }
+    
+    return buildAnnotatedString {
+        val startIndex = text.indexOf(searchQuery, ignoreCase = true)
+        if (startIndex >= 0) {
+            append(text.substring(0, startIndex))
+            withStyle(
+                style = SpanStyle(
+                    background = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                append(text.substring(startIndex, startIndex + searchQuery.length))
+            }
+            append(text.substring(startIndex + searchQuery.length))
+        } else {
+            append(text)
+        }
+    }
+}
+
+@Composable
 private fun AccountMenuItemCard(
     menuItem: AccountMenuItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    searchQuery: String = ""
 ) {
     Card(
         modifier = modifier,
@@ -343,7 +555,7 @@ private fun AccountMenuItemCard(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = menuItem.title,
+                    text = highlightSearchText(menuItem.title, searchQuery),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onSurface
@@ -351,7 +563,7 @@ private fun AccountMenuItemCard(
                 if (menuItem.subtitle != null) {
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = menuItem.subtitle,
+                        text = highlightSearchText(menuItem.subtitle, searchQuery),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
