@@ -1,6 +1,5 @@
 package ui.pane
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -59,13 +57,15 @@ fun AccountPane(
         name = "John Doe",
         email = "john.doe@example.com"
     ),
+    showSearch: Boolean = false,
+    searchQuery: String = "",
+    onSearchQueryChange: (String) -> Unit = {},
     onProfileClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
     onPrivacyClick: () -> Unit = {},
     onHelpClick: () -> Unit = {},
     onSignOutClick: () -> Unit = {}
 ) {
-    var searchQuery by remember { mutableStateOf("") }
     
     val accountMenuItems = remember {
         listOf(
@@ -117,8 +117,8 @@ fun AccountPane(
         )
     }
 
-    val filteredMenuItems = remember(searchQuery, accountMenuItems) {
-        if (searchQuery.isEmpty()) {
+    val filteredMenuItems = remember(searchQuery, accountMenuItems, showSearch) {
+        if (!showSearch || searchQuery.isEmpty()) {
             accountMenuItems
         } else {
             accountMenuItems.filter { menuItem ->
@@ -137,23 +137,25 @@ fun AccountPane(
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Search Bar
-        item {
-            SearchBar(
-                query = searchQuery,
-                onQueryChange = { searchQuery = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
+        // Search Bar (only show when search is enabled)
+        if (showSearch) {
+            item {
+                SearchBar(
+                    query = searchQuery,
+                    onQueryChange = onSearchQueryChange,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
 
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        // User Profile Section (only show when not searching)
-        if (searchQuery.isEmpty()) {
+        // User Profile Section (only show when not searching or search is disabled)
+        if (!showSearch || searchQuery.isEmpty()) {
             item {
                 UserProfileCard(
                     userProfile = userProfile,
@@ -184,7 +186,7 @@ fun AccountPane(
         }
 
         // Search Results Header
-        if (searchQuery.isNotEmpty()) {
+        if (showSearch && searchQuery.isNotEmpty()) {
             item {
                 Row(
                     modifier = Modifier
@@ -220,10 +222,10 @@ fun AccountPane(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    searchQuery = searchQuery
+                    searchQuery = if (showSearch) searchQuery else ""
                 )
                 
-                if (menuItem.showDivider && searchQuery.isEmpty()) {
+                if (menuItem.showDivider && (!showSearch || searchQuery.isEmpty())) {
                     Spacer(modifier = Modifier.height(8.dp))
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 32.dp),
@@ -233,7 +235,7 @@ fun AccountPane(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-        } else if (searchQuery.isNotEmpty()) {
+        } else if (showSearch && searchQuery.isNotEmpty()) {
             // No Results Found
             item {
                 NoResultsFound(
@@ -593,7 +595,10 @@ private fun AccountPanePreview() {
                 storageUsed = "4.2 GB",
                 totalStorage = "15 GB",
                 storageProgress = 0.28f
-            )
+            ),
+            showSearch = true,
+            searchQuery = "settings",
+            onSearchQueryChange = {}
         )
     }
 }

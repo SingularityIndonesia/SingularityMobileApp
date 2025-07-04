@@ -11,8 +11,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -27,13 +30,28 @@ import ui.pane.MemoriesPane
 fun HomeScreen() {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(0) { 4 }
-
+    
+    // Search state
+    var showSearch by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
+    
+    // Current page information
+    val currentPage = pagerState.currentPage
+    val isAccountPage = currentPage == 3
+    
     Scaffold(
         topBar = {
             val title by rememberUpdatedState(HomeSection.entries[pagerState.currentPage].name)
             HomeTopAppBar(
                 titleText = title,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                showSearchIcon = isAccountPage,
+                onSearchClick = {
+                    showSearch = !showSearch
+                    if (!showSearch) {
+                        searchQuery = ""
+                    }
+                }
             )
         },
         bottomBar = {
@@ -43,6 +61,11 @@ fun HomeScreen() {
                 onItemClicked = {
                     scope.launch {
                         pagerState.animateScrollToPage(it.ordinal)
+                    }
+                    // Reset search when navigating to other pages
+                    if (it.ordinal != 3) {
+                        showSearch = false
+                        searchQuery = ""
                     }
                 }
             )
@@ -74,7 +97,10 @@ fun HomeScreen() {
                     )
 
                     3 -> AccountPane(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        showSearch = showSearch,
+                        searchQuery = searchQuery,
+                        onSearchQueryChange = { searchQuery = it }
                     )
                 }
             }
