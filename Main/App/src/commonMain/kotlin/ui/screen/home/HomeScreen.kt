@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.navigation.HomeSection
+import ui.pane.AccountPane
 import ui.pane.ColorsPane
 import ui.pane.MemoriesPane
 
@@ -72,9 +73,8 @@ fun HomeScreen() {
                         text = "Page2"
                     )
 
-                    3 -> Text(
-                        modifier = Modifier.fillMaxSize(),
-                        text = "Page3"
+                    3 -> AccountPane(
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             }
