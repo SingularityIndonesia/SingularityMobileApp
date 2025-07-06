@@ -1,4 +1,7 @@
-package model.particle
+package model
+
+import model.particle.ImageType
+import model.particle.LatLng
 
 data class Image(
     val model: Any,
@@ -8,4 +11,3 @@ data class Image(
     val timeSignature: Long?,
     val locationSignature: LatLng,
 )
-

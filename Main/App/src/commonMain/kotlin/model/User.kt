@@ -1,15 +1,18 @@
 package model
 
-import model.particle.Image
+import model.particle.Email
+import model.particle.ID
+import model.Image
+import model.particle.Name
 
 data class User(
-    val id: String,
-    val email: String,
+    val id: ID,
+    val email: Email,
     val basic: BasicInfo,
 ) {
     data class BasicInfo(
-        val fullName: String,
-        val nickname: String?,
+        val fullName: Name,
+        val nickname: Name?,
         val profilePicture: Image?
     )
 }

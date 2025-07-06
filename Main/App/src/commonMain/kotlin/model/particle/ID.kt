@@ -3,4 +3,4 @@ package model.particle
 import kotlin.jvm.JvmInline
 
 @JvmInline
-value class LatLng(val latLng: Pair<Double, Double>)
+value class ID(val id: String)
