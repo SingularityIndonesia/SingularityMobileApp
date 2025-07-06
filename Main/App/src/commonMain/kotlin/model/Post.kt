@@ -1,10 +1,12 @@
 package model
 
 import model.particle.ID
-import model.Image
+import model.particle.Message
 
 data class Post(
+    val id: ID,
     val images: List<Image>,
-    val message: String,
-    val mentions: List<ID>
+    val message: Message,
+    val mentions: List<ID>,
+    val createTime: Long,
 )

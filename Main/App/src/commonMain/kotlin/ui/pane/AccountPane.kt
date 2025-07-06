@@ -23,7 +23,7 @@ import ui.designsystem.component.*
 fun AccountPane(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
-    userProfile: UserProfile = UserProfile(
+    userProfile: UserProfileDisplay = UserProfileDisplay(
         name = "John Doe",
         email = "john.doe@example.com"
     ),
@@ -219,7 +219,7 @@ private fun AccountPanePreview() {
     MaterialTheme {
         AccountPane(
             contentPadding = PaddingValues(16.dp),
-            userProfile = UserProfile(
+            userProfile = UserProfileDisplay(
                 name = "Jane Smith",
                 email = "jane.smith@example.com",
                 storageUsed = "4.2 GB",

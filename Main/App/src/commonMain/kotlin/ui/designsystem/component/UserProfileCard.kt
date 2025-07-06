@@ -10,23 +10,40 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import main.app.generated.resources.Res
 import main.app.generated.resources.ic_more_horz
+import model.User
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
-data class UserProfile(
+data class UserProfileDisplay(
     val name: String,
     val email: String,
     val profileImageUrl: String? = null,
     val storageUsed: String = "2.3 GB",
     val totalStorage: String = "15 GB",
     val storageProgress: Float = 0.15f
-)
+) {
+    companion object {
+        fun from(user: User): UserProfileDisplay = UserProfileDisplay(
+            name = user.basic.nickname?.name ?: user.basic.fullName.name,
+            email = user.email.email,
+            profileImageUrl = user.basic.profilePicture?.model as? String,
+        )
+    }
+
+    // fun composeWith(storageStatus: StorageStatus): UserProfileDisplay {
+    //     return copy(
+    //         storageUsed = storageStatus.storageUsed,
+    //         totalStorage = storageStatus.totalStorage,
+    //         storageProgress = storageStatus.storageProgress,
+    //     )
+    // }
+}
 
 @Composable
 fun UserProfileCard(
-    userProfile: UserProfile,
+    userProfile: UserProfileDisplay,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -110,7 +127,7 @@ fun UserProfileCard(
 private fun UserProfileCardPreview() {
     MaterialTheme {
         UserProfileCard(
-            userProfile = UserProfile(
+            userProfile = UserProfileDisplay(
                 name = "Alex Johnson",
                 email = "alex.johnson@example.com"
             ),
@@ -124,7 +141,7 @@ private fun UserProfileCardPreview() {
 private fun UserProfileCardWithImagePreview() {
     MaterialTheme {
         UserProfileCard(
-            userProfile = UserProfile(
+            userProfile = UserProfileDisplay(
                 name = "Jane Smith",
                 email = "jane.smith@example.com",
                 profileImageUrl = "https://example.com/profile.jpg"

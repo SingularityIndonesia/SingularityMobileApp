@@ -20,6 +20,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import model.Post
+import model.User
 import ui.designsystem.DesignToken
 
 data class PostItemDisplay(
@@ -27,7 +29,7 @@ data class PostItemDisplay(
     val avatarUrl: String = "https://raw.githubusercontent.com/SingularityIndonesia/SingularityIndonesia/refs/heads/main/Logo%20Of%20Singularity%20Indonesia%20%C2%A92023%20Stefanus%20Ayudha.png",
     val postTime: String = "2 hours",
     val userName: String = "Singularity",
-    val likeCount: Long = 0L,
+    // val likeCount: Long = 0L,
     val message: String = """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque congue dictum elit aliquet rutrum. Fusce neque dolor, tempus nec ultricies feugiat, ultrices vel urna. Sed pulvinar nisl sit amet sem luctus efficitur. Pellentesque ultrices dolor enim, in tincidunt ex hendrerit a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam feugiat id est vitae auctor. Sed id ultrices nisi, vitae interdum justo.
         Ut ac sodales tortor. Proin eros enim, molestie nec placerat eget, auctor eu ipsum. Mauris massa magna, porta vel purus ut, lobortis ultricies ipsum. Maecenas et sem commodo elit lobortis lobortis. Nulla tempus porttitor sem a iaculis. Cras at commodo sem, sed dictum massa. Mauris augue enim, ornare vitae rutrum dignissim, dignissim vel turpis. Aliquam venenatis tellus vitae nisl vulputate, sit amet mollis ex ultrices. Etiam eget mollis enim. Pellentesque facilisis, nisl eget maximus semper, mi lectus varius turpis, eu sagittis dui quam eget mi. Proin porta mollis ligula, pretium scelerisque dui molestie nec. Nam et convallis nisi, eget pulvinar nisl.
@@ -47,6 +49,26 @@ data class PostItemDisplay(
 ) {
     fun isHaveImages() = imageUrls.isNotEmpty()
     fun isHaveMessage() = message.isNotBlank()
+
+    companion object {
+        // fun from(post: Post): PostItemDisplay {
+        //     return PostItemDisplay(
+        //         id = post.id.id,
+        //         // userName =,
+        //         // avatarUrl =,
+        //         postTime = post.createTime.let { TODO("apply date format") },
+        //         message = post.message.message,
+        //         imageUrls = post.images.map { it.model as? String }.filterNotNull(),
+        //     )
+        // }
+    }
+
+    fun composeWith(user: User): PostItemDisplay {
+        return copy(
+            userName = user.basic.nickname?.name ?: user.basic.fullName.name,
+            avatarUrl = user.basic.profilePicture?.model as? String ?: ""
+        )
+    }
 }
 
 @Composable
