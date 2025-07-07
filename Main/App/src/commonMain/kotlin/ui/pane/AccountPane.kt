@@ -61,7 +61,7 @@ private val menus = listOf(
     ),
     AccountMenuItemDisplay(
         title = "Sign Out",
-        subtitle = "Exit account",
+        subtitle = "Logout and clear application's data",
         iconRes = Res.drawable.ic_nothing
     )
 )
