@@ -1,15 +1,15 @@
 package utils
 
 import kotlin.test.Test
-import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 class NameTest {
     @Test
     fun `test nickname`() {
         val name = "Dahyun"
-        assertSame("D", name.initialName())
+        assertTrue { name.initialName() == "D" }
 
         val name2 = "Cute Dahyun"
-        assertSame("CD", name2.initialName())
+        assertTrue { name2.initialName() == "CD" }
     }
 }
