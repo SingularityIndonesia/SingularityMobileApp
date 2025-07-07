@@ -29,6 +29,19 @@ fun OptionsMenu(
 }
 
 @Composable
+fun Delete(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_delete,
+        contentDescription = "Dekete",
+        onClick = onClick
+    )
+}
+
+@Composable
 fun Clear(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
