@@ -39,7 +39,6 @@ fun AccountPane(
                 title = "Account Settings",
                 subtitle = "Privacy, security, and more",
                 iconRes = Res.drawable.ic_person,
-                onClick = onSettingsClick
             ),
             AccountMenuItemCardDisplay(
                 title = "Storage",
@@ -50,7 +49,6 @@ fun AccountPane(
                 title = "Privacy & Security",
                 subtitle = "Control your data and privacy",
                 iconRes = Res.drawable.ic_palette,
-                onClick = onPrivacyClick
             ),
             AccountMenuItemCardDisplay(
                 title = "Notifications",
@@ -67,7 +65,6 @@ fun AccountPane(
                 title = "Help & Support",
                 subtitle = "Get help and contact support",
                 iconRes = Res.drawable.ic_search,
-                onClick = onHelpClick
             ),
             AccountMenuItemCardDisplay(
                 title = "About",
@@ -78,7 +75,6 @@ fun AccountPane(
                 title = "Sign Out",
                 subtitle = null,
                 iconRes = Res.drawable.ic_more_horz,
-                onClick = onSignOutClick
             )
         )
     }

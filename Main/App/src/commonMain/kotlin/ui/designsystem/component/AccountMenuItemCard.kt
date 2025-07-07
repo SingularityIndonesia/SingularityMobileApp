@@ -11,18 +11,17 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import main.app.generated.resources.Res
+import main.app.generated.resources.ic_more_horz
+import main.app.generated.resources.ic_person
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import main.app.generated.resources.Res
-import main.app.generated.resources.ic_person
-import main.app.generated.resources.ic_more_horz
 
 data class AccountMenuItemCardDisplay(
     val title: String,
     val subtitle: String? = null,
     val iconRes: DrawableResource,
-    val onClick: () -> Unit = {},
     val showDivider: Boolean = false
 )
 
@@ -34,7 +33,6 @@ fun AccountMenuItemCard(
 ) {
     Card(
         modifier = modifier,
-        onClick = menuItem.onClick
     ) {
         Row(
             modifier = Modifier
@@ -84,7 +82,7 @@ fun AccountMenuItemCard(
             }
 
             // Arrow Icon
-            OptionsMenu {  }
+            OptionsMenu { }
         }
     }
 }
@@ -97,7 +95,7 @@ private fun highlightSearchText(
     if (searchQuery.isEmpty()) {
         return buildAnnotatedString { append(text) }
     }
-    
+
     return buildAnnotatedString {
         val startIndex = text.indexOf(searchQuery, ignoreCase = true)
         if (startIndex >= 0) {
@@ -126,7 +124,6 @@ private fun AccountMenuItemCardPreview() {
                 title = "Account Settings",
                 subtitle = "Privacy, security, and more",
                 iconRes = Res.drawable.ic_person,
-                onClick = {}
             ),
             modifier = Modifier.padding(16.dp)
         )
@@ -142,7 +139,6 @@ private fun AccountMenuItemCardWithSearchPreview() {
                 title = "Account Settings",
                 subtitle = "Privacy, security, and more",
                 iconRes = Res.drawable.ic_person,
-                onClick = {}
             ),
             searchQuery = "settings",
             modifier = Modifier.padding(16.dp)
@@ -159,7 +155,6 @@ private fun AccountMenuItemCardNoSubtitlePreview() {
                 title = "Sign Out",
                 subtitle = null,
                 iconRes = Res.drawable.ic_more_horz,
-                onClick = {}
             ),
             modifier = Modifier.padding(16.dp)
         )
