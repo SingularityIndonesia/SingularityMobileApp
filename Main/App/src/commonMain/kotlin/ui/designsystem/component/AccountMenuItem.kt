@@ -26,6 +26,7 @@ data class AccountMenuItemDisplay(
     val subtitle: String? = null,
     val iconRes: DrawableResource? = null,
     val isHighlighted: Boolean = false,
+    val actionDeepLink: String? = null
 ) {
     fun withHighlight(highlighted: Boolean): AccountMenuItemDisplay {
         return copy(isHighlighted = highlighted)

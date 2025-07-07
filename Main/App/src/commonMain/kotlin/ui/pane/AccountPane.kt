@@ -15,27 +15,31 @@ import androidx.compose.ui.unit.dp
 import main.app.generated.resources.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.component.*
+import ui.navigation.*
 
 private val menus = listOf(
     AccountMenuItemDisplay(
         title = "Account Settings",
         subtitle = "Privacy, security, and more",
         iconRes = Res.drawable.ic_person_filled,
+        actionDeepLink = AccountSettingDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Storage",
         subtitle = "32GB of 126GB used",
-        iconRes = Res.drawable.ic_disk_filled
+        iconRes = Res.drawable.ic_disk_filled,
     ),
     AccountMenuItemDisplay(
         title = "Privacy & Security",
         subtitle = "Control your data and privacy",
         iconRes = Res.drawable.ic_security_privacy_filled,
+        actionDeepLink = SecuritySettingDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Notifications",
         subtitle = "Manage your notification preferences",
-        iconRes = Res.drawable.ic_notification_filled
+        iconRes = Res.drawable.ic_notification_filled,
+        actionDeepLink = NotificationSettingDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Data & Storage",
@@ -46,11 +50,13 @@ private val menus = listOf(
         title = "Help & Support",
         subtitle = "Get help and contact support",
         iconRes = Res.drawable.ic_support_agent_filled,
+        actionDeepLink = HelpAndSupportDeepLink
     ),
     AccountMenuItemDisplay(
         title = "About",
         subtitle = "App info and legal",
-        iconRes = Res.drawable.ic_info_filled
+        iconRes = Res.drawable.ic_info_filled,
+        actionDeepLink = AboutDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Sign Out",
