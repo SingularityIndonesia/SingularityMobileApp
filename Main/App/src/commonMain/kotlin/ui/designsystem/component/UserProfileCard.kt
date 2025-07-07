@@ -2,6 +2,7 @@ package ui.designsystem.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -70,20 +71,16 @@ fun UserProfile(
                 text = userProfile.name,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
             )
         },
         email = {
             Text(
                 text = userProfile.email,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         },
         actions = {
-            OptionsMenu {
-
-            }
+            Edit {}
         }
     )
 }
@@ -126,14 +123,16 @@ private fun UserProfileCardPreview() {
     MaterialTheme(
         DarkThemePalette
     ) {
-        UserProfile(
-            userProfile = UserProfileDisplay(
-                name = "Alex Johnson",
-                initialName = "AJ",
-                email = "alex.johnson@example.com"
-            ),
-            modifier = Modifier.padding(16.dp)
-        )
+        Surface {
+            UserProfile(
+                userProfile = UserProfileDisplay(
+                    name = "Alex Johnson",
+                    initialName = "AJ",
+                    email = "alex.johnson@example.com"
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
+        }
     }
 }
 
@@ -143,14 +142,16 @@ private fun UserProfileCardWithImagePreview() {
     MaterialTheme(
         DarkThemePalette
     ) {
-        UserProfile(
-            userProfile = UserProfileDisplay(
-                name = "Jane Smith",
-                email = "jane.smith@example.com",
-                initialName = "JS",
-                profileImageUrl = "https://example.com/profile.jpg"
-            ),
-            modifier = Modifier.padding(16.dp)
-        )
+        Surface {
+            UserProfile(
+                userProfile = UserProfileDisplay(
+                    name = "Jane Smith",
+                    email = "jane.smith@example.com",
+                    initialName = "JS",
+                    profileImageUrl = "https://example.com/profile.jpg"
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
+        }
     }
 }

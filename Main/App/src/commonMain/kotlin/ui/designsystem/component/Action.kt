@@ -25,6 +25,19 @@ fun OptionsMenu(
 }
 
 @Composable
+fun Edit(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_edit,
+        contentDescription = "Edit",
+        onClick = onClick
+    )
+}
+
+@Composable
 fun Delete(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
