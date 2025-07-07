@@ -21,7 +21,7 @@ fun AccountPane(
     userProfile: UserProfileDisplay = UserProfileDisplay(
         name = "Dahyun",
         initialName = "D",
-        profileImageUrl = "https://kpopping.com/documents/50/0/800/230319-TWICE-Dahyun-SET-ME-FREE-at-Inkigayo-documents-1.jpeg?v=0e47f",
+        profileImageUrl = "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
         email = "dahyun@example.com"
     ),
     showSearch: Boolean = false,
@@ -211,6 +211,25 @@ fun AccountPane(
 @Preview
 @Composable
 private fun AccountPanePreview() {
+    MaterialTheme {
+        AccountPane(
+            contentPadding = PaddingValues(16.dp),
+            userProfile = UserProfileDisplay(
+                name = "Jane Smith",
+                email = "jane.smith@example.com",
+                initialName = "JS",
+                storageUsed = "4.2 GB",
+                totalStorage = "15 GB",
+                storageProgress = 0.28f
+            ),
+            onSearchQueryChange = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AccountPanePreviewOnSearch() {
     MaterialTheme {
         AccountPane(
             contentPadding = PaddingValues(16.dp),
