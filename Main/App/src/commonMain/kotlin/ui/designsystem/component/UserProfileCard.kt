@@ -1,19 +1,18 @@
 package ui.designsystem.component
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import main.app.generated.resources.Res
-import main.app.generated.resources.ic_more_horz
 import model.Image
 import model.User
 import model.particle.ImageType
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.DarkThemePalette
 import utils.initialName
@@ -86,17 +85,8 @@ fun UserProfileCard(
             )
         },
         actions = {
-            IconButton(
-                onClick = {
+            OptionsMenu {
 
-                }
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_more_horz),
-                    contentDescription = "View profile",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(24.dp)
-                )
             }
         }
     )

@@ -84,12 +84,7 @@ fun AccountMenuItemCard(
             }
 
             // Arrow Icon
-            Icon(
-                painter = painterResource(Res.drawable.ic_more_horz),
-                contentDescription = "Navigate to ${menuItem.title}",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(20.dp)
-            )
+            OptionsMenu {  }
         }
     }
 }
