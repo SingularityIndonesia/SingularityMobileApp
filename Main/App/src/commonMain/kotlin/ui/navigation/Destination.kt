@@ -27,21 +27,29 @@ const val AboutCustomDeepLink = "singularityapp://about"
 
 // region Security
 const val SecuritySettingDestination = "security/setting"
+const val SecuritySettingDeepLink = "https://yourdomain.com/security/setting"
+const val SecuritySettingCustomDeepLink = "singularityapp://security/setting"
 
 // endregion
 
 // region Help
 const val HelpAndSupportDestination = "help"
+const val HelpAndSupportDeepLink = "https://yourdomain.com/help"
+const val HelpAndSupportCustomDeepLink = "singularityapp://help"
 
 // endregion
 
 // region Account
 const val AccountSettingDestination = "account/setting"
+const val AccountSettingDeepLink = "https://yourdomain.com/account/setting"
+const val AccountSettingCustomDeepLink = "singularityapp://account/setting"
 
 // endregion
 
 // region Notification
 const val NotificationSettingDestination = "notification/setting"
+const val NotificationSettingDeepLink = "https://yourdomain.com/notification/setting"
+const val NotificationSettingCustomDeepLink = "singularityapp://notification/setting"
 
 // endregion
 

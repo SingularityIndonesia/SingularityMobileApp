@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.SingularityTheme
 import ui.navigation.MainNavigation
-import ui.navigation.createDeepLinkHandler
+import ui.navigation.rememberDeepLinkHandler
 
 @Preview
 @Composable
@@ -16,7 +16,7 @@ fun App(
 ) {
     val navController = rememberNavController()
     val isDarkTheme = isSystemInDarkTheme()
-    val deepLinkHandler = navController.createDeepLinkHandler()
+    val deepLinkHandler = rememberDeepLinkHandler(navController)
 
     // Handle deeplink when app starts
     LaunchedEffect(deepLinkUrl) {

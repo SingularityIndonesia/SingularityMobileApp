@@ -7,6 +7,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun AccountSettingScreen() {
     Scaffold {
-        Text("Error 404")
+        Text("Error 404 AccountSettingScreen")
     }
 }

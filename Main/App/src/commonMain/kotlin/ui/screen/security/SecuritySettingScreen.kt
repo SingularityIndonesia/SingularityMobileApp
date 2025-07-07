@@ -7,6 +7,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun SecuritySettingScreen() {
     Scaffold {
-        Text("Error 404")
+        Text("Error 404 SecuritySettingScreen")
     }
 }

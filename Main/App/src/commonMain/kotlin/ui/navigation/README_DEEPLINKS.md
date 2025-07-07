@@ -9,15 +9,39 @@ This guide explains how to use and test deeplinks in the Singularity app, specif
 - **HTTPS URL**: `https://yourdomain.com/about`
 - **Custom Scheme**: `singularityapp://about`
 
+### SecuritySettingScreen
+- **HTTPS URL**: `https://yourdomain.com/security/setting`
+- **Custom Scheme**: `singularityapp://security/setting`
+
+### HelpAndSupportScreen
+- **HTTPS URL**: `https://yourdomain.com/help`
+- **Custom Scheme**: `singularityapp://help`
+
+### AccountSettingScreen
+- **HTTPS URL**: `https://yourdomain.com/account/setting`
+- **Custom Scheme**: `singularityapp://account/setting`
+
+### NotificationSettingScreen
+- **HTTPS URL**: `https://yourdomain.com/notification/setting`
+- **Custom Scheme**: `singularityapp://notification/setting`
+
 ## Testing Deep Links
 
 ### Android Testing with ADB
 ```bash
-# Test HTTPS deeplink
+# Test HTTPS deeplinks
 adb shell am start -W -a android.intent.action.VIEW -d "https://yourdomain.com/about" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "https://yourdomain.com/security/setting" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "https://yourdomain.com/help" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "https://yourdomain.com/account/setting" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "https://yourdomain.com/notification/setting" com.singularityuniverse.singularity.android
 
-# Test custom scheme deeplink
+# Test custom scheme deeplinks
 adb shell am start -W -a android.intent.action.VIEW -d "singularityapp://about" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "singularityapp://security/setting" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "singularityapp://help" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "singularityapp://account/setting" com.singularityuniverse.singularity.android
+adb shell am start -W -a android.intent.action.VIEW -d "singularityapp://notification/setting" com.singularityuniverse.singularity.android
 ```
 
 ### iOS Testing
@@ -72,6 +96,22 @@ fun handleDeepLink(url: String): Boolean {
     return when {
         url.contains("/about") -> {
             navigateToAbout()
+            true
+        }
+        url.contains("/security/setting") -> {
+            navigateToSecuritySetting()
+            true
+        }
+        url.contains("/help") -> {
+            navigateToHelpAndSupport()
+            true
+        }
+        url.contains("/account/setting") -> {
+            navigateToAccountSetting()
+            true
+        }
+        url.contains("/notification/setting") -> {
+            navigateToNotificationSetting()
             true
         }
         url.contains("/yourscreen") -> {

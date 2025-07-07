@@ -51,24 +51,40 @@ fun MainNavigation(
 
         composable(
             route = SecuritySettingDestination,
+            deepLinks = listOf(
+                navDeepLink { uriPattern = SecuritySettingDeepLink },
+                navDeepLink { uriPattern = SecuritySettingCustomDeepLink }
+            )
         ) {
             SecuritySettingScreen()
         }
 
         composable(
             route = HelpAndSupportDestination,
+            deepLinks = listOf(
+                navDeepLink { uriPattern = HelpAndSupportDeepLink },
+                navDeepLink { uriPattern = HelpAndSupportCustomDeepLink }
+            )
         ) {
             HelpAndSupportScreen()
         }
 
         composable(
-            route = AccountSettingDestination
+            route = AccountSettingDestination,
+            deepLinks = listOf(
+                navDeepLink { uriPattern = AccountSettingDeepLink },
+                navDeepLink { uriPattern = AccountSettingCustomDeepLink }
+            )
         ) {
             AccountSettingScreen()
         }
 
         composable(
-            route = NotificationSettingDestination
+            route = NotificationSettingDestination,
+            deepLinks = listOf(
+                navDeepLink { uriPattern = NotificationSettingDeepLink },
+                navDeepLink { uriPattern = NotificationSettingCustomDeepLink }
+            )
         ) {
             NotificationSettingScreen()
         }
