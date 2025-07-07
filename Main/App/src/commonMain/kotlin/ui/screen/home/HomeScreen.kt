@@ -9,17 +9,13 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.designsystem.component.CloseSearch
+import ui.designsystem.component.Search
 import ui.navigation.HomeSection
 import ui.pane.AccountPane
 import ui.pane.ColorsPane
@@ -30,26 +26,31 @@ import ui.pane.MemoriesPane
 fun HomeScreen() {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(0) { 4 }
-    
+
     // Search state
     var showSearch by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
-    
-    // Current page information
-    val currentPage = pagerState.currentPage
-    val isAccountPage = currentPage == 3
-    
+
     Scaffold(
         topBar = {
             val title by rememberUpdatedState(HomeSection.entries[pagerState.currentPage].name)
             HomeTopAppBar(
                 titleText = title,
                 modifier = Modifier.fillMaxWidth(),
-                showSearchIcon = isAccountPage,
-                onSearchClick = {
-                    showSearch = !showSearch
-                    if (!showSearch) {
-                        searchQuery = ""
+                trailingActions = {
+                    when (pagerState.currentPage) {
+                        3 if !showSearch -> {
+                            Search { showSearch = true }
+                        }
+
+                        3 if showSearch -> {
+                            CloseSearch {
+                                searchQuery = ""
+                                showSearch = false
+                            }
+                        }
+
+                        else -> {}
                     }
                 }
             )

@@ -38,6 +38,19 @@ fun Delete(
 }
 
 @Composable
+fun CloseSearch(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_close,
+        contentDescription = "CloseSearch",
+        onClick = onClick
+    )
+}
+
+@Composable
 fun Clear(
     modifier: Modifier = Modifier,
     onClick: () -> Unit

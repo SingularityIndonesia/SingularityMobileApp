@@ -1,5 +1,6 @@
 package ui.screen.home
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,18 +20,13 @@ import ui.designsystem.component.Search
 fun HomeTopAppBar(
     titleText: String = "Home",
     modifier: Modifier = Modifier,
-    showSearchIcon: Boolean = false,
-    onSearchClick: () -> Unit = {}
+    trailingActions: (@Composable RowScope.() -> Unit) = {}
 ) {
     TopAppBar(
         modifier = modifier,
         title = {
             Text(titleText)
         },
-        actions = {
-            if (showSearchIcon) {
-                Search(onClick = onSearchClick)
-            }
-        }
+        actions = trailingActions
     )
 }
