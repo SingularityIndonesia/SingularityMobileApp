@@ -11,12 +11,14 @@ data class Image(
     val desc: String? = null,
     val timeSignature: Long? = null,
     val locationSignature: LatLng? = null,
-)
-
-fun painterImage(drawableRes: DrawableResource): Image {
-    return Image(
-        model = drawableRes,
-        type = ImageType.DrawableResID,
-        ratio = 1f,
-    )
+) {
+    companion object {
+        fun from(drawableRes: DrawableResource): Image {
+            return Image(
+                model = drawableRes,
+                type = ImageType.DrawableResID,
+                ratio = 1f,
+            )
+        }
+    }
 }
