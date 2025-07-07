@@ -11,6 +11,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import main.app.generated.resources.Res
 import main.app.generated.resources.ic_search
+import ui.designsystem.component.Search
 
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,14 +29,7 @@ fun HomeTopAppBar(
         },
         actions = {
             if (showSearchIcon) {
-                IconButton(
-                    onClick = onSearchClick
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_search),
-                        contentDescription = "Search"
-                    )
-                }
+                Search(onClick = onSearchClick)
             }
         }
     )

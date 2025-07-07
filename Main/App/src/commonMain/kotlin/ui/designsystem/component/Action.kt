@@ -12,6 +12,7 @@ import main.app.generated.resources.ic_close
 import main.app.generated.resources.ic_delete
 import main.app.generated.resources.ic_more_horz
 import main.app.generated.resources.ic_next
+import main.app.generated.resources.ic_search
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -76,6 +77,19 @@ fun Back(
         modifier = modifier,
         drawRes = Res.drawable.ic_back,
         contentDescription = "Back",
+        onClick = onClick
+    )
+}
+
+@Composable
+fun Search(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_search,
+        contentDescription = "Search",
         onClick = onClick
     )
 }
