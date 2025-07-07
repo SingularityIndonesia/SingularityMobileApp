@@ -20,7 +20,7 @@ private val menus = listOf(
     AccountMenuItemDisplay(
         title = "Account Settings",
         subtitle = "Privacy, security, and more",
-        iconRes = Res.drawable.ic_person,
+        iconRes = Res.drawable.ic_person_filled,
     ),
     AccountMenuItemDisplay(
         title = "Storage",
