@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -190,15 +191,17 @@ fun AccountPane(
 @Composable
 private fun AccountPanePreview() {
     MaterialTheme {
-        AccountPane(
-            contentPadding = PaddingValues(16.dp),
-            userProfile = UserProfileDisplay(
-                name = "Jane Smith",
-                email = "jane.smith@example.com",
-                initialName = "JS",
-            ),
-            onSearchQueryChange = {}
-        )
+        Surface {
+            AccountPane(
+                contentPadding = PaddingValues(16.dp),
+                userProfile = UserProfileDisplay(
+                    name = "Jane Smith",
+                    email = "jane.smith@example.com",
+                    initialName = "JS",
+                ),
+                onSearchQueryChange = {}
+            )
+        }
     }
 }
 
@@ -206,16 +209,18 @@ private fun AccountPanePreview() {
 @Composable
 private fun AccountPanePreviewOnSearch() {
     MaterialTheme {
-        AccountPane(
-            contentPadding = PaddingValues(16.dp),
-            userProfile = UserProfileDisplay(
-                name = "Jane Smith",
-                email = "jane.smith@example.com",
-                initialName = "JS",
-            ),
-            showSearch = true,
-            searchQuery = "settings",
-            onSearchQueryChange = {}
-        )
+        Surface {
+            AccountPane(
+                contentPadding = PaddingValues(16.dp),
+                userProfile = UserProfileDisplay(
+                    name = "Jane Smith",
+                    email = "jane.smith@example.com",
+                    initialName = "JS",
+                ),
+                showSearch = true,
+                searchQuery = "settings",
+                onSearchQueryChange = {}
+            )
+        }
     }
 }
