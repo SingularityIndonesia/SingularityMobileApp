@@ -20,6 +20,8 @@ fun HomeDestinationBuilder(
 
 // region About
 const val AboutDestination = "about"
+const val AboutDeepLink = "https://yourdomain.com/about"
+const val AboutCustomDeepLink = "singularityapp://about"
 
 // endregion
 

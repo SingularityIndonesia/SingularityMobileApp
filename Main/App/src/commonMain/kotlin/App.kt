@@ -1,17 +1,29 @@
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.SingularityTheme
 import ui.navigation.MainNavigation
+import ui.navigation.createDeepLinkHandler
 
 @Preview
 @Composable
-fun App() {
+fun App(
+    deepLinkUrl: String? = null
+) {
     val navController = rememberNavController()
     val isDarkTheme = isSystemInDarkTheme()
+    val deepLinkHandler = navController.createDeepLinkHandler()
+
+    // Handle deeplink when app starts
+    LaunchedEffect(deepLinkUrl) {
+        deepLinkUrl?.let { url ->
+            deepLinkHandler.handleDeepLink(url)
+        }
+    }
 
     SingularityTheme(
         darkTheme = isDarkTheme

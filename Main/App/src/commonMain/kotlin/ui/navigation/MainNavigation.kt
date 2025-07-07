@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.screen.about.AboutScreen
 import ui.screen.account.AccountSettingScreen
@@ -40,6 +41,10 @@ fun MainNavigation(
 
         composable(
             route = AboutDestination,
+            deepLinks = listOf(
+                navDeepLink { uriPattern = AboutDeepLink },
+                navDeepLink { uriPattern = AboutCustomDeepLink }
+            )
         ) {
             AboutScreen()
         }
