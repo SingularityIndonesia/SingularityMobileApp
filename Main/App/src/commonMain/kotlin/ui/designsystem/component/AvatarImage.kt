@@ -53,8 +53,8 @@ fun AvatarImage(
 fun AvatarImage(
     image: Image,
     modifier: Modifier = Modifier,
-    placeHolder: (@Composable (Modifier) -> Unit) = { AvatarImageContainer(modifier) { } },
-    errorPlaceHolder: (@Composable (Modifier) -> Unit) = { AvatarImageContainer(modifier) { } },
+    placeHolder: (@Composable (Modifier) -> Unit) = { },
+    errorPlaceHolder: (@Composable (Modifier) -> Unit) = { },
 ) {
     val showLoading = remember { mutableStateOf(true) }
     val showError = remember { mutableStateOf(false) }
@@ -141,6 +141,7 @@ fun AvatarImage(
                         showLoading.value = false
                     },
                     onError = {
+                        showLoading.value = false
                         showError.value = true
                     }
                 )
@@ -157,7 +158,7 @@ fun AvatarImage(
             )
         }
 
-        if (showLoading.value) {
+        if (showError.value) {
             errorPlaceHolder.invoke(modifier)
         }
     }

@@ -19,14 +19,14 @@ fun AccountPane(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     userProfile: UserProfileDisplay = UserProfileDisplay(
-        name = "John Doe",
-        initialName = "JD",
-        email = "john.doe@example.com"
+        name = "Dahyun",
+        initialName = "D",
+        profileImageUrl = "https://kpopping.com/documents/50/0/800/230319-TWICE-Dahyun-SET-ME-FREE-at-Inkigayo-documents-1.jpeg?v=0e47f",
+        email = "dahyun@example.com"
     ),
     showSearch: Boolean = false,
     searchQuery: String = "",
     onSearchQueryChange: (String) -> Unit = {},
-    onProfileClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
     onPrivacyClick: () -> Unit = {},
     onHelpClick: () -> Unit = {},
