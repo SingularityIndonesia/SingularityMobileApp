@@ -3,20 +3,15 @@ package ui.pane
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import main.app.generated.resources.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import main.app.generated.resources.Res
-import main.app.generated.resources.compose_multiplatform
-import main.app.generated.resources.ic_person
-import main.app.generated.resources.ic_palette
-import main.app.generated.resources.ic_gallery
-import main.app.generated.resources.ic_search
-import main.app.generated.resources.ic_more_horz
 import ui.designsystem.component.*
-
 
 
 @Composable
@@ -25,6 +20,7 @@ fun AccountPane(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     userProfile: UserProfileDisplay = UserProfileDisplay(
         name = "John Doe",
+        initialName = "JD",
         email = "john.doe@example.com"
     ),
     showSearch: Boolean = false,
@@ -36,7 +32,7 @@ fun AccountPane(
     onHelpClick: () -> Unit = {},
     onSignOutClick: () -> Unit = {}
 ) {
-    
+
     val accountMenuItems = remember {
         listOf(
             AccountMenuItemCardDisplay(
@@ -93,7 +89,7 @@ fun AccountPane(
         } else {
             accountMenuItems.filter { menuItem ->
                 menuItem.title.contains(searchQuery, ignoreCase = true) ||
-                menuItem.subtitle?.contains(searchQuery, ignoreCase = true) == true
+                        menuItem.subtitle?.contains(searchQuery, ignoreCase = true) == true
             }
         }
     }
@@ -133,7 +129,6 @@ fun AccountPane(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    onClick = onProfileClick
                 )
             }
 
@@ -168,7 +163,7 @@ fun AccountPane(
                         .padding(horizontal = 16.dp)
                 )
             }
-            
+
             item {
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -184,7 +179,7 @@ fun AccountPane(
                         .padding(horizontal = 16.dp),
                     searchQuery = if (showSearch) searchQuery else ""
                 )
-                
+
                 if (menuItem.showDivider && (!showSearch || searchQuery.isEmpty())) {
                     Spacer(modifier = Modifier.height(8.dp))
                     HorizontalDivider(
@@ -222,6 +217,7 @@ private fun AccountPanePreview() {
             userProfile = UserProfileDisplay(
                 name = "Jane Smith",
                 email = "jane.smith@example.com",
+                initialName = "JS",
                 storageUsed = "4.2 GB",
                 totalStorage = "15 GB",
                 storageProgress = 0.28f

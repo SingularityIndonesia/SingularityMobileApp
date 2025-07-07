@@ -4,6 +4,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+
 class DependencyScope(private val project: Project) {
     fun android(bloc: KotlinDependencyHandler.() -> Unit = {}) {
         with(project) {
@@ -30,6 +31,16 @@ class DependencyScope(private val project: Project) {
             withKotlinMultiplatformExtension {
                 sourceSets {
                     commonMain.dependencies(bloc)
+                }
+            }
+        }
+    }
+
+    fun test(bloc: KotlinDependencyHandler.() -> Unit = {}) {
+        with(project) {
+            withKotlinMultiplatformExtension {
+                sourceSets {
+                    commonTest.dependencies(bloc)
                 }
             }
         }

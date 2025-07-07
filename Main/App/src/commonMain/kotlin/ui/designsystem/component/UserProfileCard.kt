@@ -1,24 +1,27 @@
 package ui.designsystem.component
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import main.app.generated.resources.Res
 import main.app.generated.resources.ic_more_horz
+import model.Image
 import model.User
+import model.particle.ImageType
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.designsystem.DarkThemePalette
+import utils.initialName
 
 data class UserProfileDisplay(
     val name: String,
     val email: String,
+    val initialName: String,
     val profileImageUrl: String? = null,
     val storageUsed: String = "2.3 GB",
     val totalStorage: String = "15 GB",
@@ -27,6 +30,7 @@ data class UserProfileDisplay(
     companion object {
         fun from(user: User): UserProfileDisplay = UserProfileDisplay(
             name = user.basic.nickname?.name ?: user.basic.fullName.name,
+            initialName = (user.basic.nickname?.name ?: user.basic.fullName.name).initialName(),
             email = user.email.email,
             profileImageUrl = user.basic.profilePicture?.model as? String,
         )
@@ -45,79 +49,88 @@ data class UserProfileDisplay(
 fun UserProfileCard(
     userProfile: UserProfileDisplay,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+) {
+    UserProfileCard(
+        modifier = modifier,
+        avatar = {
+            if (userProfile.profileImageUrl == null)
+                AvatarImage(
+                    modifier = Modifier.size(64.dp),
+                    initialName = userProfile.initialName
+                )
+            else {
+                AvatarImage(
+                    modifier = Modifier.size(64.dp),
+                    image = remember(userProfile.profileImageUrl) {
+                        Image(
+                            model = userProfile.profileImageUrl,
+                            type = ImageType.Url
+                        )
+                    }
+                )
+            }
+        },
+        userName = {
+            Text(
+                text = userProfile.name,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        },
+        email = {
+            Text(
+                text = userProfile.email,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        actions = {
+            IconButton(
+                onClick = {
+
+                }
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_more_horz),
+                    contentDescription = "View profile",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun UserProfileCard(
+    modifier: Modifier = Modifier,
+    avatar: (@Composable RowScope.() -> Unit)? = null,
+    userName: (@Composable ColumnScope.() -> Unit)? = null,
+    email: (@Composable ColumnScope.() -> Unit)? = null,
+    actions: (@Composable RowScope.() -> Unit)? = null
 ) {
     Card(
         modifier = modifier,
-        onClick = onClick
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Profile Image
-            Box(
-                modifier = Modifier
-                    .size(64.dp)
-                    .clip(CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                if (userProfile.profileImageUrl != null) {
-                    AsyncImage(
-                        model = userProfile.profileImageUrl,
-                        contentDescription = "Profile picture",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                } else {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = CircleShape
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = userProfile.name.take(1).uppercase(),
-                                style = MaterialTheme.typography.headlineMedium,
-                                color = MaterialTheme.colorScheme.onPrimary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-                }
-            }
+            avatar?.invoke(this)
 
-            Spacer(modifier = Modifier.width(16.dp))
-
-            // User Info
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text(
-                    text = userProfile.name,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = userProfile.email,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                userName?.invoke(this)
+                email?.invoke(this)
             }
 
-            // Arrow Icon
-            Icon(
-                painter = painterResource(Res.drawable.ic_more_horz),
-                contentDescription = "View profile",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(20.dp)
-            )
+            actions?.invoke(this)
         }
     }
 }
@@ -125,10 +138,13 @@ fun UserProfileCard(
 @Preview
 @Composable
 private fun UserProfileCardPreview() {
-    MaterialTheme {
+    MaterialTheme(
+        DarkThemePalette
+    ) {
         UserProfileCard(
             userProfile = UserProfileDisplay(
                 name = "Alex Johnson",
+                initialName = "AJ",
                 email = "alex.johnson@example.com"
             ),
             modifier = Modifier.padding(16.dp)
@@ -139,11 +155,14 @@ private fun UserProfileCardPreview() {
 @Preview
 @Composable
 private fun UserProfileCardWithImagePreview() {
-    MaterialTheme {
+    MaterialTheme(
+        DarkThemePalette
+    ) {
         UserProfileCard(
             userProfile = UserProfileDisplay(
                 name = "Jane Smith",
                 email = "jane.smith@example.com",
+                initialName = "JS",
                 profileImageUrl = "https://example.com/profile.jpg"
             ),
             modifier = Modifier.padding(16.dp)

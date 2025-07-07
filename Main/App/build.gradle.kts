@@ -60,6 +60,10 @@ dependency {
         implementation(libs.coil.compose)
         implementation(libs.coil.network.ktor3)
     }
+
+    test {
+        implementation(kotlin("test"))
+    }
 }
 
 dependencies {
