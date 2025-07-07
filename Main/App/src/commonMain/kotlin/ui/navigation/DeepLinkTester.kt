@@ -1,48 +1,42 @@
 package ui.navigation
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.ui.tooling.preview.Preview
+
 /**
- * Utility class for testing deeplinks in development
+ * Just launch the preview to test deeplinks
  */
-object DeepLinkTester {
+@Preview
+@Composable
+fun DeepLinkTester() {
+    val uriHandler = LocalUriHandler.current
     
-    // Test URLs for AboutScreen
-    const val ABOUT_HTTPS_DEEPLINK = "https://yourdomain.com/about"
-    const val ABOUT_CUSTOM_DEEPLINK = "singularityapp://about"
-    
-    /**
-     * Generate ADB commands for testing deeplinks on Android
-     */
-    fun generateAdbCommands(): List<String> {
-        return listOf(
-            "adb shell am start -W -a android.intent.action.VIEW -d \"$ABOUT_HTTPS_DEEPLINK\" com.singularityuniverse.singularity.android",
-            "adb shell am start -W -a android.intent.action.VIEW -d \"$ABOUT_CUSTOM_DEEPLINK\" com.singularityuniverse.singularity.android"
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "DeepLink Test",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 32.dp)
         )
-    }
-    
-    /**
-     * Generate test scenarios for QA testing
-     */
-    fun getTestScenarios(): List<DeepLinkTestScenario> {
-        return listOf(
-            DeepLinkTestScenario(
-                name = "About Screen - HTTPS",
-                url = ABOUT_HTTPS_DEEPLINK,
-                expectedDestination = AboutDestination,
-                description = "Should navigate to About screen using HTTPS deeplink"
-            ),
-            DeepLinkTestScenario(
-                name = "About Screen - Custom Scheme",
-                url = ABOUT_CUSTOM_DEEPLINK,
-                expectedDestination = AboutDestination,
-                description = "Should navigate to About screen using custom scheme deeplink"
-            )
-        )
+        
+        Button(
+            onClick = {
+                uriHandler.openUri("singularityapp://about")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Launch About DeepLink")
+        }
     }
 }
-
-data class DeepLinkTestScenario(
-    val name: String,
-    val url: String,
-    val expectedDestination: String,
-    val description: String
-)
