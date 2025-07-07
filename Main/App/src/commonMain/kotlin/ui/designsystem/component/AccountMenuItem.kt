@@ -53,7 +53,7 @@ fun AccountMenuItem(
         leadingIcon = {
             if (menuItem.iconRes != null) {
                 Icon(
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(32.dp),
                     painter = painterResource(menuItem.iconRes),
                     contentDescription = menuItem.title,
                     tint = if (menuItem.isHighlighted)

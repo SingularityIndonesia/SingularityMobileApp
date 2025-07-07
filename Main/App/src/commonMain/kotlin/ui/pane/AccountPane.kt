@@ -25,32 +25,32 @@ private val menus = listOf(
     AccountMenuItemDisplay(
         title = "Storage",
         subtitle = "32GB of 126GB used",
-        iconRes = Res.drawable.ic_storage
+        iconRes = Res.drawable.ic_disk_filled
     ),
     AccountMenuItemDisplay(
         title = "Privacy & Security",
         subtitle = "Control your data and privacy",
-        iconRes = Res.drawable.ic_security_privacy,
+        iconRes = Res.drawable.ic_security_privacy_filled,
     ),
     AccountMenuItemDisplay(
         title = "Notifications",
         subtitle = "Manage your notification preferences",
-        iconRes = Res.drawable.ic_notification
+        iconRes = Res.drawable.ic_notification_filled
     ),
     AccountMenuItemDisplay(
         title = "Data & Storage",
         subtitle = "Network usage, auto-download",
-        iconRes = Res.drawable.ic_download,
+        iconRes = Res.drawable.ic_download_filled,
     ),
     AccountMenuItemDisplay(
         title = "Help & Support",
         subtitle = "Get help and contact support",
-        iconRes = Res.drawable.ic_support_agent,
+        iconRes = Res.drawable.ic_support_agent_filled,
     ),
     AccountMenuItemDisplay(
         title = "About",
         subtitle = "App info and legal",
-        iconRes = Res.drawable.ic_info
+        iconRes = Res.drawable.ic_info_filled
     ),
     AccountMenuItemDisplay(
         title = "Sign Out",
