@@ -147,7 +147,7 @@ fun AccountPane(
         // Account Menu Items (filtered)
         if (filteredMenuItems.isNotEmpty()) {
             items(filteredMenuItems) { menuItem ->
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = menuItem,
                     modifier = Modifier
                         .fillMaxWidth(),

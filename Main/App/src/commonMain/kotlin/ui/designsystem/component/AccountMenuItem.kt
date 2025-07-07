@@ -40,14 +40,14 @@ data class AccountMenuItemDisplay(
 }
 
 @Composable
-fun AccountMenuItemCard(
+fun AccountMenuItem(
     menuItem: AccountMenuItemDisplay,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     searchQuery: String = "",
     trailingActions: (@Composable RowScope.() -> Unit)? = null
 ) {
-    AccountMenuItemCard(
+    AccountMenuItem(
         modifier = modifier,
         contentPadding = contentPadding,
         leadingIcon = {
@@ -88,7 +88,7 @@ fun AccountMenuItemCard(
 }
 
 @Composable
-fun AccountMenuItemCard(
+fun AccountMenuItem(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     leadingIcon: (@Composable RowScope.() -> Unit)? = null,
@@ -184,15 +184,15 @@ private fun AccountMenuItemCardPreview() {
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = AccountMenuItemDisplayDummy.settings(),
                 )
 
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = AccountMenuItemDisplayDummy.signOut(),
                 )
 
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = AccountMenuItemDisplayDummy.help(),
                 )
             }
@@ -211,12 +211,12 @@ private fun AccountMenuItemCardWithSearchPreview() {
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = AccountMenuItemDisplayDummy.settings().withSearchQuery("settings"),
                     searchQuery = "settings"
                 )
 
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = AccountMenuItemDisplayDummy.help().withSearchQuery("help"),
                     searchQuery = "help"
                 )
@@ -236,11 +236,11 @@ private fun AccountMenuItemCardHighlightedPreview() {
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = AccountMenuItemDisplayDummy.settings(highlighted = true),
                 )
 
-                AccountMenuItemCard(
+                AccountMenuItem(
                     menuItem = AccountMenuItemDisplayDummy.signOut(highlighted = false),
                 )
             }
@@ -255,7 +255,7 @@ private fun AccountMenuItemCardCustomPreview() {
         DarkThemePalette
     ) {
         Surface {
-            AccountMenuItemCard(
+            AccountMenuItem(
                 modifier = Modifier.padding(16.dp),
                 leadingIcon = {
                     Icon(
