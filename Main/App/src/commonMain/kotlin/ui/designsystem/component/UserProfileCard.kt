@@ -22,9 +22,6 @@ data class UserProfileDisplay(
     val email: String,
     val initialName: String,
     val profileImageUrl: String? = null,
-    val storageUsed: String = "2.3 GB",
-    val totalStorage: String = "15 GB",
-    val storageProgress: Float = 0.15f
 ) {
     companion object {
         fun from(user: User): UserProfileDisplay = UserProfileDisplay(
@@ -100,13 +97,12 @@ fun UserProfileCard(
     email: (@Composable ColumnScope.() -> Unit)? = null,
     actions: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Card(
+    Box(
         modifier = modifier,
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {

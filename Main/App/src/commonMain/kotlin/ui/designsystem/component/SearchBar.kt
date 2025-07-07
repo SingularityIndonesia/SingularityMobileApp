@@ -4,34 +4,34 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import main.app.generated.resources.Res
+import main.app.generated.resources.ic_more_horz
+import main.app.generated.resources.ic_search
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import main.app.generated.resources.Res
-import main.app.generated.resources.ic_search
-import main.app.generated.resources.ic_more_horz
 
 @Composable
 fun SearchBar(
     query: String,
-    onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: String = "Search...",
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    onQueryChange: (String) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val focusRequester = remember { FocusRequester() }
 
     OutlinedTextField(
         value = query,
         onValueChange = onQueryChange,
-        modifier = modifier.focusRequester(focusRequester),
+        modifier = modifier,
         enabled = enabled,
         placeholder = {
             Text(
@@ -49,17 +49,9 @@ fun SearchBar(
         },
         trailingIcon = {
             if (query.isNotEmpty()) {
-                IconButton(
-                    onClick = {
-                        onQueryChange("")
-                        keyboardController?.hide()
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_more_horz),
-                        contentDescription = "Clear search",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Clear {
+                    onQueryChange("")
+                    keyboardController?.hide()
                 }
             }
         },

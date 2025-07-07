@@ -6,8 +6,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import main.app.generated.resources.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -19,18 +22,14 @@ fun AccountPane(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     userProfile: UserProfileDisplay = UserProfileDisplay(
-        name = "Dahyun",
-        initialName = "D",
+        name = "Uwuu",
+        initialName = "U",
         profileImageUrl = "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
-        email = "dahyun@example.com"
+        email = "uwuu@example.com"
     ),
     showSearch: Boolean = false,
     searchQuery: String = "",
     onSearchQueryChange: (String) -> Unit = {},
-    onSettingsClick: () -> Unit = {},
-    onPrivacyClick: () -> Unit = {},
-    onHelpClick: () -> Unit = {},
-    onSignOutClick: () -> Unit = {}
 ) {
 
     val accountMenuItems = remember {
@@ -42,7 +41,7 @@ fun AccountPane(
             ),
             AccountMenuItemCardDisplay(
                 title = "Storage",
-                subtitle = "${userProfile.storageUsed} of ${userProfile.totalStorage} used",
+                subtitle = "32GB of 126GB used",
                 iconRes = Res.drawable.ic_gallery
             ),
             AccountMenuItemCardDisplay(
@@ -90,18 +89,41 @@ fun AccountPane(
         }
     }
 
+    val searchInputFocusRequester = remember { FocusRequester() }
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
+
+        // User Profile Section (only show when not searching or search is disabled)
+        if (!showSearch) {
+            item {
+                UserProfileCard(
+                    userProfile = userProfile,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(260.dp)
+                        .padding(horizontal = 16.dp, vertical = 16.dp),
+                )
+            }
         }
 
         // Search Bar (only show when search is enabled)
         if (showSearch) {
-            item {
+            stickyHeader {
+                if (searchQuery.isNotEmpty()) {
+                    SearchResultsHeader(
+                        resultsCount = filteredMenuItems.size,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+                }
+
                 SearchBar(
                     query = searchQuery,
                     onQueryChange = onSearchQueryChange,
@@ -109,59 +131,12 @@ fun AccountPane(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
+                        .focusRequester(searchInputFocusRequester)
                 )
-            }
 
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-        }
-
-        // User Profile Section (only show when not searching or search is disabled)
-        if (!showSearch || searchQuery.isEmpty()) {
-            item {
-                UserProfileCard(
-                    userProfile = userProfile,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            // Storage Usage Section (only show when not searching)
-            item {
-                StorageUsageCard(
-                    storageUsed = userProfile.storageUsed,
-                    totalStorage = userProfile.totalStorage,
-                    progress = userProfile.storageProgress,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-        }
-
-        // Search Results Header
-        if (showSearch && searchQuery.isNotEmpty()) {
-            item {
-                SearchResultsHeader(
-                    resultsCount = filteredMenuItems.size,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
+                LaunchedEffect(Unit) {
+                    searchInputFocusRequester.requestFocus()
+                }
             }
         }
 
@@ -177,13 +152,11 @@ fun AccountPane(
                 )
 
                 if (menuItem.showDivider && (!showSearch || searchQuery.isEmpty())) {
-                    Spacer(modifier = Modifier.height(8.dp))
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 32.dp),
                         thickness = 1.dp,
                         color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         } else if (showSearch && searchQuery.isNotEmpty()) {
@@ -214,9 +187,6 @@ private fun AccountPanePreview() {
                 name = "Jane Smith",
                 email = "jane.smith@example.com",
                 initialName = "JS",
-                storageUsed = "4.2 GB",
-                totalStorage = "15 GB",
-                storageProgress = 0.28f
             ),
             onSearchQueryChange = {}
         )
@@ -233,9 +203,6 @@ private fun AccountPanePreviewOnSearch() {
                 name = "Jane Smith",
                 email = "jane.smith@example.com",
                 initialName = "JS",
-                storageUsed = "4.2 GB",
-                totalStorage = "15 GB",
-                storageProgress = 0.28f
             ),
             showSearch = true,
             searchQuery = "settings",
