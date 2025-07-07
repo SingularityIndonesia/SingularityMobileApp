@@ -12,7 +12,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.Image
 import model.User
-import model.particle.ImageType
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.DarkThemePalette
 import utils.initialName
@@ -58,10 +57,7 @@ fun UserProfile(
                 AvatarImage(
                     modifier = Modifier.size(64.dp),
                     image = remember(userProfile.profileImageUrl) {
-                        Image(
-                            model = userProfile.profileImageUrl,
-                            type = ImageType.Url
-                        )
+                        Image.from(url = userProfile.profileImageUrl)
                     }
                 )
             }

@@ -20,5 +20,13 @@ data class Image(
                 ratio = 1f,
             )
         }
+
+        fun from(url: String): Image {
+            return Image(
+                model = url,
+                type = ImageType.Url,
+                ratio = 1f,
+            )
+        }
     }
 }
