@@ -16,6 +16,48 @@ import main.app.generated.resources.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.component.*
 
+private val menus = listOf(
+    AccountMenuItemCardDisplay(
+        title = "Account Settings",
+        subtitle = "Privacy, security, and more",
+        iconRes = Res.drawable.ic_person,
+    ),
+    AccountMenuItemCardDisplay(
+        title = "Storage",
+        subtitle = "32GB of 126GB used",
+        iconRes = Res.drawable.ic_storage
+    ),
+    AccountMenuItemCardDisplay(
+        title = "Privacy & Security",
+        subtitle = "Control your data and privacy",
+        iconRes = Res.drawable.ic_security_privacy,
+    ),
+    AccountMenuItemCardDisplay(
+        title = "Notifications",
+        subtitle = "Manage your notification preferences",
+        iconRes = Res.drawable.ic_notification
+    ),
+    AccountMenuItemCardDisplay(
+        title = "Data & Storage",
+        subtitle = "Network usage, auto-download",
+        iconRes = Res.drawable.ic_download,
+    ),
+    AccountMenuItemCardDisplay(
+        title = "Help & Support",
+        subtitle = "Get help and contact support",
+        iconRes = Res.drawable.ic_support_agent,
+    ),
+    AccountMenuItemCardDisplay(
+        title = "About",
+        subtitle = "App info and legal",
+        iconRes = Res.drawable.ic_info
+    ),
+    AccountMenuItemCardDisplay(
+        title = "Sign Out",
+        subtitle = "Exit account",
+        iconRes = Res.drawable.ic_nothing
+    )
+)
 
 @Composable
 fun AccountPane(
@@ -32,56 +74,11 @@ fun AccountPane(
     onSearchQueryChange: (String) -> Unit = {},
 ) {
 
-    val accountMenuItems = remember {
-        listOf(
-            AccountMenuItemCardDisplay(
-                title = "Account Settings",
-                subtitle = "Privacy, security, and more",
-                iconRes = Res.drawable.ic_person,
-            ),
-            AccountMenuItemCardDisplay(
-                title = "Storage",
-                subtitle = "32GB of 126GB used",
-                iconRes = Res.drawable.ic_gallery
-            ),
-            AccountMenuItemCardDisplay(
-                title = "Privacy & Security",
-                subtitle = "Control your data and privacy",
-                iconRes = Res.drawable.ic_palette,
-            ),
-            AccountMenuItemCardDisplay(
-                title = "Notifications",
-                subtitle = "Manage your notification preferences",
-                iconRes = Res.drawable.ic_search
-            ),
-            AccountMenuItemCardDisplay(
-                title = "Data & Storage",
-                subtitle = "Network usage, auto-download",
-                iconRes = Res.drawable.ic_gallery,
-            ),
-            AccountMenuItemCardDisplay(
-                title = "Help & Support",
-                subtitle = "Get help and contact support",
-                iconRes = Res.drawable.ic_search,
-            ),
-            AccountMenuItemCardDisplay(
-                title = "About",
-                subtitle = "App info and legal",
-                iconRes = Res.drawable.compose_multiplatform
-            ),
-            AccountMenuItemCardDisplay(
-                title = "Sign Out",
-                subtitle = null,
-                iconRes = Res.drawable.ic_more_horz,
-            )
-        )
-    }
-
-    val filteredMenuItems = remember(searchQuery, accountMenuItems, showSearch) {
+    val filteredMenuItems = remember(searchQuery, menus, showSearch) {
         if (!showSearch || searchQuery.isEmpty()) {
-            accountMenuItems
+            menus
         } else {
-            accountMenuItems.filter { menuItem ->
+            menus.filter { menuItem ->
                 menuItem.title.contains(searchQuery, ignoreCase = true) ||
                         menuItem.subtitle?.contains(searchQuery, ignoreCase = true) == true
             }
@@ -151,9 +148,15 @@ fun AccountPane(
                 AccountMenuItemCard(
                     menuItem = menuItem,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    searchQuery = if (showSearch) searchQuery else ""
+                        .fillMaxWidth(),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+                    searchQuery = if (showSearch) searchQuery else "",
+                    actions = {
+                        if (menuItem.title.contains("sign out", true))
+                            SignOut { }
+                        else
+                            Next { }
+                    }
                 )
             }
         } else if (showSearch && searchQuery.isNotEmpty()) {

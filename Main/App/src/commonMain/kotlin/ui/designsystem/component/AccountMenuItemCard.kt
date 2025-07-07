@@ -1,8 +1,9 @@
 package ui.designsystem.component
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,67 +22,56 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 data class AccountMenuItemCardDisplay(
     val title: String,
     val subtitle: String? = null,
-    val iconRes: DrawableResource,
+    val iconRes: DrawableResource? = null,
 )
 
 @Composable
 fun AccountMenuItemCard(
     menuItem: AccountMenuItemCardDisplay,
     modifier: Modifier = Modifier,
-    searchQuery: String = ""
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    searchQuery: String = "",
+    actions: (@Composable RowScope.() -> Unit)? = null,
 ) {
-    Card(
-        modifier = modifier,
+    Row(
+        modifier = modifier
+            .padding(contentPadding),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Icon
-            Surface(
-                modifier = Modifier.size(40.dp),
-                color = MaterialTheme.colorScheme.primaryContainer,
-                shape = CircleShape
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(menuItem.iconRes),
-                        contentDescription = menuItem.title,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-            }
 
+        // Icon
+        if (menuItem.iconRes != null) {
+            Icon(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(menuItem.iconRes),
+                contentDescription = menuItem.title
+            )
             Spacer(modifier = Modifier.width(16.dp))
+        }
 
-            // Text Content
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+        // Text Content
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = highlightSearchText(menuItem.title, searchQuery),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            if (menuItem.subtitle != null) {
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = highlightSearchText(menuItem.title, searchQuery),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    text = highlightSearchText(menuItem.subtitle, searchQuery),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                if (menuItem.subtitle != null) {
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = highlightSearchText(menuItem.subtitle, searchQuery),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
             }
+        }
 
-            // Arrow Icon
-            Next { }
+        // Arrow Icon
+        Row {
+            actions?.invoke(this)
         }
     }
 }
