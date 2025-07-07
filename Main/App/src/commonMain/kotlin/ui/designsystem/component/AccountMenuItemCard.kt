@@ -22,7 +22,6 @@ data class AccountMenuItemCardDisplay(
     val title: String,
     val subtitle: String? = null,
     val iconRes: DrawableResource,
-    val showDivider: Boolean = false
 )
 
 @Composable

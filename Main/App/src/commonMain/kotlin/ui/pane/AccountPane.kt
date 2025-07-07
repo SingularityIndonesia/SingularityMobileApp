@@ -3,7 +3,6 @@ package ui.pane
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import main.app.generated.resources.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -58,7 +58,6 @@ fun AccountPane(
                 title = "Data & Storage",
                 subtitle = "Network usage, auto-download",
                 iconRes = Res.drawable.ic_gallery,
-                showDivider = true
             ),
             AccountMenuItemCardDisplay(
                 title = "Help & Support",
@@ -93,7 +92,14 @@ fun AccountPane(
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = contentPadding,
+        contentPadding = remember(contentPadding) {
+            PaddingValues(
+                top = contentPadding.calculateTopPadding(),
+                bottom = contentPadding.calculateBottomPadding() + 16.dp,
+                start = contentPadding.calculateStartPadding(LayoutDirection.Ltr),
+                end = contentPadding.calculateStartPadding(LayoutDirection.Rtl),
+            )
+        },
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
@@ -150,14 +156,6 @@ fun AccountPane(
                         .padding(horizontal = 16.dp),
                     searchQuery = if (showSearch) searchQuery else ""
                 )
-
-                if (menuItem.showDivider && (!showSearch || searchQuery.isEmpty())) {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 32.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
-                    )
-                }
             }
         } else if (showSearch && searchQuery.isNotEmpty()) {
             // No Results Found
@@ -169,10 +167,6 @@ fun AccountPane(
                         .padding(horizontal = 16.dp, vertical = 32.dp)
                 )
             }
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
