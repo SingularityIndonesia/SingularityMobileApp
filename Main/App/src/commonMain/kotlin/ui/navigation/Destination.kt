@@ -1,6 +1,6 @@
 package ui.navigation
 
-// region HomeDestination
+// region Home
 const val HomeDestination = "home?section={section}"
 
 enum class HomeSection {
@@ -17,3 +17,29 @@ fun HomeDestinationBuilder(
         .replace("{section}", section.name)
 }
 // endregion
+
+// region About
+const val AboutDestination = "about"
+
+// endregion
+
+// region Security
+const val SecuritySettingDestination = "security/setting"
+
+// endregion
+
+// region Help
+const val HelpAndSupportDestination = "help"
+
+// endregion
+
+// region Account
+const val AccountSettingDestination = "account/setting"
+
+// endregion
+
+// region Notification
+const val NotificationSettingDestination = "notification/setting"
+
+// endregion
+
