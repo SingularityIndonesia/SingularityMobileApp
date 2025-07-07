@@ -17,42 +17,42 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.component.*
 
 private val menus = listOf(
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "Account Settings",
         subtitle = "Privacy, security, and more",
         iconRes = Res.drawable.ic_person,
     ),
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "Storage",
         subtitle = "32GB of 126GB used",
         iconRes = Res.drawable.ic_storage
     ),
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "Privacy & Security",
         subtitle = "Control your data and privacy",
         iconRes = Res.drawable.ic_security_privacy,
     ),
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "Notifications",
         subtitle = "Manage your notification preferences",
         iconRes = Res.drawable.ic_notification
     ),
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "Data & Storage",
         subtitle = "Network usage, auto-download",
         iconRes = Res.drawable.ic_download,
     ),
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "Help & Support",
         subtitle = "Get help and contact support",
         iconRes = Res.drawable.ic_support_agent,
     ),
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "About",
         subtitle = "App info and legal",
         iconRes = Res.drawable.ic_info
     ),
-    AccountMenuItemCardDisplay(
+    AccountMenuItemDisplay(
         title = "Sign Out",
         subtitle = "Exit account",
         iconRes = Res.drawable.ic_nothing
@@ -153,7 +153,7 @@ fun AccountPane(
                         .fillMaxWidth(),
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
                     searchQuery = if (showSearch) searchQuery else "",
-                    actions = {
+                    trailingActions = {
                         if (menuItem.title.contains("sign out", true))
                             SignOut { }
                         else

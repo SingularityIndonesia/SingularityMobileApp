@@ -19,60 +19,127 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-data class AccountMenuItemCardDisplay(
+data class AccountMenuItemDisplay(
     val title: String,
     val subtitle: String? = null,
     val iconRes: DrawableResource? = null,
-)
+    val isHighlighted: Boolean = false,
+) {
+    fun withHighlight(highlighted: Boolean): AccountMenuItemDisplay {
+        return copy(isHighlighted = highlighted)
+    }
+
+    fun withSearchQuery(query: String): AccountMenuItemDisplay {
+        val shouldHighlight = query.isNotEmpty() &&
+                (title.contains(query, ignoreCase = true) ||
+                        subtitle?.contains(query, ignoreCase = true) == true)
+        return copy(isHighlighted = shouldHighlight)
+    }
+}
+
+
+// Preview Purposes
+object AccountMenuItemDisplayDummy {
+    fun settings(highlighted: Boolean = false) = AccountMenuItemDisplay(
+        title = "Account Settings",
+        subtitle = "Privacy, security, and more",
+        iconRes = Res.drawable.ic_person,
+        isHighlighted = highlighted
+    )
+
+    fun signOut(highlighted: Boolean = false) = AccountMenuItemDisplay(
+        title = "Sign Out",
+        subtitle = null,
+        iconRes = Res.drawable.ic_more_horz,
+        isHighlighted = highlighted
+    )
+
+    fun help(highlighted: Boolean = false) = AccountMenuItemDisplay(
+        title = "Help & Support",
+        subtitle = "Get help and contact support",
+        iconRes = null,
+        isHighlighted = highlighted
+    )
+}
 
 @Composable
 fun AccountMenuItemCard(
-    menuItem: AccountMenuItemCardDisplay,
+    menuItem: AccountMenuItemDisplay,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     searchQuery: String = "",
-    actions: (@Composable RowScope.() -> Unit)? = null,
+    trailingActions: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Row(
-        modifier = modifier
-            .padding(contentPadding),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        // Icon
-        if (menuItem.iconRes != null) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                painter = painterResource(menuItem.iconRes),
-                contentDescription = menuItem.title
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-        }
-
-        // Text Content
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
+    AccountMenuItemCard(
+        modifier = modifier,
+        contentPadding = contentPadding,
+        leadingIcon = {
+            if (menuItem.iconRes != null) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(menuItem.iconRes),
+                    contentDescription = menuItem.title,
+                    tint = if (menuItem.isHighlighted)
+                        MaterialTheme.colorScheme.primary
+                    else
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        },
+        title = {
             Text(
                 text = highlightSearchText(menuItem.title, searchQuery),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurface
+                color = if (menuItem.isHighlighted)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.onSurface
             )
+        },
+        subtitle = {
             if (menuItem.subtitle != null) {
-                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = highlightSearchText(menuItem.subtitle, searchQuery),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+        },
+        trailingActions = trailingActions
+    )
+}
+
+@Composable
+fun AccountMenuItemCard(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    leadingIcon: (@Composable RowScope.() -> Unit)? = null,
+    title: (@Composable ColumnScope.() -> Unit)? = null,
+    subtitle: (@Composable ColumnScope.() -> Unit)? = null,
+    trailingActions: (@Composable RowScope.() -> Unit)? = null,
+) {
+    Row(
+        modifier = modifier
+            .padding(contentPadding)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // Leading Icon Section
+        leadingIcon?.invoke(this)
+
+        // Content Section
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            title?.invoke(this)
+            subtitle?.invoke(this)
         }
 
-        // Arrow Icon
-        Row {
-            actions?.invoke(this)
-        }
+        // Trailing Actions Section
+        trailingActions?.invoke(this)
     }
 }
 
@@ -108,14 +175,22 @@ private fun highlightSearchText(
 @Composable
 private fun AccountMenuItemCardPreview() {
     MaterialTheme {
-        AccountMenuItemCard(
-            menuItem = AccountMenuItemCardDisplay(
-                title = "Account Settings",
-                subtitle = "Privacy, security, and more",
-                iconRes = Res.drawable.ic_person,
-            ),
-            modifier = Modifier.padding(16.dp)
-        )
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            AccountMenuItemCard(
+                menuItem = AccountMenuItemDisplayDummy.settings(),
+            )
+
+            AccountMenuItemCard(
+                menuItem = AccountMenuItemDisplayDummy.signOut(),
+            )
+
+            AccountMenuItemCard(
+                menuItem = AccountMenuItemDisplayDummy.help(),
+            )
+        }
     }
 }
 
@@ -123,29 +198,78 @@ private fun AccountMenuItemCardPreview() {
 @Composable
 private fun AccountMenuItemCardWithSearchPreview() {
     MaterialTheme {
-        AccountMenuItemCard(
-            menuItem = AccountMenuItemCardDisplay(
-                title = "Account Settings",
-                subtitle = "Privacy, security, and more",
-                iconRes = Res.drawable.ic_person,
-            ),
-            searchQuery = "settings",
-            modifier = Modifier.padding(16.dp)
-        )
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            AccountMenuItemCard(
+                menuItem = AccountMenuItemDisplayDummy.settings().withSearchQuery("settings"),
+                searchQuery = "settings"
+            )
+
+            AccountMenuItemCard(
+                menuItem = AccountMenuItemDisplayDummy.help().withSearchQuery("help"),
+                searchQuery = "help"
+            )
+        }
     }
 }
 
 @Preview
 @Composable
-private fun AccountMenuItemCardNoSubtitlePreview() {
+private fun AccountMenuItemCardHighlightedPreview() {
+    MaterialTheme {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            AccountMenuItemCard(
+                menuItem = AccountMenuItemDisplayDummy.settings(highlighted = true),
+            )
+
+            AccountMenuItemCard(
+                menuItem = AccountMenuItemDisplayDummy.signOut(highlighted = false),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun AccountMenuItemCardCustomPreview() {
     MaterialTheme {
         AccountMenuItemCard(
-            menuItem = AccountMenuItemCardDisplay(
-                title = "Sign Out",
-                subtitle = null,
-                iconRes = Res.drawable.ic_more_horz,
-            ),
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(Res.drawable.ic_person),
+                    contentDescription = "Custom",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+            },
+            title = {
+                Text(
+                    text = "Custom Menu Item",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            },
+            subtitle = {
+                Text(
+                    text = "This is a custom implementation",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            trailingActions = {
+                Icon(
+                    modifier = Modifier.size(16.dp),
+                    painter = painterResource(Res.drawable.ic_more_horz),
+                    contentDescription = "More options"
+                )
+            }
         )
     }
 }
