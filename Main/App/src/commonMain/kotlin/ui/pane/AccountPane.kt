@@ -106,11 +106,10 @@ fun AccountPane(
         // User Profile Section (only show when not searching or search is disabled)
         if (!showSearch) {
             item {
-                UserProfileCard(
+                UserProfile(
                     userProfile = userProfile,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(260.dp)
                         .padding(horizontal = 16.dp, vertical = 16.dp),
                 )
             }

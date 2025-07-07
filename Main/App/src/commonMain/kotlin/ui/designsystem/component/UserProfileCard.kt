@@ -1,7 +1,6 @@
 package ui.designsystem.component
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,11 +41,11 @@ data class UserProfileDisplay(
 }
 
 @Composable
-fun UserProfileCard(
+fun UserProfile(
     userProfile: UserProfileDisplay,
     modifier: Modifier = Modifier,
 ) {
-    UserProfileCard(
+    UserProfile(
         modifier = modifier,
         avatar = {
             if (userProfile.profileImageUrl == null)
@@ -90,7 +89,7 @@ fun UserProfileCard(
 }
 
 @Composable
-fun UserProfileCard(
+fun UserProfile(
     modifier: Modifier = Modifier,
     avatar: (@Composable RowScope.() -> Unit)? = null,
     userName: (@Composable ColumnScope.() -> Unit)? = null,
@@ -127,7 +126,7 @@ private fun UserProfileCardPreview() {
     MaterialTheme(
         DarkThemePalette
     ) {
-        UserProfileCard(
+        UserProfile(
             userProfile = UserProfileDisplay(
                 name = "Alex Johnson",
                 initialName = "AJ",
@@ -144,7 +143,7 @@ private fun UserProfileCardWithImagePreview() {
     MaterialTheme(
         DarkThemePalette
     ) {
-        UserProfileCard(
+        UserProfile(
             userProfile = UserProfileDisplay(
                 name = "Jane Smith",
                 email = "jane.smith@example.com",

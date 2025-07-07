@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import main.app.generated.resources.Res
+import main.app.generated.resources.ic_back
 import main.app.generated.resources.ic_close
 import main.app.generated.resources.ic_delete
 import main.app.generated.resources.ic_more_horz
+import main.app.generated.resources.ic_next
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -35,6 +37,32 @@ fun Clear(
         modifier = modifier,
         drawRes = Res.drawable.ic_close,
         contentDescription = "Clear",
+        onClick = onClick
+    )
+}
+
+@Composable
+fun Next(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_next,
+        contentDescription = "Next",
+        onClick = onClick
+    )
+}
+
+@Composable
+fun Back(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_back,
+        contentDescription = "Back",
         onClick = onClick
     )
 }

@@ -81,7 +81,7 @@ fun AccountMenuItemCard(
             }
 
             // Arrow Icon
-            OptionsMenu { }
+            Next { }
         }
     }
 }
