@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import main.app.generated.resources.*
@@ -22,7 +23,7 @@ private val menus = listOf(
         title = "Account Settings",
         subtitle = "Privacy, security, and more",
         iconRes = Res.drawable.ic_person_filled,
-        actionDeepLink = AccountSettingDeepLink
+        actionDeepLink = AccountSettingCustomDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Storage",
@@ -33,13 +34,13 @@ private val menus = listOf(
         title = "Privacy & Security",
         subtitle = "Control your data and privacy",
         iconRes = Res.drawable.ic_security_privacy_filled,
-        actionDeepLink = SecuritySettingDeepLink
+        actionDeepLink = SecuritySettingCustomDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Notifications",
         subtitle = "Manage your notification preferences",
         iconRes = Res.drawable.ic_notification_filled,
-        actionDeepLink = NotificationSettingDeepLink
+        actionDeepLink = NotificationSettingCustomDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Data & Storage",
@@ -50,13 +51,13 @@ private val menus = listOf(
         title = "Help & Support",
         subtitle = "Get help and contact support",
         iconRes = Res.drawable.ic_support_agent_filled,
-        actionDeepLink = HelpAndSupportDeepLink
+        actionDeepLink = HelpAndSupportCustomDeepLink
     ),
     AccountMenuItemDisplay(
         title = "About",
         subtitle = "App info and legal",
         iconRes = Res.drawable.ic_info_filled,
-        actionDeepLink = AboutDeepLink
+        actionDeepLink = AboutCustomDeepLink
     ),
     AccountMenuItemDisplay(
         title = "Sign Out",
@@ -79,6 +80,7 @@ fun AccountPane(
     searchQuery: String = "",
     onSearchQueryChange: (String) -> Unit = {},
 ) {
+    val uriHandler = LocalUriHandler.current
 
     val filteredMenuItems = remember(searchQuery, menus, showSearch) {
         if (!showSearch || searchQuery.isEmpty()) {
@@ -163,7 +165,10 @@ fun AccountPane(
                         if (menuItem.title.contains("sign out", true))
                             SignOut { }
                         else
-                            Next { }
+                            Next {
+                                check(menuItem.actionDeepLink != null) { return@Next }
+                                uriHandler.openUri(menuItem.actionDeepLink)
+                            }
                     }
                 )
             }
