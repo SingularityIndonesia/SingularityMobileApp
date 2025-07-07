@@ -136,6 +136,8 @@ fun AccountPane(
                         .focusRequester(searchInputFocusRequester)
                 )
 
+                Spacer(Modifier.height(8.dp))
+
                 LaunchedEffect(Unit) {
                     searchInputFocusRequester.requestFocus()
                 }
