@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.component.Back
+import ui.designsystem.component.CloseSearch
 import ui.designsystem.component.TitleLargeText
 
 @Preview
@@ -16,12 +17,12 @@ import ui.designsystem.component.TitleLargeText
 fun CommonTopAppBar(
     titleText: String = "Home",
     modifier: Modifier = Modifier.fillMaxWidth(),
-    onNavigateBack: (() -> Unit)? = null,
-    trailingActions: (@Composable RowScope.() -> Unit)? = null
+    onNavigateBack: (() -> Unit)? = {},
+    trailingActions: (@Composable RowScope.() -> Unit)? = { CloseSearch { } }
 ) {
     Row(
         modifier = modifier
-            .padding( horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -32,8 +33,12 @@ fun CommonTopAppBar(
             modifier = Modifier.weight(1f),
             text = titleText,
         )
-        if (trailingActions != null) {
-            trailingActions()
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (trailingActions != null) {
+                trailingActions()
+            }
         }
     }
 }

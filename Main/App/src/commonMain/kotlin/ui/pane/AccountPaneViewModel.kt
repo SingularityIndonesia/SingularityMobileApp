@@ -15,6 +15,7 @@ data class AccountPaneState(
     val userProfile: UserProfileDisplay = UserProfileDisplay(),
     val showSearch: Boolean = false,
     val searchQuery: String = "",
+    val enableSearchBuffering: Boolean = true,
     val menus: List<AccountMenuItemDisplay> = listOf(
         AccountMenuItemDisplay(
             title = "Account Settings",

@@ -3,7 +3,6 @@ package ui.pane
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -15,7 +14,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.orbitmvi.orbit.compose.collectAsState
 import ui.designsystem.component.*
-import ui.screen.home.CommonTopAppBar
 import utils.requestFocus
 import kotlin.time.Duration.Companion.seconds
 
@@ -62,13 +60,8 @@ fun AccountPane(
     ) {
         stickyHeader {
             TopAppBar(
-                state = state,
-                onShowSearch = {
-                    onIntent(AccountPaneIntent.ShowSearch)
-                },
-                onHideSearch = {
-                    onIntent(AccountPaneIntent.HideSearch)
-                }
+                onSearch = { onIntent(AccountPaneIntent.ShowSearch) }.takeIf { !state.showSearch },
+                onCloseSearch = { onIntent(AccountPaneIntent.HideSearch) }.takeIf { state.showSearch }
             )
         }
 
@@ -87,9 +80,15 @@ fun AccountPane(
         // Search Bar (only show when search is enabled)
         if (state.showSearch) {
             stickyHeader {
+                val resultCount by rememberUpdatedState(state.filteredMenuItems.size)
                 Surface {
-                    SearchSection(
-                        state = state,
+                    Search(
+                        modifier = Modifier.padding(
+                            horizontal = 16.dp
+                        ).padding(bottom = 16.dp),
+                        query = state.searchQuery,
+                        buffered = state.enableSearchBuffering,
+                        resultCount = resultCount,
                         focusRequester = searchInputFocusRequester,
                         onSearch = {
                             onIntent(AccountPaneIntent.Search(it))
@@ -149,90 +148,24 @@ private fun AccountPanePreviewOnSearch() {
     Surface {
         AccountPane(
             state = AccountPaneState(
-                showSearch = true
+                showSearch = true,
+                searchQuery = "ac",
+                enableSearchBuffering = false
             )
         )
     }
 }
 
-@Composable
-private fun TopAppBar(
-    state: AccountPaneState = AccountPaneState(),
-    onShowSearch: () -> Unit = {},
-    onHideSearch: () -> Unit = {}
-) {
-    CommonTopAppBar(
-        titleText = "Account"
-    ) {
-        when {
-            !state.showSearch -> {
-                Search { onShowSearch() }
-            }
-
-            state.showSearch -> {
-                CompositionLocalProvider(LocalIconButtonColor provides IconButtonDefaults.filledTonalIconButtonColors()) {
-                    CloseSearch { onHideSearch() }
-                }
-            }
-
-            else -> {}
-        }
-    }
-}
-
 @Preview
 @Composable
-private fun TopAppBarPreview() {
+private fun AccountPanePreviewOnSearchNoResult() {
     Surface {
-        TopAppBar(
-            state = AccountPaneState(),
-        )
-    }
-}
-
-@Composable
-fun SearchSection(
-    state: AccountPaneState = remember { AccountPaneState(searchQuery = "alskd") },
-    buffered: Boolean = false,
-    focusRequester: FocusRequester = remember { FocusRequester() },
-    onSearch: (String) -> Unit = {},
-) {
-    val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
-    Column {
-        val buffer = remember { mutableStateOf("") }
-        SearchBar(
-            query = if (buffered) buffer.value else state.searchQuery,
-            onQueryChange = {
-                if (buffered)
-                    buffer.value = it
-
-                onSearch(it)
-            },
-            placeholder = "Search settings...",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .focusRequester(focusRequester)
-        )
-        Spacer(Modifier.height(8.dp))
-
-        if (state.searchQuery.isNotEmpty()) {
-            SearchResultsHelper(
-                resultsCount = filteredMenu.size,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 8.dp)
-                    .padding(horizontal = 16.dp)
+        AccountPane(
+            state = AccountPaneState(
+                showSearch = true,
+                searchQuery = "asdad",
+                enableSearchBuffering = false
             )
-            Spacer(Modifier.height(8.dp))
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun SearchSectionPreview() {
-    Surface {
-        SearchSection()
+        )
     }
 }
