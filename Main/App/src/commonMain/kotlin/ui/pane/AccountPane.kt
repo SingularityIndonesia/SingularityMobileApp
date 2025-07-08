@@ -6,9 +6,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -16,6 +16,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.compose.collectAsState
@@ -29,12 +34,22 @@ fun AccountPane(
     viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() },
 ) {
     val state by viewModel.collectAsState()
+    val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     val searchInputFocusRequester = remember { FocusRequester() }
     val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
 
     CollectSideEffect(viewModel) {
-
+        when (it) {
+            AccountPaneEffect.FocusOnSearchInput -> scope.launch(Dispatchers.IO) {
+                while (isActive) {
+                    runCatching { searchInputFocusRequester.requestFocus() }
+                        .onSuccess { break }
+                    println("req focus")
+                    delay(100)
+                }
+            }
+        }
     }
 
     LazyColumn(
@@ -42,21 +57,7 @@ fun AccountPane(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         stickyHeader {
-            CommonTopAppBar(
-                titleText = "Account"
-            ) {
-                when {
-                    !state.showSearch -> {
-                        Search { viewModel.showSearchBar() }
-                    }
-
-                    state.showSearch -> {
-                        CloseSearch { viewModel.hideSearchBar() }
-                    }
-
-                    else -> {}
-                }
-            }
+            TopAppBar(viewModel)
         }
 
         // User Profile Section (only show when not searching or search is disabled)
@@ -74,37 +75,10 @@ fun AccountPane(
         // Search Bar (only show when search is enabled)
         if (state.showSearch) {
             stickyHeader {
-                Surface {
-                    Column {
-                        if (state.searchQuery.isNotEmpty()) {
-                            SearchResultsHeader(
-                                resultsCount = filteredMenu.size,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp)
-                            )
-                            Spacer(Modifier.height(8.dp))
-                        }
-
-                        SearchBar(
-                            query = state.searchQuery,
-                            onQueryChange = {
-                                viewModel.searchFor(it)
-                            },
-                            placeholder = "Search settings...",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                                .focusRequester(searchInputFocusRequester)
-                        )
-
-                        Spacer(Modifier.height(8.dp))
-                    }
-                }
-
-                LaunchedEffect(Unit) {
-                    searchInputFocusRequester.requestFocus()
-                }
+                SearchSection(
+                    viewModel = viewModel,
+                    focusRequester = searchInputFocusRequester
+                )
             }
         }
 
@@ -139,6 +113,67 @@ fun AccountPane(
                         .padding(horizontal = 16.dp, vertical = 32.dp)
                 )
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun TopAppBar(
+    viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() }
+) {
+    val state by viewModel.collectAsState()
+
+    CommonTopAppBar(
+        titleText = "Account"
+    ) {
+        when {
+            !state.showSearch -> {
+                Search { viewModel.showSearchBar() }
+            }
+
+            state.showSearch -> {
+                CloseSearch { viewModel.hideSearchBar() }
+            }
+
+            else -> {}
+        }
+    }
+}
+
+@Composable
+fun SearchSection(
+    viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() },
+    focusRequester: FocusRequester = remember { FocusRequester() }
+) {
+    val state by viewModel.collectAsState()
+    val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
+
+    Surface {
+        Column {
+            if (state.searchQuery.isNotEmpty()) {
+                SearchResultsHeader(
+                    resultsCount = filteredMenu.size,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
+                Spacer(Modifier.height(8.dp))
+            }
+
+            SearchBar(
+                query = state.searchQuery,
+                onQueryChange = {
+                    viewModel.searchFor(it)
+                },
+                placeholder = "Search settings...",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .focusRequester(focusRequester)
+            )
+
+            Spacer(Modifier.height(8.dp))
         }
     }
 }

@@ -1,5 +1,6 @@
 package ui.pane
 
+import androidx.compose.ui.focus.FocusRequester
 import androidx.lifecycle.ViewModel
 import main.app.generated.resources.*
 import org.orbitmvi.orbit.Container
@@ -71,7 +72,9 @@ data class AccountPaneState(
     }
 }
 
-sealed class AccountPaneEffect
+sealed class AccountPaneEffect {
+    data object FocusOnSearchInput : AccountPaneEffect()
+}
 
 class AccountPaneViewModel : ContainerHost<AccountPaneState, AccountPaneEffect>, ViewModel() {
     override val container: Container<AccountPaneState, AccountPaneEffect> = container(AccountPaneState())
@@ -82,6 +85,8 @@ class AccountPaneViewModel : ContainerHost<AccountPaneState, AccountPaneEffect>,
                 showSearch = true
             )
         }
+
+        postSideEffect(AccountPaneEffect.FocusOnSearchInput)
     }
 
     fun hideSearchBar() = intent {
