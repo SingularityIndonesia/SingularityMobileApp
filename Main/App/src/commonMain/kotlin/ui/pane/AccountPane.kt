@@ -5,19 +5,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import io.ktor.util.date.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -27,6 +22,23 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import ui.designsystem.component.*
 import ui.screen.home.CommonTopAppBar
+import kotlin.coroutines.coroutineContext
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+
+suspend fun FocusRequester.requestFocus(timeout: Duration): Boolean {
+    val timeoutMillis = timeout.inWholeMilliseconds // 2 seconds max
+    val tic = getTimeMillis()
+    val toc = { getTimeMillis() - tic }
+
+    while (coroutineContext.isActive && (toc() < timeoutMillis)) {
+        runCatching { requestFocus() }
+            .onSuccess { return true }
+        delay(100)
+    }
+
+    return false
+}
 
 @Composable
 fun AccountPane(
@@ -41,12 +53,12 @@ fun AccountPane(
 
     CollectSideEffect(viewModel) {
         when (it) {
-            AccountPaneEffect.FocusOnSearchInput -> scope.launch(Dispatchers.IO) {
-                while (isActive) {
-                    runCatching { searchInputFocusRequester.requestFocus() }
-                        .onSuccess { break }
-                    println("req focus")
-                    delay(100)
+            AccountPaneEffect.FocusOnSearchInput -> scope.launch {
+                val result = searchInputFocusRequester.requestFocus(timeout = 2.seconds)
+                if (result) {
+                    println("Success searchInputFocusRequester")
+                }else {
+                    println("Error searchInputFocusRequester")
                 }
             }
         }
