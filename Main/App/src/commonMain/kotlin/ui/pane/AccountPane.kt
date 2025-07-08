@@ -4,13 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -18,9 +13,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.compose.collectAsState
-import org.orbitmvi.orbit.compose.collectSideEffect
 import ui.designsystem.component.*
 import ui.screen.home.CommonTopAppBar
 import utils.requestFocus
@@ -32,9 +25,7 @@ fun AccountPane(
     viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() },
 ) {
     val state by viewModel.collectAsState()
-    val uriHandler = LocalUriHandler.current
     val searchInputFocusRequester = remember { FocusRequester() }
-    val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
 
     CollectSideEffect(viewModel) {
         when (it) {
@@ -42,12 +33,43 @@ fun AccountPane(
         }
     }
 
+    AccountPane(
+        modifier = modifier,
+        state = state,
+        searchInputFocusRequester = searchInputFocusRequester
+    ) {
+        when(it) {
+            AccountPaneIntent.ShowSearch -> viewModel.showSearchBar()
+            AccountPaneIntent.HideSearch -> viewModel.hideSearchBar()
+            is AccountPaneIntent.Search -> viewModel.searchFor(it.query)
+        }
+    }
+}
+
+@Composable
+fun AccountPane(
+    modifier: Modifier = Modifier,
+    state: AccountPaneState = remember { AccountPaneState() },
+    searchInputFocusRequester: FocusRequester = remember { FocusRequester() },
+    onIntent: (AccountPaneIntent) -> Unit = {}
+) {
+    val uriHandler = LocalUriHandler.current
+    val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
+
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         stickyHeader {
-            TopAppBar(viewModel)
+            TopAppBar(
+                state = state,
+                onShowSearch = {
+                    onIntent(AccountPaneIntent.ShowSearch)
+                },
+                onHideSearch = {
+                    onIntent(AccountPaneIntent.HideSearch)
+                }
+            )
         }
 
         // User Profile Section (only show when not searching or search is disabled)
@@ -66,8 +88,11 @@ fun AccountPane(
         if (state.showSearch) {
             stickyHeader {
                 SearchSection(
-                    viewModel = viewModel,
-                    focusRequester = searchInputFocusRequester
+                    state = state,
+                    focusRequester = searchInputFocusRequester,
+                    onSearch = {
+                        onIntent(AccountPaneIntent.Search(it))
+                    }
                 )
             }
         }
@@ -109,21 +134,21 @@ fun AccountPane(
 @Preview
 @Composable
 private fun TopAppBar(
-    viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() }
+    state: AccountPaneState = AccountPaneState(),
+    onShowSearch: () -> Unit = {},
+    onHideSearch: () -> Unit = {}
 ) {
-    val state by viewModel.collectAsState()
-
     CommonTopAppBar(
         titleText = "Account"
     ) {
         when {
             !state.showSearch -> {
-                Search { viewModel.showSearchBar() }
+                Search { onShowSearch() }
             }
 
             state.showSearch -> {
                 CompositionLocalProvider(LocalIconButtonColor provides IconButtonDefaults.filledTonalIconButtonColors()) {
-                    CloseSearch { viewModel.hideSearchBar() }
+                    CloseSearch { onHideSearch() }
                 }
             }
 
@@ -134,18 +159,20 @@ private fun TopAppBar(
 
 @Composable
 fun SearchSection(
-    viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() },
-    focusRequester: FocusRequester = remember { FocusRequester() }
+    state: AccountPaneState = remember { AccountPaneState() },
+    focusRequester: FocusRequester = remember { FocusRequester() },
+    onSearch: (String) -> Unit = {},
 ) {
-    val state by viewModel.collectAsState()
     val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
 
     Surface {
         Column {
+            val buffer = remember { mutableStateOf("") }
             SearchBar(
-                query = state.searchQuery,
+                query = buffer.value,
                 onQueryChange = {
-                    viewModel.searchFor(it)
+                    buffer.value = it
+                    onSearch(it)
                 },
                 placeholder = "Search settings...",
                 modifier = Modifier
@@ -172,27 +199,21 @@ fun SearchSection(
 @Preview
 @Composable
 private fun AccountPanePreview() {
-    MaterialTheme {
-        Surface {
-            AccountPane()
-        }
+    Surface {
+        AccountPane(
+            state = AccountPaneState()
+        )
     }
-}
-
-@Composable
-fun CollectSideEffect(
-    containerHost: ContainerHost<AccountPaneState, AccountPaneEffect>,
-    onEffect: suspend (AccountPaneEffect) -> Unit
-) {
-    containerHost.collectSideEffect { onEffect.invoke(it) }
 }
 
 @Preview
 @Composable
 private fun AccountPanePreviewOnSearch() {
-    MaterialTheme {
-        Surface {
-            AccountPane()
-        }
+    Surface {
+        AccountPane(
+            state = AccountPaneState(
+                showSearch = true
+            )
+        )
     }
 }

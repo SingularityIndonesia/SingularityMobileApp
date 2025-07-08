@@ -1,10 +1,11 @@
 package ui.pane
 
-import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import main.app.generated.resources.*
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.compose.collectSideEffect
 import org.orbitmvi.orbit.viewmodel.container
 import ui.designsystem.component.AccountMenuItemDisplay
 import ui.designsystem.component.UserProfileDisplay
@@ -74,6 +75,20 @@ data class AccountPaneState(
 
 sealed class AccountPaneEffect {
     data object FocusOnSearchInput : AccountPaneEffect()
+}
+
+sealed class AccountPaneIntent {
+    data object ShowSearch : AccountPaneIntent()
+    data object HideSearch : AccountPaneIntent()
+    data class Search(val query: String): AccountPaneIntent()
+}
+
+@Composable
+fun CollectSideEffect(
+    containerHost: ContainerHost<AccountPaneState, AccountPaneEffect>,
+    onEffect: suspend (AccountPaneEffect) -> Unit
+) {
+    containerHost.collectSideEffect { onEffect.invoke(it) }
 }
 
 class AccountPaneViewModel : ContainerHost<AccountPaneState, AccountPaneEffect>, ViewModel() {
