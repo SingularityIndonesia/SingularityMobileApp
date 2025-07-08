@@ -38,7 +38,7 @@ fun AccountPane(
         state = state,
         searchInputFocusRequester = searchInputFocusRequester
     ) {
-        when(it) {
+        when (it) {
             AccountPaneIntent.ShowSearch -> viewModel.showSearchBar()
             AccountPaneIntent.HideSearch -> viewModel.hideSearchBar()
             is AccountPaneIntent.Search -> viewModel.searchFor(it.query)
@@ -87,13 +87,15 @@ fun AccountPane(
         // Search Bar (only show when search is enabled)
         if (state.showSearch) {
             stickyHeader {
-                SearchSection(
-                    state = state,
-                    focusRequester = searchInputFocusRequester,
-                    onSearch = {
-                        onIntent(AccountPaneIntent.Search(it))
-                    }
-                )
+                Surface {
+                    SearchSection(
+                        state = state,
+                        focusRequester = searchInputFocusRequester,
+                        onSearch = {
+                            onIntent(AccountPaneIntent.Search(it))
+                        }
+                    )
+                }
             }
         }
 
@@ -133,6 +135,27 @@ fun AccountPane(
 
 @Preview
 @Composable
+private fun AccountPanePreview() {
+    Surface {
+        AccountPane(
+            state = AccountPaneState()
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AccountPanePreviewOnSearch() {
+    Surface {
+        AccountPane(
+            state = AccountPaneState(
+                showSearch = true
+            )
+        )
+    }
+}
+
+@Composable
 private fun TopAppBar(
     state: AccountPaneState = AccountPaneState(),
     onShowSearch: () -> Unit = {},
@@ -157,63 +180,59 @@ private fun TopAppBar(
     }
 }
 
+@Preview
+@Composable
+private fun TopAppBarPreview() {
+    Surface {
+        TopAppBar(
+            state = AccountPaneState(),
+        )
+    }
+}
+
 @Composable
 fun SearchSection(
-    state: AccountPaneState = remember { AccountPaneState() },
+    state: AccountPaneState = remember { AccountPaneState(searchQuery = "alskd") },
+    buffered: Boolean = false,
     focusRequester: FocusRequester = remember { FocusRequester() },
     onSearch: (String) -> Unit = {},
 ) {
     val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
-
-    Surface {
-        Column {
-            val buffer = remember { mutableStateOf("") }
-            SearchBar(
-                query = buffer.value,
-                onQueryChange = {
+    Column {
+        val buffer = remember { mutableStateOf("") }
+        SearchBar(
+            query = if (buffered) buffer.value else state.searchQuery,
+            onQueryChange = {
+                if (buffered)
                     buffer.value = it
-                    onSearch(it)
-                },
-                placeholder = "Search settings...",
+
+                onSearch(it)
+            },
+            placeholder = "Search settings...",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .focusRequester(focusRequester)
+        )
+        Spacer(Modifier.height(8.dp))
+
+        if (state.searchQuery.isNotEmpty()) {
+            SearchResultsHelper(
+                resultsCount = filteredMenu.size,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(start = 8.dp)
                     .padding(horizontal = 16.dp)
-                    .focusRequester(focusRequester)
             )
             Spacer(Modifier.height(8.dp))
-
-            if (state.searchQuery.isNotEmpty()) {
-                SearchResultsHelper(
-                    resultsCount = filteredMenu.size,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp)
-                        .padding(horizontal = 16.dp)
-                )
-                Spacer(Modifier.height(8.dp))
-            }
         }
     }
 }
 
 @Preview
 @Composable
-private fun AccountPanePreview() {
+private fun SearchSectionPreview() {
     Surface {
-        AccountPane(
-            state = AccountPaneState()
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun AccountPanePreviewOnSearch() {
-    Surface {
-        AccountPane(
-            state = AccountPaneState(
-                showSearch = true
-            )
-        )
+        SearchSection()
     }
 }
