@@ -7,13 +7,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.orbitmvi.orbit.compose.collectAsState
 import ui.designsystem.component.*
+import ui.pane.AccountPaneEffect.FocusOnSearchInput
+import ui.pane.AccountPaneIntent.HideSearch
+import ui.pane.AccountPaneIntent.SearchFor
+import ui.pane.AccountPaneIntent.ShowSearch
 import utils.requestFocus
 import kotlin.time.Duration.Companion.seconds
 
@@ -27,7 +30,7 @@ fun AccountPane(
 
     CollectSideEffect(viewModel) {
         when (it) {
-            AccountPaneEffect.FocusOnSearchInput -> searchInputFocusRequester.requestFocus(timeout = 2.seconds)
+            FocusOnSearchInput -> searchInputFocusRequester.requestFocus(timeout = 2.seconds)
         }
     }
 
@@ -37,9 +40,9 @@ fun AccountPane(
         searchInputFocusRequester = searchInputFocusRequester
     ) {
         when (it) {
-            AccountPaneIntent.ShowSearch -> viewModel.showSearchBar()
-            AccountPaneIntent.HideSearch -> viewModel.hideSearchBar()
-            is AccountPaneIntent.Search -> viewModel.searchFor(it.query)
+            ShowSearch -> viewModel.showSearchBar()
+            HideSearch -> viewModel.hideSearchBar()
+            is SearchFor -> viewModel.searchFor(it.query)
         }
     }
 }
@@ -60,8 +63,8 @@ fun AccountPane(
     ) {
         stickyHeader {
             TopAppBar(
-                onSearch = { onIntent(AccountPaneIntent.ShowSearch) }.takeIf { !state.showSearch },
-                onCloseSearch = { onIntent(AccountPaneIntent.HideSearch) }.takeIf { state.showSearch }
+                onSearch = { onIntent(ShowSearch) }.takeIf { !state.showSearch },
+                onCloseSearch = { onIntent(HideSearch) }.takeIf { state.showSearch }
             )
         }
 
@@ -91,7 +94,7 @@ fun AccountPane(
                         resultCount = resultCount,
                         focusRequester = searchInputFocusRequester,
                         onSearch = {
-                            onIntent(AccountPaneIntent.Search(it))
+                            onIntent(SearchFor(it))
                         }
                     )
                 }
@@ -137,7 +140,12 @@ fun AccountPane(
 private fun AccountPanePreview() {
     Surface {
         AccountPane(
-            state = AccountPaneState()
+            state = AccountPaneState(
+                userProfile = UserProfileDisplay(
+                    name = "Steve the best",
+                    email = "stefanus.ayudha@gmail.com",
+                )
+            )
         )
     }
 }
