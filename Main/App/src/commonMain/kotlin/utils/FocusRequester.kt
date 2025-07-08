@@ -4,8 +4,10 @@ import androidx.compose.ui.focus.FocusRequester
 import kotlin.time.Duration
 
 suspend fun FocusRequester.requestFocus(timeout: Duration): Boolean {
-    temporaryLoop(timeout = timeout) {
+    return temporaryLoop(timeout = timeout) {
         requestFocus()
+    }.getOrElse {
+        println("Error: FocusRequester.requestFocus ${it.message?.takeIf { it.isNotBlank() } ?: it.cause}")
+        false
     }
-    return false
 }
