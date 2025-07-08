@@ -4,7 +4,7 @@ import plugin.convention.companion.dependency
 import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
-    id("Convention")
+    id("ConventionUtils")
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -54,7 +54,7 @@ dependency {
 
         // Navigation dependencies
         implementation(libs.navigation.compose)
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+        implementation(libs.kotlinx.serialization)
 
         // Image loading dependencies
         implementation(libs.coil.compose)

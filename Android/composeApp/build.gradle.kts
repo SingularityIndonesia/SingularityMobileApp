@@ -4,7 +4,7 @@ import plugin.convention.companion.dependency
 import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
-    id("Convention")
+    id("ConventionUtils")
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)

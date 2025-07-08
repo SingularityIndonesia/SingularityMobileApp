@@ -4,7 +4,7 @@
  */
 plugins {
     `kotlin-dsl`
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 group = "plugin.convention"
@@ -19,17 +19,17 @@ java {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.0")
-    implementation("com.android.tools.build:gradle:8.4.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
-    implementation("org.jetbrains.compose:compose-gradle-plugin:1.8.2")
+    implementation(libs.kotlin.gradle.plugin)
+    implementation(libs.gradle)
+    implementation(libs.kotlinx.serialization)
+    implementation(libs.compose.gradle.plugin)
 }
 
 gradlePlugin {
     plugins {
-        register("Convention") {
-            id = "Convention"
-            implementationClass = "plugin.convention.Convention"
+        register("ConventionUtils") {
+            id = "ConventionUtils"
+            implementationClass = "plugin.convention.ConventionUtils"
         }
     }
 }
