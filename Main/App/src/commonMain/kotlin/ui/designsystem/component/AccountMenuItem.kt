@@ -65,10 +65,8 @@ fun AccountMenuItem(
             }
         },
         title = {
-            Text(
+            TitleMediumText(
                 text = highlightSearchText(menuItem.title, searchQuery),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Medium,
                 color = if (menuItem.isHighlighted)
                     MaterialTheme.colorScheme.primary
                 else
@@ -77,9 +75,8 @@ fun AccountMenuItem(
         },
         subtitle = {
             if (menuItem.subtitle != null) {
-                Text(
+                BodySmallText(
                     text = highlightSearchText(menuItem.subtitle, searchQuery),
-                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -267,17 +264,14 @@ private fun AccountMenuItemCardCustomPreview() {
                     )
                 },
                 title = {
-                    Text(
+                    TitleMediumText(
                         text = "Custom Menu Item",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.secondary
                     )
                 },
                 subtitle = {
-                    Text(
+                    BodySmallText(
                         text = "This is a custom implementation",
-                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },

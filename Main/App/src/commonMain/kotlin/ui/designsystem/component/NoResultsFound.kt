@@ -38,10 +38,8 @@ fun NoResultsFound(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
+        TitleMediumText(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onSurface
         )
 
@@ -60,10 +58,9 @@ fun NoResultsFound(
             append(description)
         }
 
-        Text(
+        BodyMediumText(
             text =  message,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }

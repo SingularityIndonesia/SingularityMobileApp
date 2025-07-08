@@ -41,9 +41,8 @@ fun AvatarImage(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(
+            HeadlineMediumText(
                 text = initialName,
-                style = MaterialTheme.typography.headlineMedium,
             )
         }
     }

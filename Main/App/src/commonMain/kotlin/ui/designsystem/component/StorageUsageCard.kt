@@ -31,15 +31,12 @@ fun StorageUsageCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                TitleMediumText(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Text(
+                BodyMediumText(
                     text = "$storageUsed of $totalStorage",
-                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -60,11 +57,9 @@ fun StorageUsageCard(
                 onClick = onManageClick,
                 modifier = Modifier.wrapContentWidth()
             ) {
-                Text(
+                BodySmallText(
                     text = "Manage storage",
-                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium
                 )
             }
         }

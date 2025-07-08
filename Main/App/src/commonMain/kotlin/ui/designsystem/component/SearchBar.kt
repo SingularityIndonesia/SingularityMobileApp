@@ -34,9 +34,8 @@ fun SearchBar(
         modifier = modifier,
         enabled = enabled,
         placeholder = {
-            Text(
+            BodyMediumText(
                 text = placeholder,
-                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         },

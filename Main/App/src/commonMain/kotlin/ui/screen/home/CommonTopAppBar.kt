@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.component.Back
+import ui.designsystem.component.TitleLargeText
 
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,10 +34,9 @@ fun CommonTopAppBar(
             if (onNavigateBack != null) {
                 Back { onNavigateBack.invoke() }
             }
-            Text(
+            TitleLargeText(
                 modifier = Modifier.weight(1f),
                 text = titleText,
-                style = MaterialTheme.typography.titleLarge
             )
             if (trailingActions != null) {
                 trailingActions()

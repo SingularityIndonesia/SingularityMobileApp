@@ -20,14 +20,12 @@ fun SearchResultsHelper(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
+        LabelMediumText(
             text = title,
-            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
-        Text(
+        LabelSmallText(
             text = "$resultsCount found",
-            style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }

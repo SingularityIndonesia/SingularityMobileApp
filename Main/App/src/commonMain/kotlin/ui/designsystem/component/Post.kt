@@ -97,23 +97,20 @@ fun PostItem(
                 Row(
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    Text(
+                    TitleMediumText(
                         item.userName,
-                        style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text(
+                    BodyMediumText(
                         text = item.postTime,
-                        style = MaterialTheme.typography.bodyMedium,
                         color = LocalContentColor.current.copy(
                             alpha = .6f
                         )
                     )
                 }
                 if (item.isHaveMessage()) {
-                    Text(
+                    BodyMediumText(
                         item.message,
-                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }

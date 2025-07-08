@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.designsystem.component.HeadlineMediumText
 
 /**
  * Just launch the preview to test deeplinks.
@@ -27,9 +28,8 @@ fun DeepLinkTester() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
+        HeadlineMediumText(
             text = "DeepLink Test",
-            style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 32.dp)
         )
         
