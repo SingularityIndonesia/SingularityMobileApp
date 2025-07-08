@@ -11,7 +11,9 @@ import ui.navigation.MainNavigation
 import ui.navigation.rememberDeepLinkHandler
 
 sealed class AppIntent {
-    class Navigate(val deepLinkUri: String) : AppIntent()
+    open val requireLoggedIn: Boolean = false
+
+    class DeepLinkNavigate(val deepLinkUri: String) : AppIntent()
 }
 
 @Preview
@@ -45,7 +47,7 @@ fun IntentHandlerEffect(intent: AppIntent?, deepLinkHandler: DeepLinkHandler, on
     // Handle Intent
     LaunchedEffect(intent, deepLinkHandler) {
         when (intent) {
-            is AppIntent.Navigate -> {
+            is AppIntent.DeepLinkNavigate -> {
                 deepLinkHandler.handleDeepLink(intent.deepLinkUri)
             }
 

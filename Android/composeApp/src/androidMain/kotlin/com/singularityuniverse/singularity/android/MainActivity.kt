@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
         val data: Uri? = intent.data
 
         if (Intent.ACTION_VIEW == action && data != null) {
-            appIntent += AppIntent.Navigate(data.toString())
+            appIntent += AppIntent.DeepLinkNavigate(data.toString())
         }
     }
 }
