@@ -62,10 +62,12 @@ fun AccountPane(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         stickyHeader {
-            TopAppBar(
-                onSearch = { onIntent(ShowSearch) }.takeIf { !state.showSearch },
-                onCloseSearch = { onIntent(HideSearch) }.takeIf { state.showSearch }
-            )
+            Surface {
+                TopAppBar(
+                    onSearch = { onIntent(ShowSearch) }.takeIf { !state.showSearch },
+                    onCloseSearch = { onIntent(HideSearch) }.takeIf { state.showSearch }
+                )
+            }
         }
 
         // User Profile Section (only show when not searching or search is disabled)
