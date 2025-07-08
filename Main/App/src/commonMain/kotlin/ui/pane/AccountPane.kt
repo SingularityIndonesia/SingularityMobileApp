@@ -7,145 +7,100 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import main.app.generated.resources.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import ui.designsystem.component.*
-import ui.navigation.*
-
-private val menus = listOf(
-    AccountMenuItemDisplay(
-        title = "Account Settings",
-        subtitle = "Privacy, security, and more",
-        iconRes = Res.drawable.ic_person_filled,
-        actionDeepLink = AccountSettingCustomDeepLink
-    ),
-    AccountMenuItemDisplay(
-        title = "Storage",
-        subtitle = "32GB of 126GB used",
-        iconRes = Res.drawable.ic_disk_filled,
-    ),
-    AccountMenuItemDisplay(
-        title = "Privacy & Security",
-        subtitle = "Control your data and privacy",
-        iconRes = Res.drawable.ic_security_privacy_filled,
-        actionDeepLink = SecuritySettingCustomDeepLink
-    ),
-    AccountMenuItemDisplay(
-        title = "Notifications",
-        subtitle = "Manage your notification preferences",
-        iconRes = Res.drawable.ic_notification_filled,
-        actionDeepLink = NotificationSettingCustomDeepLink
-    ),
-    AccountMenuItemDisplay(
-        title = "Data & Storage",
-        subtitle = "Network usage, auto-download",
-        iconRes = Res.drawable.ic_download_filled,
-    ),
-    AccountMenuItemDisplay(
-        title = "Help & Support",
-        subtitle = "Get help and contact support",
-        iconRes = Res.drawable.ic_support_agent_filled,
-        actionDeepLink = HelpAndSupportCustomDeepLink
-    ),
-    AccountMenuItemDisplay(
-        title = "About",
-        subtitle = "App info and legal",
-        iconRes = Res.drawable.ic_info_filled,
-        actionDeepLink = AboutCustomDeepLink
-    ),
-    AccountMenuItemDisplay(
-        title = "Sign Out",
-        subtitle = "Logout and clear application's data",
-        iconRes = Res.drawable.ic_nothing
-    )
-)
+import ui.screen.home.CommonTopAppBar
 
 @Composable
 fun AccountPane(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    userProfile: UserProfileDisplay = UserProfileDisplay(
-        name = "Uwuu",
-        initialName = "U",
-        profileImageUrl = "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
-        email = "uwuu@example.com"
-    ),
-    showSearch: Boolean = false,
-    searchQuery: String = "",
-    onSearchQueryChange: (String) -> Unit = {},
+    viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() },
 ) {
+    val state by viewModel.collectAsState()
     val uriHandler = LocalUriHandler.current
+    val searchInputFocusRequester = remember { FocusRequester() }
+    val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
 
-    val filteredMenuItems = remember(searchQuery, menus, showSearch) {
-        if (!showSearch || searchQuery.isEmpty()) {
-            menus
-        } else {
-            menus.filter { menuItem ->
-                menuItem.title.contains(searchQuery, ignoreCase = true) ||
-                        menuItem.subtitle?.contains(searchQuery, ignoreCase = true) == true
-            }
-        }
+    CollectSideEffect(viewModel) {
+
     }
 
-    val searchInputFocusRequester = remember { FocusRequester() }
-
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = remember(contentPadding) {
-            PaddingValues(
-                top = contentPadding.calculateTopPadding(),
-                bottom = contentPadding.calculateBottomPadding() + 16.dp,
-                start = contentPadding.calculateStartPadding(LayoutDirection.Ltr),
-                end = contentPadding.calculateStartPadding(LayoutDirection.Rtl),
-            )
-        },
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        stickyHeader {
+            CommonTopAppBar(
+                titleText = "Account"
+            ) {
+                when {
+                    !state.showSearch -> {
+                        Search { viewModel.showSearchBar() }
+                    }
+
+                    state.showSearch -> {
+                        CloseSearch { viewModel.hideSearchBar() }
+                    }
+
+                    else -> {}
+                }
+            }
+        }
 
         // User Profile Section (only show when not searching or search is disabled)
-        if (!showSearch) {
+        if (!state.showSearch) {
             item {
                 UserProfile(
-                    userProfile = userProfile,
+                    userProfile = state.userProfile,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
+                        .padding(horizontal = 16.dp)
                 )
             }
         }
 
         // Search Bar (only show when search is enabled)
-        if (showSearch) {
+        if (state.showSearch) {
             stickyHeader {
-                if (searchQuery.isNotEmpty()) {
-                    SearchResultsHeader(
-                        resultsCount = filteredMenuItems.size,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                    )
+                Surface {
+                    Column {
+                        if (state.searchQuery.isNotEmpty()) {
+                            SearchResultsHeader(
+                                resultsCount = filteredMenu.size,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                            )
+                            Spacer(Modifier.height(8.dp))
+                        }
 
-                    Spacer(Modifier.height(8.dp))
+                        SearchBar(
+                            query = state.searchQuery,
+                            onQueryChange = {
+                                viewModel.searchFor(it)
+                            },
+                            placeholder = "Search settings...",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                                .focusRequester(searchInputFocusRequester)
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+                    }
                 }
-
-                SearchBar(
-                    query = searchQuery,
-                    onQueryChange = onSearchQueryChange,
-                    placeholder = "Search settings...",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .focusRequester(searchInputFocusRequester)
-                )
-
-                Spacer(Modifier.height(8.dp))
 
                 LaunchedEffect(Unit) {
                     searchInputFocusRequester.requestFocus()
@@ -154,14 +109,15 @@ fun AccountPane(
         }
 
         // Account Menu Items (filtered)
-        if (filteredMenuItems.isNotEmpty()) {
-            items(filteredMenuItems) { menuItem ->
+        if (filteredMenu.isNotEmpty()) {
+            items(filteredMenu) { menuItem ->
+                Spacer(Modifier.height(16.dp))
                 AccountMenuItem(
                     menuItem = menuItem,
                     modifier = Modifier
                         .fillMaxWidth(),
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-                    searchQuery = if (showSearch) searchQuery else "",
+                    searchQuery = if (state.showSearch) state.searchQuery else "",
                     trailingActions = {
                         if (menuItem.title.contains("sign out", true))
                             SignOut { }
@@ -173,11 +129,11 @@ fun AccountPane(
                     }
                 )
             }
-        } else if (showSearch && searchQuery.isNotEmpty()) {
+        } else if (state.showSearch && state.searchQuery.isNotEmpty()) {
             // No Results Found
             item {
                 NoResultsFound(
-                    searchQuery = searchQuery,
+                    searchQuery = state.searchQuery,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 32.dp)
@@ -192,16 +148,18 @@ fun AccountPane(
 private fun AccountPanePreview() {
     MaterialTheme {
         Surface {
-            AccountPane(
-                contentPadding = PaddingValues(16.dp),
-                userProfile = UserProfileDisplay(
-                    name = "Jane Smith",
-                    email = "jane.smith@example.com",
-                    initialName = "JS",
-                ),
-                onSearchQueryChange = {}
-            )
+            AccountPane()
         }
+    }
+}
+
+@Composable
+fun CollectSideEffect(
+    containerHost: ContainerHost<AccountPaneState, AccountPaneEffect>,
+    onEffect: (AccountPaneEffect) -> Unit
+) {
+    containerHost.collectSideEffect {
+        onEffect.invoke(it)
     }
 }
 
@@ -210,17 +168,7 @@ private fun AccountPanePreview() {
 private fun AccountPanePreviewOnSearch() {
     MaterialTheme {
         Surface {
-            AccountPane(
-                contentPadding = PaddingValues(16.dp),
-                userProfile = UserProfileDisplay(
-                    name = "Jane Smith",
-                    email = "jane.smith@example.com",
-                    initialName = "JS",
-                ),
-                showSearch = true,
-                searchQuery = "settings",
-                onSearchQueryChange = {}
-            )
+            AccountPane()
         }
     }
 }

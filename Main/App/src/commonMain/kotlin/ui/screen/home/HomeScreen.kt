@@ -9,14 +9,12 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.component.CloseSearch
-import ui.designsystem.component.Search
-import ui.navigation.HomeSection
 import ui.pane.AccountPane
 import ui.pane.ColorsPane
 import ui.pane.MemoriesPane
@@ -27,34 +25,7 @@ fun HomeScreen() {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(0) { 4 }
 
-    // Search state
-    var showSearch by remember { mutableStateOf(false) }
-    var searchQuery by remember { mutableStateOf("") }
-
     Scaffold(
-        topBar = {
-            val title by rememberUpdatedState(HomeSection.entries[pagerState.currentPage].name)
-            HomeTopAppBar(
-                titleText = title,
-                modifier = Modifier.fillMaxWidth(),
-                trailingActions = {
-                    when (pagerState.currentPage) {
-                        3 if !showSearch -> {
-                            Search { showSearch = true }
-                        }
-
-                        3 if showSearch -> {
-                            CloseSearch {
-                                searchQuery = ""
-                                showSearch = false
-                            }
-                        }
-
-                        else -> {}
-                    }
-                }
-            )
-        },
         bottomBar = {
             HomeBottomBar(
                 modifier = Modifier.fillMaxWidth(),
@@ -63,23 +34,16 @@ fun HomeScreen() {
                     scope.launch {
                         pagerState.animateScrollToPage(it.ordinal)
                     }
-                    // Reset search when navigating to other pages
-                    if (it.ordinal != 3) {
-                        showSearch = false
-                        searchQuery = ""
-                    }
                 }
             )
         }
     ) { safeContentPadding ->
 
-        Surface(
-            modifier = Modifier,
-        ) {
+        Surface {
             HorizontalPager(
-                modifier = Modifier.padding(safeContentPadding),
                 state = pagerState,
                 userScrollEnabled = false,
+                contentPadding = safeContentPadding
             ) { pageIndex ->
                 when (pageIndex) {
                     0 -> ColorsPane(
@@ -99,9 +63,6 @@ fun HomeScreen() {
 
                     3 -> AccountPane(
                         modifier = Modifier.fillMaxSize(),
-                        showSearch = showSearch,
-                        searchQuery = searchQuery,
-                        onSearchQueryChange = { searchQuery = it }
                     )
                 }
             }

@@ -17,9 +17,9 @@ import ui.designsystem.DarkThemePalette
 import utils.initialName
 
 data class UserProfileDisplay(
-    val name: String,
-    val email: String,
-    val initialName: String,
+    val name: String = "",
+    val email: String = "",
+    val initialName: String = "",
     val profileImageUrl: String? = null,
 ) {
     companion object {
