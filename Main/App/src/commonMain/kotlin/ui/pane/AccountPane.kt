@@ -12,9 +12,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.ktor.util.date.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.orbitmvi.orbit.ContainerHost
@@ -22,23 +19,8 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import ui.designsystem.component.*
 import ui.screen.home.CommonTopAppBar
-import kotlin.coroutines.coroutineContext
-import kotlin.time.Duration
+import utils.requestFocus
 import kotlin.time.Duration.Companion.seconds
-
-suspend fun FocusRequester.requestFocus(timeout: Duration): Boolean {
-    val timeoutMillis = timeout.inWholeMilliseconds // 2 seconds max
-    val tic = getTimeMillis()
-    val toc = { getTimeMillis() - tic }
-
-    while (coroutineContext.isActive && (toc() < timeoutMillis)) {
-        runCatching { requestFocus() }
-            .onSuccess { return true }
-        delay(100)
-    }
-
-    return false
-}
 
 @Composable
 fun AccountPane(
@@ -54,12 +36,7 @@ fun AccountPane(
     CollectSideEffect(viewModel) {
         when (it) {
             AccountPaneEffect.FocusOnSearchInput -> scope.launch {
-                val result = searchInputFocusRequester.requestFocus(timeout = 2.seconds)
-                if (result) {
-                    println("Success searchInputFocusRequester")
-                }else {
-                    println("Error searchInputFocusRequester")
-                }
+                searchInputFocusRequester.requestFocus(timeout = 2.seconds)
             }
         }
     }
