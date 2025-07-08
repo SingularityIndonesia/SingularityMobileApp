@@ -5,7 +5,7 @@ import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("Convention")
-    kotlin("plugin.serialization") version "2.2.0"
+    alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
@@ -28,14 +28,14 @@ dependency {
             implementation(compose.preview)
         }
         implementation(libs.androidx.activity.compose)
-        
+
         // Android-specific HTTP client
         implementation(libs.ktor.client.okhttp)
     }
 
     ios {
         implementation(libs.kotlin.test)
-        
+
         // iOS-specific HTTP client
         implementation(libs.ktor.client.darwin)
     }
@@ -55,14 +55,22 @@ dependency {
         // Navigation dependencies
         implementation(libs.navigation.compose)
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
-        
+
         // Image loading dependencies
         implementation(libs.coil.compose)
         implementation(libs.coil.network.ktor3)
+
+        // Core of Orbit, providing state management and unidirectional data flow (multiplatform)
+        implementation(libs.orbit.core)
+        // Integrates Orbit with Android and Common ViewModel for lifecycle-aware state handling (Android, iOS, desktop)
+        implementation(libs.orbit.viewmodel)
+        // Enables Orbit support for Jetpack Compose and Compose Multiplatform (Android, iOS, desktop)
+        implementation(libs.orbit.compose)
     }
 
     test {
         implementation(kotlin("test"))
+        implementation(libs.orbit.test)
     }
 }
 
