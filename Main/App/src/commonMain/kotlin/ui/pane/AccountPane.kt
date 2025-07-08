@@ -3,9 +3,11 @@ package ui.pane
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -73,7 +75,6 @@ fun AccountPane(
         // Account Menu Items (filtered)
         if (filteredMenu.isNotEmpty()) {
             items(filteredMenu) { menuItem ->
-                Spacer(Modifier.height(16.dp))
                 AccountMenuItem(
                     menuItem = menuItem,
                     modifier = Modifier
@@ -121,7 +122,9 @@ private fun TopAppBar(
             }
 
             state.showSearch -> {
-                CloseSearch { viewModel.hideSearchBar() }
+                CompositionLocalProvider(LocalIconButtonColor provides IconButtonDefaults.filledTonalIconButtonColors()) {
+                    CloseSearch { viewModel.hideSearchBar() }
+                }
             }
 
             else -> {}
@@ -139,16 +142,6 @@ fun SearchSection(
 
     Surface {
         Column {
-            if (state.searchQuery.isNotEmpty()) {
-                SearchResultsHeader(
-                    resultsCount = filteredMenu.size,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                )
-                Spacer(Modifier.height(8.dp))
-            }
-
             SearchBar(
                 query = state.searchQuery,
                 onQueryChange = {
@@ -160,8 +153,18 @@ fun SearchSection(
                     .padding(horizontal = 16.dp)
                     .focusRequester(focusRequester)
             )
-
             Spacer(Modifier.height(8.dp))
+
+            if (state.searchQuery.isNotEmpty()) {
+                SearchResultsHelper(
+                    resultsCount = filteredMenu.size,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                        .padding(horizontal = 16.dp)
+                )
+                Spacer(Modifier.height(8.dp))
+            }
         }
     }
 }

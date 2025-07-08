@@ -3,6 +3,7 @@ package ui.designsystem.component
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -10,6 +11,8 @@ import main.app.generated.resources.*
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+
+val LocalIconButtonColor = staticCompositionLocalOf<IconButtonColors?> { null }
 
 @Composable
 fun OptionsMenu(
@@ -138,7 +141,8 @@ private fun ActionIcon(
     modifier: Modifier = Modifier,
     drawRes: DrawableResource,
     contentDescription: String,
-    colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
+    colors: IconButtonColors = LocalIconButtonColor.current
+        ?: IconButtonDefaults.iconButtonColors(),
     onClick: () -> Unit,
 ) {
     IconButton(

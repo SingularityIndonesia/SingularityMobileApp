@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SearchResultsHeader(
+fun SearchResultsHelper(
     resultsCount: Int,
     modifier: Modifier = Modifier,
     title: String = "Search Results"
@@ -22,13 +22,12 @@ fun SearchResultsHeader(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
             text = "$resultsCount found",
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
@@ -38,7 +37,7 @@ fun SearchResultsHeader(
 @Composable
 private fun SearchResultsHeaderPreview() {
     MaterialTheme {
-        SearchResultsHeader(
+        SearchResultsHelper(
             resultsCount = 5,
             modifier = Modifier.padding(16.dp)
         )
@@ -49,7 +48,7 @@ private fun SearchResultsHeaderPreview() {
 @Composable
 private fun SearchResultsHeaderSingleResultPreview() {
     MaterialTheme {
-        SearchResultsHeader(
+        SearchResultsHelper(
             resultsCount = 1,
             modifier = Modifier.padding(16.dp)
         )
