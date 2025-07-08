@@ -10,12 +10,6 @@ import ui.navigation.DeepLinkHandler
 import ui.navigation.MainNavigation
 import ui.navigation.rememberDeepLinkHandler
 
-sealed class AppIntent {
-    open val requireLoggedIn: Boolean = false
-
-    class DeepLinkNavigate(val deepLinkUri: String) : AppIntent()
-}
-
 @Preview
 @Composable
 fun App(
