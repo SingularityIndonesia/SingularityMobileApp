@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,6 +24,26 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun DisplayLargeText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.displayLarge,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun DisplayLargeText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -64,6 +85,26 @@ fun DisplayMediumText(
     )
 }
 
+@Composable
+fun DisplayMediumText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.displayMedium,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Display Small Text Component
  * Used for short, important text or numerals
@@ -71,6 +112,26 @@ fun DisplayMediumText(
 @Composable
 fun DisplaySmallText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.displaySmall,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun DisplaySmallText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -112,6 +173,26 @@ fun HeadlineLargeText(
     )
 }
 
+@Composable
+fun HeadlineLargeText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.headlineLarge,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Headline Medium Text Component
  * Used for high-emphasis text that's shorter than body text
@@ -119,6 +200,26 @@ fun HeadlineLargeText(
 @Composable
 fun HeadlineMediumText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.headlineMedium,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun HeadlineMediumText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -160,6 +261,26 @@ fun HeadlineSmallText(
     )
 }
 
+@Composable
+fun HeadlineSmallText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.headlineSmall,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Title Large Text Component
  * Used for medium-emphasis text that's shorter than body text
@@ -167,6 +288,26 @@ fun HeadlineSmallText(
 @Composable
 fun TitleLargeText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.titleLarge,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun TitleLargeText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -208,6 +349,26 @@ fun TitleMediumText(
     )
 }
 
+@Composable
+fun TitleMediumText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.titleMedium,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Title Small Text Component
  * Used for medium-emphasis text that's shorter than body text
@@ -215,6 +376,26 @@ fun TitleMediumText(
 @Composable
 fun TitleSmallText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.titleSmall,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun TitleSmallText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -256,6 +437,26 @@ fun BodyLargeText(
     )
 }
 
+@Composable
+fun BodyLargeText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyLarge,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Body Medium Text Component
  * Used for longer-form writing as it works well for small text sizes
@@ -263,6 +464,26 @@ fun BodyLargeText(
 @Composable
 fun BodyMediumText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun BodyMediumText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -304,6 +525,26 @@ fun BodySmallText(
     )
 }
 
+@Composable
+fun BodySmallText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodySmall,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Label Large Text Component
  * Used for text on UI elements like buttons
@@ -311,6 +552,26 @@ fun BodySmallText(
 @Composable
 fun LabelLargeText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.labelLarge,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun LabelLargeText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -352,6 +613,26 @@ fun LabelMediumText(
     )
 }
 
+@Composable
+fun LabelMediumText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.labelMedium,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Label Small Text Component
  * Used for text on UI elements like buttons, smallest size
@@ -359,6 +640,26 @@ fun LabelMediumText(
 @Composable
 fun LabelSmallText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.labelSmall,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun LabelSmallText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
     textAlign: TextAlign? = null,
@@ -401,6 +702,25 @@ fun ErrorText(
     )
 }
 
+@Composable
+fun ErrorText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.error,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Success Text Component
  * Used for success messages
@@ -408,6 +728,25 @@ fun ErrorText(
 @Composable
 fun SuccessText(
     text: String,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodySmall,
+        color = Color(0xFF4CAF50), // Green color for success
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun SuccessText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Clip,
@@ -447,6 +786,25 @@ fun WarningText(
     )
 }
 
+@Composable
+fun WarningText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodySmall,
+        color = Color(0xFFFF9800), // Orange color for warning
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Muted Text Component
  * Used for secondary, less important text
@@ -454,6 +812,25 @@ fun WarningText(
 @Composable
 fun MutedText(
     text: String,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium,
+        color = LocalContentColor.current.copy(alpha = 0.6f),
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun MutedText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Clip,
@@ -495,6 +872,27 @@ fun LinkText(
     )
 }
 
+@Composable
+fun LinkText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium.copy(
+            textDecoration = TextDecoration.Underline
+        ),
+        color = MaterialTheme.colorScheme.primary,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
 /**
  * Caption Text Component
  * Used for captions and annotations
@@ -502,6 +900,26 @@ fun LinkText(
 @Composable
 fun CaptionText(
     text: String,
+    modifier: Modifier = Modifier,
+    color: Color = LocalContentColor.current.copy(alpha = 0.7f),
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodySmall,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+@Composable
+fun CaptionText(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current.copy(alpha = 0.7f),
     textAlign: TextAlign? = null,
