@@ -5,14 +5,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.compose.collectAsState
@@ -28,16 +30,13 @@ fun AccountPane(
     viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() },
 ) {
     val state by viewModel.collectAsState()
-    val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     val searchInputFocusRequester = remember { FocusRequester() }
     val filteredMenu by rememberUpdatedState(state.filteredMenuItems)
 
     CollectSideEffect(viewModel) {
         when (it) {
-            AccountPaneEffect.FocusOnSearchInput -> scope.launch {
-                searchInputFocusRequester.requestFocus(timeout = 2.seconds)
-            }
+            AccountPaneEffect.FocusOnSearchInput -> searchInputFocusRequester.requestFocus(timeout = 2.seconds)
         }
     }
 
@@ -180,11 +179,9 @@ private fun AccountPanePreview() {
 @Composable
 fun CollectSideEffect(
     containerHost: ContainerHost<AccountPaneState, AccountPaneEffect>,
-    onEffect: (AccountPaneEffect) -> Unit
+    onEffect: suspend (AccountPaneEffect) -> Unit
 ) {
-    containerHost.collectSideEffect {
-        onEffect.invoke(it)
-    }
+    containerHost.collectSideEffect { onEffect.invoke(it) }
 }
 
 @Preview
