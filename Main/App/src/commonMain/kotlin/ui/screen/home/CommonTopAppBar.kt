@@ -17,8 +17,8 @@ import ui.designsystem.component.TitleLargeText
 fun CommonTopAppBar(
     titleText: String = "Home",
     modifier: Modifier = Modifier.fillMaxWidth(),
-    onNavigateBack: (() -> Unit)? = {},
-    trailingActions: (@Composable RowScope.() -> Unit)? = { CloseSearch { } }
+    onNavigateBack: (() -> Unit)? = null,
+    trailingActions: (@Composable RowScope.() -> Unit)? = null
 ) {
     Row(
         modifier = modifier
