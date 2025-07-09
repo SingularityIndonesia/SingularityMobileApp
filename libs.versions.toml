@@ -48,7 +48,9 @@ orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbit" 
 orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
-koin-core = { module = "io.insert-koin:koin-core"}
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
+koin-test-android-test = { module = "io.insert-koin:koin-android-test" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
