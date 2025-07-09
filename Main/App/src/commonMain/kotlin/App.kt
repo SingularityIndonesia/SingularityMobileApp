@@ -1,12 +1,12 @@
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.SingularityTheme
-import ui.navigation.DeepLinkHandler
 import ui.navigation.MainNavigation
 import ui.navigation.rememberDeepLinkHandler
 
@@ -16,22 +16,26 @@ fun App(
     intent: AppIntent? = null,
     onHandled: (AppIntent) -> Unit = {}
 ) {
-    val navController = rememberNavController()
-    val isDarkTheme = isSystemInDarkTheme()
-    val deepLinkHandler = rememberDeepLinkHandler(navController)
+    val projectContext = remember { ProjectContext() }
 
-    IntentHandlerEffect(
-        intent,
-        deepLinkHandler,
-        onHandled
-    )
+    CompositionLocalProvider(LocalProjectContext provides projectContext) {
+        val navController = rememberNavController()
+        val isDarkTheme = isSystemInDarkTheme()
+        val deepLinkHandler = rememberDeepLinkHandler(navController)
 
-    SingularityTheme(
-        darkTheme = isDarkTheme
-    ) {
-        MainNavigation(
-            modifier = Modifier.fillMaxSize(),
-            controller = navController
+        IntentHandlerEffect(
+            intent,
+            deepLinkHandler,
+            onHandled
         )
+
+        SingularityTheme(
+            darkTheme = isDarkTheme
+        ) {
+            MainNavigation(
+                modifier = Modifier.fillMaxSize(),
+                controller = navController
+            )
+        }
     }
 }
