@@ -29,7 +29,29 @@ compose.resources {
 }
 
 dependency {
-    common {
-        implementation(project(":Core"))
+    android {
+        withKotlinMultiplatformExtension {
+            implementation(compose.preview)
+        }
     }
+
+    ios {
+        implementation(libs.kotlin.test)
+    }
+
+    common {
+        withKotlinMultiplatformExtension {
+            implementation(compose.runtime)
+            implementation(compose.components.resources)
+        }
+        implementation(libs.androidx.lifecycle.runtimeCompose)
+    }
+
+    test {
+        implementation(kotlin("test"))
+    }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
 }
