@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
         // Handle initial deeplink
         handleIntent(intent)
-        Route.composeWith(projectContext)
+        Route.set(projectContext)
 
         setContent {
             CompositionLocalProvider(LocalProjectContext provides projectContext) {

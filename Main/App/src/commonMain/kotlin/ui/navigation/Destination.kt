@@ -9,7 +9,7 @@ object Route {
     val webHostUrl = projectContext.webHostUrl
     val deepLinkHostUrl = projectContext.deepLinkHostUrl
 
-    fun composeWith(projectContext: ProjectContext) {
+    fun set(projectContext: ProjectContext) {
         this.projectContext = projectContext
     }
     // endregion
