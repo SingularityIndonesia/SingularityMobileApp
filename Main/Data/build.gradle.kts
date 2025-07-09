@@ -21,30 +21,7 @@ compileIOSLibrary(
 )
 
 dependency {
-    android {
-        // Android-specific HTTP client
-        implementation(libs.ktor.client.okhttp)
-    }
-
-    ios {
-        implementation(libs.kotlin.test)
-
-        // iOS-specific HTTP client
-        implementation(libs.ktor.client.darwin)
-    }
-
     common {
-        withKotlinMultiplatformExtension {
-
-        }
-    }
-
-    test {
-        implementation(kotlin("test"))
+        implementation(project(":Core"))
     }
 }
-
-dependency {
-
-}
-

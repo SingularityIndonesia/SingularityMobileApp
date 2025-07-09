@@ -29,39 +29,7 @@ compose.resources {
 }
 
 dependency {
-    android {
-        withKotlinMultiplatformExtension {
-            implementation(compose.preview)
-        }
-        implementation(libs.androidx.activity.compose)
-    }
-
-    ios {
-        implementation(libs.kotlin.test)
-    }
-
     common {
-        withKotlinMultiplatformExtension {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-        }
-        implementation(libs.androidx.lifecycle.runtimeCompose)
-
-        // Image loading dependencies
-        implementation(libs.coil.compose)
-        implementation(libs.coil.network.ktor3)
+        implementation(project(":Core"))
     }
-
-    test {
-        implementation(kotlin("test"))
-        implementation(libs.orbit.test)
-    }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
 }
