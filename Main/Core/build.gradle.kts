@@ -67,6 +67,10 @@ dependency {
         api(libs.orbit.viewmodel)
         // Enables Orbit support for Jetpack Compose and Compose Multiplatform (Android, iOS, desktop)
         api(libs.orbit.compose)
+
+        // Koin
+        api(project.dependencies.platform(libs.koin.bom))
+        api(libs.koin.core)
     }
 
     test {
