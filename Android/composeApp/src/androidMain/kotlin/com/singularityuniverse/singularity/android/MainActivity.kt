@@ -2,6 +2,8 @@ package com.singularityuniverse.singularity.android
 
 import App
 import AppIntent
+import LocalProjectContext
+import ProjectContext
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,10 +11,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.tooling.preview.Preview
+import ui.navigation.Route
 
 class MainActivity : ComponentActivity() {
+
+    // fixme: provide proper project context
+    val projectContext = ProjectContext()
     val appIntent = mutableStateListOf<AppIntent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,14 +28,17 @@ class MainActivity : ComponentActivity() {
 
         // Handle initial deeplink
         handleIntent(intent)
+        Route.composeWith(projectContext)
 
         setContent {
-            App(
-                intent = appIntent.firstOrNull(),
-                onHandled = {
-                    appIntent -= it
-                }
-            )
+            CompositionLocalProvider(LocalProjectContext provides projectContext) {
+                App(
+                    intent = appIntent.firstOrNull(),
+                    onHandled = {
+                        appIntent -= it
+                    }
+                )
+            }
         }
     }
 

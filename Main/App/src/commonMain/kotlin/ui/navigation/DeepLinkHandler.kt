@@ -1,5 +1,6 @@
 package ui.navigation
 
+import LocalProjectContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -23,11 +24,11 @@ class DeepLinkHandler(private val navController: NavHostController) {
      */
     fun handleDeepLink(url: String): Boolean {
         val destination = when {
-            url.contains("/about") -> AboutDestination
-            url.contains("/security/setting") -> SecuritySettingDestination
-            url.contains("/help") -> HelpAndSupportDestination
-            url.contains("/account/setting") -> AccountSettingDestination
-            url.contains("/notification/setting") -> NotificationSettingDestination
+            url.contains("/about") -> Route.AboutDestination
+            url.contains("/security/setting") -> Route.SecuritySettingDestination
+            url.contains("/help") -> Route.HelpAndSupportDestination
+            url.contains("/account/setting") -> Route.AccountSettingDestination
+            url.contains("/notification/setting") -> Route.NotificationSettingDestination
             else -> null
         }
         check(destination != null) { return false }

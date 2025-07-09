@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import font.resources.*
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.navigation.HomeSection
+import ui.navigation.Route.HomeSection
 
 @Preview
 @Composable

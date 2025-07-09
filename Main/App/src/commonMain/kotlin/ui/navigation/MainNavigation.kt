@@ -25,20 +25,21 @@ fun MainNavigation(
     controller: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
+
     NavHost(
         modifier = modifier,
         navController = controller,
-        startDestination = HomeDestination,
+        startDestination = Route.HomeDestination,
         enterTransition = { slideIn { IntOffset(x = it.width, y = 0) } },
         popEnterTransition = { slideIn { IntOffset(x = -it.width, y = 0) } },
         exitTransition = { slideOut { IntOffset(x = -it.width, y = 0) } },
         popExitTransition = { slideOut { IntOffset(x = it.width, y = 0) } },
     ) {
         composable(
-            route = HomeDestination,
+            route = Route.HomeDestination,
             arguments = listOf(
                 navArgument("section") {
-                    defaultValue = HomeSection.Colors.name
+                    defaultValue = Route.HomeSection.Colors.name
                     nullable = true
                 }
             ),
@@ -47,50 +48,50 @@ fun MainNavigation(
         }
 
         composable(
-            route = AboutDestination,
+            route = Route.AboutDestination,
             deepLinks = listOf(
-                navDeepLink { uriPattern = AboutDeepLink },
-                navDeepLink { uriPattern = AboutCustomDeepLink }
+                navDeepLink { uriPattern = Route.AboutDeepLink },
+                navDeepLink { uriPattern = Route.AboutCustomDeepLink }
             )
         ) {
             AboutScreen()
         }
 
         composable(
-            route = SecuritySettingDestination,
+            route = Route.SecuritySettingDestination,
             deepLinks = listOf(
-                navDeepLink { uriPattern = SecuritySettingDeepLink },
-                navDeepLink { uriPattern = SecuritySettingCustomDeepLink }
+                navDeepLink { uriPattern = Route.SecuritySettingDeepLink },
+                navDeepLink { uriPattern = Route.SecuritySettingCustomDeepLink }
             )
         ) {
             SecuritySettingScreen()
         }
 
         composable(
-            route = HelpAndSupportDestination,
+            route = Route.HelpAndSupportDestination,
             deepLinks = listOf(
-                navDeepLink { uriPattern = HelpAndSupportDeepLink },
-                navDeepLink { uriPattern = HelpAndSupportCustomDeepLink }
+                navDeepLink { uriPattern = Route.HelpAndSupportDeepLink },
+                navDeepLink { uriPattern = Route.HelpAndSupportCustomDeepLink }
             )
         ) {
             HelpAndSupportScreen()
         }
 
         composable(
-            route = AccountSettingDestination,
+            route = Route.AccountSettingDestination,
             deepLinks = listOf(
-                navDeepLink { uriPattern = AccountSettingDeepLink },
-                navDeepLink { uriPattern = AccountSettingCustomDeepLink }
+                navDeepLink { uriPattern = Route.AccountSettingDeepLink },
+                navDeepLink { uriPattern = Route.AccountSettingCustomDeepLink }
             )
         ) {
             AccountSettingScreen()
         }
 
         composable(
-            route = NotificationSettingDestination,
+            route = Route.NotificationSettingDestination,
             deepLinks = listOf(
-                navDeepLink { uriPattern = NotificationSettingDeepLink },
-                navDeepLink { uriPattern = NotificationSettingCustomDeepLink }
+                navDeepLink { uriPattern = Route.NotificationSettingDeepLink },
+                navDeepLink { uriPattern = Route.NotificationSettingCustomDeepLink }
             )
         ) {
             NotificationSettingScreen()

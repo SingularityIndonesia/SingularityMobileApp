@@ -10,6 +10,11 @@ import org.orbitmvi.orbit.viewmodel.container
 import ui.designsystem.component.AccountMenuItemDisplay
 import ui.designsystem.component.UserProfileDisplay
 import ui.navigation.*
+import ui.navigation.Route.AboutCustomDeepLink
+import ui.navigation.Route.AccountSettingCustomDeepLink
+import ui.navigation.Route.HelpAndSupportCustomDeepLink
+import ui.navigation.Route.NotificationSettingCustomDeepLink
+import ui.navigation.Route.SecuritySettingCustomDeepLink
 
 data class AccountPaneState(
     val userProfile: UserProfileDisplay = UserProfileDisplay(),
