@@ -21,8 +21,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.ImagePainter
-import main.app.generated.resources.Res
-import main.app.generated.resources.compose_multiplatform
+import font.resources.Res
+import font.resources.compose_multiplatform
 import model.Image
 import model.particle.ImageType
 import model.particle.LatLng

@@ -19,8 +19,8 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.*
-import main.app.generated.resources.Res
-import main.app.generated.resources.compose_multiplatform
+import font.resources.Res
+import font.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.component.FlowLayout

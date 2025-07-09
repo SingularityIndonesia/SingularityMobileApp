@@ -7,7 +7,15 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import main.app.generated.resources.*
+import font.resources.Res
+import font.resources.ic_back
+import font.resources.ic_close
+import font.resources.ic_delete
+import font.resources.ic_edit
+import font.resources.ic_logout
+import font.resources.ic_more_horz
+import font.resources.ic_next
+import font.resources.ic_search
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

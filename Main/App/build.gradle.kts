@@ -2,6 +2,7 @@ import plugin.convention.companion.compileAndroidLibrary
 import plugin.convention.companion.compileIOSLibrary
 import plugin.convention.companion.dependency
 import plugin.convention.companion.withKotlinMultiplatformExtension
+import plugin.convention.companion.withLibraryExtension
 
 plugins {
     id("ConventionUtils")
@@ -67,6 +68,7 @@ dependency {
         // Enables Orbit support for Jetpack Compose and Compose Multiplatform (Android, iOS, desktop)
         implementation(libs.orbit.compose)
         implementation(project(":Data"))
+        implementation(project(":Font"))
     }
 
     test {

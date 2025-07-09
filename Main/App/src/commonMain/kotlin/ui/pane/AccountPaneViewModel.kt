@@ -2,7 +2,7 @@ package ui.pane
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import main.app.generated.resources.*
+import font.resources.*
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.compose.collectSideEffect
