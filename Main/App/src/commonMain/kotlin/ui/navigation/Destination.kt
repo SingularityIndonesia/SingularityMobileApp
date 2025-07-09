@@ -33,36 +33,36 @@ object Route {
 
     // region About
     val AboutDestination get() = "about"
-    val AboutDeepLink = "${webHostUrl}about"
-    val AboutCustomDeepLink = "${deepLinkHostUrl}about"
+    val AboutDeepLink get() = "${webHostUrl}about"
+    val AboutCustomDeepLink get() = "${deepLinkHostUrl}about"
 
     // endregion
 
     // region Security
     val SecuritySettingDestination get() = "security/setting"
-    val SecuritySettingDeepLink = "${webHostUrl}security/setting"
-    val SecuritySettingCustomDeepLink = "${deepLinkHostUrl}security/setting"
+    val SecuritySettingDeepLink get() = "${webHostUrl}security/setting"
+    val SecuritySettingCustomDeepLink get() = "${deepLinkHostUrl}security/setting"
 
     // endregion
 
     // region Help
     val HelpAndSupportDestination get() = "help"
-    val HelpAndSupportDeepLink = "${webHostUrl}help"
-    val HelpAndSupportCustomDeepLink = "${deepLinkHostUrl}help"
+    val HelpAndSupportDeepLink get() = "${webHostUrl}help"
+    val HelpAndSupportCustomDeepLink get() = "${deepLinkHostUrl}help"
 
     // endregion
 
     // region Account
     val AccountSettingDestination get() = "account/setting"
-    val AccountSettingDeepLink = "${webHostUrl}account/setting"
-    val AccountSettingCustomDeepLink = "${deepLinkHostUrl}account/setting"
+    val AccountSettingDeepLink get() = "${webHostUrl}account/setting"
+    val AccountSettingCustomDeepLink get() = "${deepLinkHostUrl}account/setting"
 
     // endregion
 
     // region Notification
     val NotificationSettingDestination get() = "notification/setting"
-    val NotificationSettingDeepLink = "${webHostUrl}notification/setting"
-    val NotificationSettingCustomDeepLink = "${deepLinkHostUrl}notification/setting"
+    val NotificationSettingDeepLink get() = "${webHostUrl}notification/setting"
+    val NotificationSettingCustomDeepLink get() = "${deepLinkHostUrl}notification/setting"
 
     // endregion
 }
