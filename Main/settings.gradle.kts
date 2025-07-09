@@ -30,3 +30,4 @@ dependencyResolutionManagement {
 }
 
 include(":App")
+include(":Data")

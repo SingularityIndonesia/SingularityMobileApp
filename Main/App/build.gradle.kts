@@ -66,6 +66,7 @@ dependency {
         implementation(libs.orbit.viewmodel)
         // Enables Orbit support for Jetpack Compose and Compose Multiplatform (Android, iOS, desktop)
         implementation(libs.orbit.compose)
+        implementation(project(":Data"))
     }
 
     test {
