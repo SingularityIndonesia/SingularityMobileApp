@@ -2,7 +2,7 @@ package model
 
 import model.particle.ImageType
 import model.particle.LatLng
-import org.jetbrains.compose.resources.DrawableResource
+// import org.jetbrains.compose.resources.DrawableResource
 
 data class Image(
     val model: Any,
@@ -13,13 +13,13 @@ data class Image(
     val locationSignature: LatLng? = null,
 ) {
     companion object {
-        fun from(drawableRes: DrawableResource): Image {
-            return Image(
-                model = drawableRes,
-                type = ImageType.DrawableResID,
-                ratio = 1f,
-            )
-        }
+        // fun from(drawableRes: DrawableResource): Image {
+        //     return Image(
+        //         model = drawableRes,
+        //         type = ImageType.DrawableResID,
+        //         ratio = 1f,
+        //     )
+        // }
 
         fun from(url: String): Image {
             return Image(

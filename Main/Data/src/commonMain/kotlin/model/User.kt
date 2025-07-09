@@ -2,7 +2,6 @@ package model
 
 import model.particle.Email
 import model.particle.ID
-import model.Image
 import model.particle.Name
 
 data class User(
