@@ -32,3 +32,4 @@ dependencyResolutionManagement {
 include(":App")
 include(":Data")
 include(":Font")
+include(":Core")
