@@ -31,3 +31,4 @@ dependencyResolutionManagement {
 
 include(":App")
 include(":Data")
+include(":Font")

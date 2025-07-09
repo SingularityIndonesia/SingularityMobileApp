@@ -16,35 +16,15 @@ compileAndroidLibrary(
 
 compileIOSLibrary(
     namespace = "com.singularityuniverse.singularity.main",
-    baseName = "Data",
+    baseName = "Font",
     isStatic = true
 )
 
 dependency {
-    android {
-        // Android-specific HTTP client
-        implementation(libs.ktor.client.okhttp)
-    }
 
-    ios {
-        implementation(libs.kotlin.test)
-
-        // iOS-specific HTTP client
-        implementation(libs.ktor.client.darwin)
-    }
-
-    common {
-        withKotlinMultiplatformExtension {
-
-        }
-    }
-
-    test {
-        implementation(kotlin("test"))
-    }
 }
 
-dependency {
+dependencies {
 
 }
 
