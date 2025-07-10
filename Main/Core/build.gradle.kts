@@ -76,7 +76,6 @@ dependency {
     test {
         api(kotlin("test"))
         api(libs.orbit.test)
-        api(libs.koin.test.junit4)
     }
 }
 
