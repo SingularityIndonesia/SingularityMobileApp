@@ -17,7 +17,11 @@ import ui.navigation.Route.NotificationSettingCustomDeepLink
 import ui.navigation.Route.SecuritySettingCustomDeepLink
 
 data class AccountPaneState(
-    val userProfile: UserProfileDisplay = UserProfileDisplay(),
+    val userProfile: UserProfileDisplay = UserProfileDisplay(
+        name = "Singularity",
+        email = "singularity@gmail.com",
+        profileImageUrl = "https://github.com/SingularityIndonesia/SingularityIndonesia/blob/main/Logo%20Of%20Singularity%20Indonesia%20%C2%A92023%20Stefanus%20Ayudha%20-%20Circle.png"
+    ),
     val showSearch: Boolean = false,
     val searchQuery: String = "",
     val enableSearchBuffering: Boolean = true,
