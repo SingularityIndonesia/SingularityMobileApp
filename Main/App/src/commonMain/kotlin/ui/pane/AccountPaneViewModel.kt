@@ -20,7 +20,7 @@ data class AccountPaneState(
     val userProfile: UserProfileDisplay = UserProfileDisplay(
         name = "Singularity",
         email = "singularity@gmail.com",
-        profileImageUrl = "https://github.com/SingularityIndonesia/SingularityIndonesia/blob/main/Logo%20Of%20Singularity%20Indonesia%20%C2%A92023%20Stefanus%20Ayudha%20-%20Circle.png"
+        profileImageUrl = "https://raw.githubusercontent.com/SingularityIndonesia/SingularityIndonesia/refs/heads/main/Logo%20Of%20Singularity%20Indonesia%20%C2%A92023%20Stefanus%20Ayudha%20-%20Circle.png"
     ),
     val showSearch: Boolean = false,
     val searchQuery: String = "",
