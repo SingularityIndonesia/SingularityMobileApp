@@ -17,6 +17,7 @@ import ui.screen.account.AccountSettingScreen
 import ui.screen.home.HomeScreen
 import ui.screen.login.LoginScreen
 import ui.screen.notification.NotificationSettingScreen
+import ui.screen.otp.OtpScreen
 import ui.screen.security.SecuritySettingScreen
 import ui.screen.support.HelpAndSupportScreen
 
@@ -39,7 +40,23 @@ fun MainNavigation(
         composable(
             route = Route.LoginDestination
         ) {
-            LoginScreen()
+            LoginScreen(
+                goToOtpVerification = {
+                    controller.navigate(Route.OtpVerificationDestination)
+                }
+            )
+        }
+
+        composable(
+            route = Route.OtpVerificationDestination
+        ) {
+            OtpScreen(
+                goToHome = {
+                    controller.navigate(
+                        Route.HomeDestinationBuilder(Route.HomeSection.Colors)
+                    )
+                }
+            )
         }
 
         composable(

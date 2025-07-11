@@ -18,6 +18,10 @@ object Route {
     val LoginDestination get() = "login"
     // endregion
 
+    // region otp
+    val OtpVerificationDestination get() = "otp-verification"
+    // endregion
+
     // region Home
     val HomeDestination get() = "home?section={section}"
 

@@ -9,9 +9,11 @@ import service.authentication.web.AuthenticationWebApi
 import service.authentication.web.KtorAuthenticationWebApi
 import ui.pane.AccountPaneViewModel
 import ui.screen.login.LoginScreenViewModel
+import ui.screen.otp.OtpScreenViewModel
 
 val viewModels = module {
     viewModel { LoginScreenViewModel(get()) }
+    viewModel { OtpScreenViewModel(get()) }
     viewModel { AccountPaneViewModel() }
 }
 

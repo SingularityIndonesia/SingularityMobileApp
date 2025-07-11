@@ -16,7 +16,10 @@ import ui.designsystem.component.LabelLargeText
 import utils.CollectSideEffect
 
 @Composable
-fun LoginScreen(viewModel: LoginScreenViewModel = koinViewModel()) {
+fun LoginScreen(
+    viewModel: LoginScreenViewModel = koinViewModel(),
+    goToOtpVerification: () -> Unit = {}
+) {
     val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -24,15 +27,15 @@ fun LoginScreen(viewModel: LoginScreenViewModel = koinViewModel()) {
     CollectSideEffect(viewModel) { effect ->
         when (effect) {
             is LoginScreenEffect.NavigateToOtp -> {
-                scope.launch {
-                    snackBarHostState.showSnackbar("Navigate to OTP screen")
-                }
+                goToOtpVerification()
             }
 
             is LoginScreenEffect.ShowError -> {
-                scope.launch {
-                    snackBarHostState.showSnackbar(effect.message)
-                }
+                // fixme: temporary
+                goToOtpVerification()
+                // scope.launch {
+                //     snackBarHostState.showSnackbar(effect.message)
+                // }
             }
         }
     }
