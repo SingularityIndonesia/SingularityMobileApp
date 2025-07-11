@@ -29,24 +29,7 @@ compileAndroidApplication(
 
 dependency {
     common {
-        withKotlinMultiplatformExtension {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-        }
-        implementation(libs.androidx.lifecycle.viewmodel)
-        implementation(libs.androidx.lifecycle.runtimeCompose)
         Main("App", true)
-    }
-
-    android {
-        withKotlinMultiplatformExtension {
-            implementation(compose.preview)
-        }
-        implementation(libs.androidx.activity.compose)
     }
 }
 
