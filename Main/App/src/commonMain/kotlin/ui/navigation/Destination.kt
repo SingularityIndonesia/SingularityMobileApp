@@ -14,6 +14,10 @@ object Route {
     }
     // endregion
 
+    // region login
+    val LoginDestination get() = "login"
+    // endregion
+
     // region Home
     val HomeDestination get() = "home?section={section}"
 

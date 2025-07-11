@@ -15,6 +15,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.screen.about.AboutScreen
 import ui.screen.account.AccountSettingScreen
 import ui.screen.home.HomeScreen
+import ui.screen.login.LoginScreen
 import ui.screen.notification.NotificationSettingScreen
 import ui.screen.security.SecuritySettingScreen
 import ui.screen.support.HelpAndSupportScreen
@@ -29,12 +30,18 @@ fun MainNavigation(
     NavHost(
         modifier = modifier,
         navController = controller,
-        startDestination = Route.HomeDestination,
+        startDestination = Route.LoginDestination,
         enterTransition = { slideIn { IntOffset(x = it.width, y = 0) } },
         popEnterTransition = { slideIn { IntOffset(x = -it.width, y = 0) } },
         exitTransition = { slideOut { IntOffset(x = -it.width, y = 0) } },
         popExitTransition = { slideOut { IntOffset(x = it.width, y = 0) } },
     ) {
+        composable(
+            route = Route.LoginDestination
+        ) {
+            LoginScreen()
+        }
+
         composable(
             route = Route.HomeDestination,
             arguments = listOf(

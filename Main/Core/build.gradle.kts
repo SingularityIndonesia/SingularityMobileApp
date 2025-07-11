@@ -32,6 +32,7 @@ dependency {
 
         // Android-specific HTTP client
         api(libs.ktor.client.okhttp)
+        api(libs.ktor.client.android)
     }
 
     ios {
@@ -71,6 +72,13 @@ dependency {
         // Koin
         api(project.dependencies.platform(libs.koin.bom))
         api(libs.koin.core)
+        api(libs.koin.compose)
+        api(libs.koin.viewmodel)
+
+        // Ktor
+        api(libs.ktor.client.logging)
+        api(libs.ktor.client.content.negotiation)
+        api(libs.ktor.serialization.kotlinx.json)
     }
 
     test {

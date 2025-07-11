@@ -9,21 +9,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import ui.designsystem.component.*
 import ui.pane.AccountPaneEffect.FocusOnSearchInput
 import ui.pane.AccountPaneIntent.HideSearch
 import ui.pane.AccountPaneIntent.SearchFor
 import ui.pane.AccountPaneIntent.ShowSearch
+import utils.CollectSideEffect
 import utils.requestFocus
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun AccountPane(
     modifier: Modifier = Modifier,
-    viewModel: AccountPaneViewModel = viewModel { AccountPaneViewModel() },
+    viewModel: AccountPaneViewModel = koinViewModel(),
 ) {
     val state by viewModel.collectAsState()
     val searchInputFocusRequester = remember { FocusRequester() }

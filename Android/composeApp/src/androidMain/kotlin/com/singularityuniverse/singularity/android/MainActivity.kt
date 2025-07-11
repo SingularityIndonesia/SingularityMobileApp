@@ -13,11 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinApplication
 import ui.navigation.Route
 
 class MainActivity : ComponentActivity() {
 
-    val appIntent = mutableStateListOf<AppIntent>()
+    private val appIntent = mutableStateListOf<AppIntent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -30,13 +31,19 @@ class MainActivity : ComponentActivity() {
         handleIntent(intent)
 
         setContent {
-            CompositionLocalProvider(LocalProjectContext provides ProjectContext) {
-                App(
-                    intent = appIntent.firstOrNull(),
-                    onHandled = {
-                        appIntent -= it
-                    }
-                )
+            KoinApplication(
+                application = {
+                    modules(viewModels, services, webApis, agents)
+                }
+            ) {
+                CompositionLocalProvider(LocalProjectContext provides ProjectContext) {
+                    App(
+                        intent = appIntent.firstOrNull(),
+                        onHandled = {
+                            appIntent -= it
+                        }
+                    )
+                }
             }
         }
     }
