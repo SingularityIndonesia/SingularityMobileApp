@@ -12,13 +12,19 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
-envProp("env.properties")
+val versionCode = 1
+val versionName = "1.0.0"
+
+envProp("env.properties") {
+    put("VERSION_CODE",versionCode.toString())
+    put("VERSION_NAME",versionName)
+}
 
 compileAndroidApplication(
     namespace = "com.singularityuniverse.singularity.android",
     applicationId = "com.singularityuniverse.singularity.android",
-    versionCode = 1,
-    versionName = "1.0",
+    versionCode = versionCode,
+    versionName = versionName,
 )
 
 dependency {

@@ -4,7 +4,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
 import java.io.File
 
-fun Project.envProp(fileName: String) {
+fun Project.envProp(fileName: String, intercept: MutableMap<String, String>.() -> Unit = {}) {
     withKotlinMultiplatformExtension {
         sourceSets {
             commonMain {
@@ -50,6 +50,9 @@ fun Project.envProp(fileName: String) {
                 .filter { it.contains("=") }
                 .map { it.split("=") }
                 .map { it.first() to it[1] }
+                .toMap()
+                .toMutableMap()
+                .also { intercept.invoke(it)}
 
             protoFile(props)
         }.let {
@@ -62,11 +65,11 @@ fun Project.envProp(fileName: String) {
     }
 }
 
-private fun protoFile(props: Sequence<Pair<String, String>>): String {
+private fun protoFile(props: Map<String, String>): String {
     val proto =
         """
             object EnvironmentProperties {
-                ${props.joinToString("\n                ") { "val ${it.first} = \"${it.second}\"" }}
+                ${props.toList().joinToString("\n                ") { "val ${it.first} = \"${it.second}\"" }}
             }
         """.trimIndent()
 
