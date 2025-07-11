@@ -23,9 +23,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        // setup route
+        Route.set(ProjectContext)
+
         // Handle initial deeplink
         handleIntent(intent)
-        Route.set(ProjectContext)
 
         setContent {
             CompositionLocalProvider(LocalProjectContext provides ProjectContext) {
