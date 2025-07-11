@@ -3,6 +3,7 @@ package ui.navigation
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
@@ -21,6 +22,7 @@ import ui.screen.otp.OtpScreen
 import ui.screen.security.SecuritySettingScreen
 import ui.screen.support.HelpAndSupportScreen
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun MainNavigation(
