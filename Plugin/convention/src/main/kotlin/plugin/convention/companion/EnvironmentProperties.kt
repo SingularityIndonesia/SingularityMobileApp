@@ -16,20 +16,25 @@ fun Project.envProp(fileName: String) {
     val targetFile = File(project.projectDir, fileName)
 
     val outputDir = File(project.projectDir, "build/generated/envprop/kotlin/")
-    if (!outputDir.exists()) {
-        outputDir.mkdirs()
-    }
+        .also {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
 
     val outputFile = File(outputDir, "EnvironmentProperties.kt")
-    if (!outputFile.exists()) {
-        outputFile.createNewFile()
-    }
+        .also {
+            if (!it.exists()) {
+                it.createNewFile()
+            }
+        }
 
     val oldSum = outputFile.useLines {
         it.firstOrNull { it.contains("// SUM: ") }
             ?.split("// SUM: ")
             ?.get(1)
     }
+
     val newFileSum: String = targetFile.lastModified().toString()
 
     check(oldSum != newFileSum) {
