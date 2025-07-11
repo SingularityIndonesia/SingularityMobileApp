@@ -128,6 +128,9 @@ val releaseAllImplementation: DependencyHandler.(Any) -> Unit =
     }
 
 // short hands
-fun KotlinDependencyHandler.Main(pkgName: String) {
-    implementation("main:$pkgName")
+fun KotlinDependencyHandler.Main(pkgName: String, transitive: Boolean = false) {
+    if (transitive)
+        api("main:$pkgName")
+    else
+        implementation("main:$pkgName")
 }

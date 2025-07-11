@@ -30,8 +30,7 @@ dependency {
         }
         implementation(libs.androidx.lifecycle.viewmodel)
         implementation(libs.androidx.lifecycle.runtimeCompose)
-        Main("App")
-        Main("Core")
+        Main("App", true)
     }
 
     android {

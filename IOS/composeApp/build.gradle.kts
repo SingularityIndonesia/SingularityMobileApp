@@ -4,7 +4,7 @@ import plugin.convention.companion.dependency
 import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
-    id("Convention")
+    id("ConventionUtils")
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
@@ -28,6 +28,6 @@ dependency {
         }
         implementation(libs.androidx.lifecycle.viewmodel)
         implementation(libs.androidx.lifecycle.runtimeCompose)
-        Main("App")
+        Main("App", true)
     }
 }

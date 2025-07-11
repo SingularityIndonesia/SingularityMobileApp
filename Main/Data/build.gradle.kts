@@ -22,6 +22,6 @@ compileIOSLibrary(
 
 dependency {
     common {
-        implementation(project(":Core"))
+        api(project(":Core"))
     }
 }
