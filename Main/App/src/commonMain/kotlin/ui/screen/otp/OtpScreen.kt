@@ -8,20 +8,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
+import model.particle.Email
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import ui.designsystem.component.LabelLargeText
+import ui.navigation.Route
 import utils.CollectSideEffect
 
 @Composable
 fun OtpScreen(
     viewModel: OtpScreenViewModel = koinViewModel(),
+    purpose: Route.OtpPurpose,
+    data: String,
     goToHome: () -> Unit = {}
 ) {
     val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(purpose, data) {
+        when (purpose) {
+            Route.OtpPurpose.LoginVerification -> viewModel.setEmail(Email(data))
+        }
+    }
 
     CollectSideEffect(viewModel) { effect ->
         when (effect) {

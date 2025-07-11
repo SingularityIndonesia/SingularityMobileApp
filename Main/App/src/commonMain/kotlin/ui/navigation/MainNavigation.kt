@@ -41,14 +41,25 @@ fun MainNavigation(
             route = Route.LoginDestination
         ) {
             LoginScreen(
-                goToOtpVerification = {
-                    controller.navigate(Route.OtpVerificationDestination)
+                goToOtpVerification = { email ->
+                    controller.navigate(
+                        Route.OtpVerificationDestinationBuilder(
+                            Route.OtpPurpose.LoginVerification,
+                            email
+                        )
+                    )
                 }
             )
         }
 
         composable(
-            route = Route.OtpVerificationDestination
+            route = Route.OtpVerificationDestination,
+            arguments = listOf(
+                navArgument("purpose") {
+                    defaultValue = null
+                    nullable = true
+                }
+            ),
         ) {
             OtpScreen(
                 goToHome = {

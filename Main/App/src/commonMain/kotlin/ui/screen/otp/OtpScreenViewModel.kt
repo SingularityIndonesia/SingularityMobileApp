@@ -2,6 +2,7 @@ package ui.screen.otp
 
 import androidx.lifecycle.ViewModel
 import model.particle.Email
+import model.particle.Otp
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
@@ -12,6 +13,12 @@ class OtpScreenViewModel(
     private val authenticationService: AuthenticationService
 ) : ContainerHost<OtpScreenState, OtpScreenEffect>, ViewModel() {
     override val container: Container<OtpScreenState, OtpScreenEffect> = container(OtpScreenState())
+
+    private var email: Email = Email("")
+
+    fun setEmail(email: Email) {
+        this.email = email
+    }
 
     fun updateOtp(otp: String) = intent {
         reduce {
@@ -43,7 +50,7 @@ class OtpScreenViewModel(
             state.copy(isLoading = true, otpError = null)
         }
 
-        authenticationService.requestOtp(Email(state.otp))
+        authenticationService.authenticateByOtp(Email(email.email), Otp(state.otp))
             .onSuccess {
                 postSideEffect(OtpScreenEffect.NavigateToHome)
             }

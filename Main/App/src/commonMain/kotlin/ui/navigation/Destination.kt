@@ -19,7 +19,19 @@ object Route {
     // endregion
 
     // region otp
-    val OtpVerificationDestination get() = "otp-verification"
+    val OtpVerificationDestination get() = "otp-verification?purpose={purpose}&data={data}"
+
+    enum class OtpPurpose {
+        LoginVerification
+    }
+
+    fun OtpVerificationDestinationBuilder(
+        purpose: OtpPurpose,
+        data: Any
+    ): String {
+        return OtpVerificationDestination.replace("{purpose}", purpose.name)
+            .replace("{data}", data.toString())
+    }
     // endregion
 
     // region Home
