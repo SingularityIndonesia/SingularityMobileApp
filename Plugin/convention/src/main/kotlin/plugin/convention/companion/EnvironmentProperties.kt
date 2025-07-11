@@ -59,7 +59,7 @@ fun Project.envProp(fileName: String, intercept: MutableMap<String, String>.() -
             "// SUM: $newFileSum\n$it"
         }
 
-        targetFile.writeText(protoFile)
+        outputFile.writeText(protoFile)
 
         println("Finish create EnvironmentProperty: build/generated/envprop/kotlin/EnvironmentProperties.kt")
     }
