@@ -19,7 +19,7 @@ import utils.CollectSideEffect
 fun OtpScreen(
     viewModel: OtpScreenViewModel = koinViewModel(),
     purpose: Route.OtpPurpose,
-    data: String,
+    data: String?,
     goToHome: () -> Unit = {}
 ) {
     val state by viewModel.collectAsState()
@@ -28,7 +28,13 @@ fun OtpScreen(
 
     LaunchedEffect(purpose, data) {
         when (purpose) {
-            Route.OtpPurpose.LoginVerification -> viewModel.setEmail(Email(data))
+            Route.OtpPurpose.LoginVerification if data != null -> {
+                viewModel.setEmail(Email(data))
+            }
+
+            else -> {
+
+            }
         }
     }
 

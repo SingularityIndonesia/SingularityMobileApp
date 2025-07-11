@@ -61,7 +61,15 @@ fun MainNavigation(
                 }
             ),
         ) {
+            val purpose = it.savedStateHandle.get<String>("purpose")
+                ?.let { Route.OtpPurpose.valueOf(it) }
+                ?: return@composable
+
+            val data = it.savedStateHandle.get<String>("data")
+
             OtpScreen(
+                purpose = purpose,
+                data = data,
                 goToHome = {
                     controller.navigate(
                         Route.HomeDestinationBuilder(Route.HomeSection.Colors)
