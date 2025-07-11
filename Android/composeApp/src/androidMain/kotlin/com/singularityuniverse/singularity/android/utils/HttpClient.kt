@@ -1,6 +1,7 @@
 package com.singularityuniverse.singularity.android.utils
 
 import EnvironmentProperties
+import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.plugins.*
@@ -20,8 +21,12 @@ fun defaultHttpClient() = HttpClient(Android) {
     }
 
     install(Logging) {
-        logger = Logger.DEFAULT
-        level = LogLevel.INFO
+        logger = object : Logger {
+            override fun log(message: String) {
+                Log.d("KtorHttp", message)
+            }
+        }
+        level = LogLevel.ALL
     }
 
     defaultRequest {
