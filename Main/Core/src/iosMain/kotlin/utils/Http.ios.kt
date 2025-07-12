@@ -1,17 +1,17 @@
 package utils
 
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.http.ContentType
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.client.*
+import io.ktor.client.engine.darwin.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
+import platform.Foundation.NSLog
 
 actual fun defaultHttpClient(webHostUrl: String): HttpClient {
-    return HttpClient(Android) {
+    return HttpClient(Darwin) {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -23,7 +23,7 @@ actual fun defaultHttpClient(webHostUrl: String): HttpClient {
         install(Logging) {
             logger = object : Logger {
                 override fun log(message: String) {
-                    Log.d("KtorHttp", message)
+                    NSLog("KtorHttp", message)
                 }
             }
             level = LogLevel.ALL
@@ -36,10 +36,14 @@ actual fun defaultHttpClient(webHostUrl: String): HttpClient {
             headers.append("Content-Type", ContentType.Application.Json.toString())
         }
 
+        install(HttpTimeout) {
+            requestTimeoutMillis = 60_000
+            connectTimeoutMillis = 60_000
+            socketTimeoutMillis = 60_000
+        }
+
         engine {
-            // Android-specific engine configuration
-            connectTimeout = 60_000
-            socketTimeout = 60_000
+
         }
     }
 }
