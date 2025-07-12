@@ -13,6 +13,6 @@ class AuthenticationService(
     }
 
     suspend fun authenticateByOtp(email: Email, otp: Otp, purpose: String): Result<AuthenticationToken> {
-        return webApi.authenticateByOtp(email, otp, purposea)
+        return webApi.authenticateByOtp(email, otp, purpose)
     }
 }
