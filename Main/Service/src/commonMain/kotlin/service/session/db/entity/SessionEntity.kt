@@ -1,4 +1,4 @@
-package service.session.entity
+package service.session.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

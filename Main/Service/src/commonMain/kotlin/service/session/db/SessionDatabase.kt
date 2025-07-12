@@ -1,9 +1,9 @@
-package service.session.database
+package service.session.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import service.session.dao.SessionDao
-import service.session.entity.SessionEntity
+import service.session.db.dao.SessionDao
+import service.session.db.entity.SessionEntity
 import utils.getDatabaseBuilder
 
 @Database(
