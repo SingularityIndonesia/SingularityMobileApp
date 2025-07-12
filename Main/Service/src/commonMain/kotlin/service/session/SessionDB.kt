@@ -6,14 +6,16 @@ import kotlinx.coroutines.withContext
 import model.particle.AuthenticationToken
 import service.session.db.entity.SessionEntity
 import service.session.db.getSessionDatabase
+import utils.runCatching
 
 class SessionDB {
     private val database = getSessionDatabase()
     private val sessionDao = database.sessionDao()
 
-    suspend fun saveSession(session: SessionEntity) {
-        withContext(Dispatchers.IO) {
+    suspend fun saveSession(session: SessionEntity): Result<SessionEntity> {
+        return runCatching(Dispatchers.IO) {
             sessionDao.insertSession(session)
+            session
         }
     }
 
@@ -25,7 +27,7 @@ class SessionDB {
         return session
     }
 
-    suspend fun clearToken() {
-        sessionDao.clearAllSessions()
+    suspend fun clearToken(): Result<Unit> {
+        return runCatching(Dispatchers.IO) { sessionDao.clearAllSessions() }
     }
 }

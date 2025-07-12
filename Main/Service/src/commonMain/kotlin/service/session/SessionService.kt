@@ -5,9 +5,13 @@ import service.session.db.entity.SessionEntity
 import service.session.web.SessionWebApiClient
 
 class SessionService(val sessionDB: SessionDB, val sessionApiClient: SessionWebApiClient) {
-    suspend fun start(authenticationToken: AuthenticationToken) {
+    suspend fun start(authenticationToken: AuthenticationToken): Result<SessionEntity> {
         val session = createSession(authenticationToken)
-        sessionDB.saveToken(authenticationToken)
+            .onSuccess {
+                sessionDB.saveSession(it)
+            }
+
+        return session
     }
 
     private suspend fun createSession(authenticationToken: AuthenticationToken): Result<SessionEntity> {
