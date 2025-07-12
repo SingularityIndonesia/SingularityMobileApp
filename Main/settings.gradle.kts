@@ -30,6 +30,6 @@ dependencyResolutionManagement {
 }
 
 include(":App")
-include(":Data")
+include(":Service")
 include(":Font")
 include(":Core")

@@ -23,7 +23,7 @@ compileIOSLibrary(
 
 dependency {
     common {
-        api(project(":Data"))
+        api(project(":Service"))
         api(project(":Font"))
         api(project(":Core"))
     }
