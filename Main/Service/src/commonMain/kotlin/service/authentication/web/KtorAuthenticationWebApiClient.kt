@@ -31,11 +31,11 @@ class KtorAuthenticationWebApiClient(
         }
     }
 
-    override suspend fun authenticateByOtp(email: Email, otp: Otp): Result<AuthenticationToken> {
+    override suspend fun authenticateByOtp(email: Email, otp: Otp, purpose: String): Result<AuthenticationToken> {
         return runCatching(Dispatchers.IO) {
             val response = httpClient.post("auth/authenticate") {
                 contentType(ContentType.Application.Json)
-                setBody(AuthenticateByOtpRequest(email.email, otp.otp))
+                setBody(AuthenticateByOtpRequest(email.email, otp.otp, purpose))
             }
 
             check(response.status.isSuccess()) {

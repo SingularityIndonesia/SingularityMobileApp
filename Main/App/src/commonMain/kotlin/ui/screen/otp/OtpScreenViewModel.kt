@@ -28,13 +28,13 @@ class OtpScreenViewModel(
         initLoginVerificationOtpViewModel(this)
     }
 
-    var otpPurpose by mutableStateOf(Route.OtpPurpose.LoginVerification)
+    var otpPurpose by mutableStateOf(Route.OtpPurpose.LOGIN_VERIFICATION)
 
     fun setOtpPurpose(purpose: Route.OtpPurpose, data: String?) {
         otpPurpose = purpose
 
         when (purpose) {
-            Route.OtpPurpose.LoginVerification if data != null -> {
+            Route.OtpPurpose.LOGIN_VERIFICATION if data != null -> {
                 setEmailForLoginVerification(Email(data))
             }
 

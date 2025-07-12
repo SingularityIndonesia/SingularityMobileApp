@@ -12,7 +12,7 @@ class AuthenticationService(
         return webApi.requestOtp(email)
     }
 
-    suspend fun authenticateByOtp(email: Email, otp: Otp): Result<AuthenticationToken> {
-        return webApi.authenticateByOtp(email, otp)
+    suspend fun authenticateByOtp(email: Email, otp: Otp, purpose: String): Result<AuthenticationToken> {
+        return webApi.authenticateByOtp(email, otp, purposea)
     }
 }

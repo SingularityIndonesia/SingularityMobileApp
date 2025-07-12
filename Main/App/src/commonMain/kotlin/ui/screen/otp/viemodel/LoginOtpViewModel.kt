@@ -6,6 +6,7 @@ import model.particle.Otp
 import org.orbitmvi.orbit.ContainerHost
 import service.authentication.AuthenticationService
 import service.session.SessionService
+import ui.navigation.Route
 import ui.screen.otp.OtpScreenEffect
 import ui.screen.otp.OtpScreenState
 import utils.isValidOtp
@@ -56,7 +57,7 @@ class LoginVerificationOtpViewModelImpl(
                 state.copy(isLoading = true, otpError = null, isSubmitButtonEnabled = false, isTextInputEnabled = false)
             }
 
-            val token = authenticationService.authenticateByOtp(Email(email.email), Otp(state.otp))
+            val token = authenticationService.authenticateByOtp(Email(email.email), Otp(state.otp), Route.OtpPurpose.LOGIN_VERIFICATION.name)
 
             val session = token
                 .fold(

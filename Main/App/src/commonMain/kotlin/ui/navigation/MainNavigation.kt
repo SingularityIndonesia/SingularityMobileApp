@@ -46,7 +46,7 @@ fun MainNavigation(
                 goToOtpVerification = { email ->
                     controller.navigate(
                         Route.OtpVerificationDestinationBuilder(
-                            Route.OtpPurpose.LoginVerification,
+                            Route.OtpPurpose.LOGIN_VERIFICATION,
                             email
                         )
                     )
@@ -74,7 +74,7 @@ fun MainNavigation(
                 data = data,
                 goToHome = {
                     controller.navigate(
-                        Route.HomeDestinationBuilder(Route.HomeSection.Colors)
+                        Route.HomeDestinationBuilder(Route.HomeSection.COLORS)
                     )
                 }
             )
@@ -84,7 +84,7 @@ fun MainNavigation(
             route = Route.HomeDestination,
             arguments = listOf(
                 navArgument("section") {
-                    defaultValue = Route.HomeSection.Colors.name
+                    defaultValue = Route.HomeSection.COLORS.name
                     nullable = true
                 }
             ),

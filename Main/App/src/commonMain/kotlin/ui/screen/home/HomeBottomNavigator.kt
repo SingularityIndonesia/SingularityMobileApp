@@ -26,19 +26,19 @@ fun HomeBottomBar(
 ) {
     val currentSection by rememberUpdatedState(
         runCatching { HomeSection.entries[pagerState.currentPage] }
-            .getOrElse { HomeSection.Colors }
+            .getOrElse { HomeSection.COLORS }
     )
 
     BottomAppBar(
         modifier = modifier
     ) {
         NavigationBarItem(
-            selected = currentSection == HomeSection.Colors,
+            selected = currentSection == HomeSection.COLORS,
             onClick = {
-                onItemClicked.invoke(HomeSection.Colors)
+                onItemClicked.invoke(HomeSection.COLORS)
             },
             label = {
-                Text(HomeSection.Colors.name)
+                Text(HomeSection.COLORS.name)
             },
             icon = {
                 Icon(
@@ -50,12 +50,12 @@ fun HomeBottomBar(
         )
 
         NavigationBarItem(
-            selected = currentSection == HomeSection.Memories,
+            selected = currentSection == HomeSection.MEMORIES,
             onClick = {
-                onItemClicked.invoke(HomeSection.Memories)
+                onItemClicked.invoke(HomeSection.MEMORIES)
             },
             label = {
-                Text(HomeSection.Memories.name)
+                Text(HomeSection.MEMORIES.name)
             },
             icon = {
                 Icon(
@@ -67,12 +67,12 @@ fun HomeBottomBar(
         )
 
         NavigationBarItem(
-            selected = currentSection == HomeSection.Search,
+            selected = currentSection == HomeSection.SEARCH,
             onClick = {
-                onItemClicked.invoke(HomeSection.Search)
+                onItemClicked.invoke(HomeSection.SEARCH)
             },
             label = {
-                Text(HomeSection.Search.name)
+                Text(HomeSection.SEARCH.name)
             },
             icon = {
                 Icon(
@@ -84,12 +84,12 @@ fun HomeBottomBar(
         )
 
         NavigationBarItem(
-            selected = currentSection == HomeSection.Account,
+            selected = currentSection == HomeSection.ACCOUNT,
             onClick = {
-                onItemClicked.invoke(HomeSection.Account)
+                onItemClicked.invoke(HomeSection.ACCOUNT)
             },
             label = {
-                Text(HomeSection.Account.name)
+                Text(HomeSection.ACCOUNT.name)
             },
             icon = {
                 Icon(

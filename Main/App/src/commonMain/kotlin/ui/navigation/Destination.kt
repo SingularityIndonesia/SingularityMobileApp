@@ -22,7 +22,7 @@ object Route {
     val OtpVerificationDestination get() = "otp-verification?purpose={purpose}&data={data}"
 
     enum class OtpPurpose {
-        LoginVerification
+        LOGIN_VERIFICATION
     }
 
     fun OtpVerificationDestinationBuilder(
@@ -38,14 +38,14 @@ object Route {
     val HomeDestination get() = "home?section={section}"
 
     enum class HomeSection {
-        Colors,
-        Memories,
-        Search,
-        Account
+        COLORS,
+        MEMORIES,
+        SEARCH,
+        ACCOUNT
     }
 
     fun HomeDestinationBuilder(
-        section: HomeSection = HomeSection.Colors
+        section: HomeSection = HomeSection.COLORS
     ): String {
         return HomeDestination.replace("{section}", section.name)
     }
