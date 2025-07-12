@@ -6,10 +6,10 @@ import service.session.web.SessionWebApiClient
 
 class SessionService(
     private val sessionDB: SessionDB,
-    private val sessionApiClient: SessionWebApiClient
+    private val sessionWebApiClient: SessionWebApiClient
 ) {
     suspend fun start(authenticationToken: AuthenticationToken): Result<SessionEntity> {
-        val session = sessionApiClient.createSession(authenticationToken)
+        val session = sessionWebApiClient.createSession(authenticationToken)
             .fold(
                 onSuccess = {
                     sessionDB.saveSession(it)

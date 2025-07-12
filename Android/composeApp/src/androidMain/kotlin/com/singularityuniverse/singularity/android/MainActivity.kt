@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             KoinApplication(
                 application = {
-                    modules(viewModels, services, webApis, agents)
+                    modules(viewModels, services, webApis, agents, dbs)
                 }
             ) {
                 CompositionLocalProvider(LocalProjectContext provides ProjectContext) {
