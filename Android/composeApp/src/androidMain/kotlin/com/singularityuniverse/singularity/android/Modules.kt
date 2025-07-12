@@ -1,6 +1,5 @@
 package com.singularityuniverse.singularity.android
 
-import com.singularityuniverse.singularity.android.utils.defaultHttpClient
 import io.ktor.client.*
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -10,6 +9,7 @@ import service.authentication.web.KtorAuthenticationWebApi
 import ui.pane.AccountPaneViewModel
 import ui.screen.login.LoginScreenViewModel
 import ui.screen.otp.OtpScreenViewModel
+import utils.defaultHttpClient
 
 val viewModels = module {
     viewModel { LoginScreenViewModel(get()) }
@@ -26,5 +26,5 @@ val webApis = module {
 }
 
 val agents = module {
-    single<HttpClient> { defaultHttpClient() }
+    single<HttpClient> { defaultHttpClient(EnvironmentProperties.WEB_HOST_URL) }
 }

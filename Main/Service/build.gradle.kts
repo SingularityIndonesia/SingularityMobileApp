@@ -25,7 +25,13 @@ compileIOSLibrary(
 dependency {
     common {
         api(project(":Core"))
+        implementation(libs.room.runtime)
+        implementation(libs.sqlite.bundled)
     }
+}
+
+dependencies {
+    add("kspCommonMainMetadata", libs.room.compiler)
 }
 
 room {

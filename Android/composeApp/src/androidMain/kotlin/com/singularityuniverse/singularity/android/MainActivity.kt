@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import ui.navigation.Route
+import utils.RoomDBContextProvider
 
 class MainActivity : ComponentActivity() {
 
@@ -23,6 +24,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // setup room
+        RoomDBContextProvider.initialize(this)
 
         // setup route
         Route.set(ProjectContext)
