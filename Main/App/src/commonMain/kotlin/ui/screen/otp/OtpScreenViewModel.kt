@@ -10,7 +10,7 @@ import service.authentication.AuthenticationService
 import service.session.SessionService
 import utils.otpIsValid
 
-class OtpScreenViewModel(
+open class OtpScreenViewModel(
     private val authenticationService: AuthenticationService,
     private val sessionService: SessionService
 ) : ContainerHost<OtpScreenState, OtpScreenEffect>, ViewModel() {
@@ -22,7 +22,7 @@ class OtpScreenViewModel(
         this.email = email
     }
 
-    fun updateOtp(otp: String) = intent {
+    open fun updateOtp(otp: String) = intent {
         reduce {
             state.copy(
                 otp = otp,
@@ -31,7 +31,7 @@ class OtpScreenViewModel(
         }
     }
 
-    fun submitOtpVerification() = intent {
+    open fun submitOtpVerification() = intent {
         check(state.otp.isNotBlank()) {
             reduce {
                 state.copy(otpError = "Otp is required")
@@ -61,15 +61,17 @@ class OtpScreenViewModel(
                 },
                 onFailure = { Result.failure(it) }
             )
+
+        reduce {
+            state.copy(isLoading = false)
+        }
+
+        session
             .onSuccess {
                 postSideEffect(OtpScreenEffect.NavigateToHome)
             }
             .onFailure { e ->
                 postSideEffect(OtpScreenEffect.ShowError(e.message ?: "Login failed"))
             }
-
-        reduce {
-            state.copy(isLoading = false)
-        }
     }
 }
