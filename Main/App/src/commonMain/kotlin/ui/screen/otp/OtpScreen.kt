@@ -98,7 +98,7 @@ fun OtpScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
-                value = otpBuffer.value,
+                value = if (state.enableOtpInputBuffering) otpBuffer.value else state.otp,
                 onValueChange = {
                     otpBuffer.value = it
                     onIntent(OtpScreenIntent.UpdateOtp(it))
