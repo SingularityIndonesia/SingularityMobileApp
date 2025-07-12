@@ -7,10 +7,12 @@ import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
 import service.authentication.AuthenticationService
+import service.session.SessionService
 import utils.otpIsValid
 
 class OtpScreenViewModel(
-    private val authenticationService: AuthenticationService
+    private val authenticationService: AuthenticationService,
+    private val sessionService: SessionService
 ) : ContainerHost<OtpScreenState, OtpScreenEffect>, ViewModel() {
     override val container: Container<OtpScreenState, OtpScreenEffect> = container(OtpScreenState())
 
@@ -50,7 +52,15 @@ class OtpScreenViewModel(
             state.copy(isLoading = true, otpError = null)
         }
 
-        authenticationService.authenticateByOtp(Email(email.email), Otp(state.otp))
+        val token = authenticationService.authenticateByOtp(Email(email.email), Otp(state.otp))
+
+        val session = token
+            .fold(
+                onSuccess = {
+                    sessionService.start(it)
+                },
+                onFailure = { Result.failure(it) }
+            )
             .onSuccess {
                 postSideEffect(OtpScreenEffect.NavigateToHome)
             }
