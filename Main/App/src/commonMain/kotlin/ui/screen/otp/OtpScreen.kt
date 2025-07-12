@@ -10,6 +10,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import model.particle.Email
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import ui.designsystem.component.LabelLargeText
@@ -123,4 +124,14 @@ fun OtpScreen(
             Spacer(modifier = Modifier.weight(10f))
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    OtpScreen(
+        state = OtpScreenState(),
+        snackBarHostState = remember { SnackbarHostState() },
+        onIntent = {}
+    )
 }
