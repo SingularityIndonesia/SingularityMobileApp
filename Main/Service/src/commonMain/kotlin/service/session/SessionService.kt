@@ -1,8 +1,11 @@
 package service.session
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import model.particle.AuthenticationToken
 import service.session.db.entity.SessionEntity
 import service.session.web.SessionWebApiClient
+import utils.runCatching
 
 class SessionService(val sessionDB: SessionDB, val sessionApiClient: SessionWebApiClient) {
     suspend fun start(authenticationToken: AuthenticationToken): Result<SessionEntity> {
@@ -15,6 +18,8 @@ class SessionService(val sessionDB: SessionDB, val sessionApiClient: SessionWebA
     }
 
     private suspend fun createSession(authenticationToken: AuthenticationToken): Result<SessionEntity> {
-        TODO()
+        return runCatching(Dispatchers.IO) {
+            TODO()
+        }
     }
 }
