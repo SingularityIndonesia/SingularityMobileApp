@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -30,11 +31,9 @@ fun LoginScreen(
             }
 
             is LoginScreenEffect.ShowError -> {
-                // fixme: temporary
-                goToOtpVerification(state.email)
-                // scope.launch {
-                //     snackBarHostState.showSnackbar(effect.message)
-                // }
+                scope.launch {
+                    snackBarHostState.showSnackbar(effect.message)
+                }
             }
         }
     }
