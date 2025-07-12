@@ -1,4 +1,4 @@
-package ui.screen.login
+package ui.screen.otp
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -9,28 +9,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import model.particle.Email
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import ui.designsystem.component.LabelLargeText
+import ui.navigation.Route
 import utils.CollectSideEffect
 
 @Composable
-fun LoginScreen(
-    viewModel: LoginScreenViewModel = koinViewModel(),
-    goToOtpVerification: (email: String) -> Unit = {}
+fun OtpScreen(
+    viewModel: OtpScreenViewModel = koinViewModel(),
+    purpose: Route.OtpPurpose,
+    data: String?,
+    goToHome: () -> Unit = {}
 ) {
     val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+    LaunchedEffect(purpose, data) {
+        viewModel.setOtpPurpose(purpose, data)
+    }
+
     CollectSideEffect(viewModel) { effect ->
         when (effect) {
-            is LoginScreenEffect.NavigateToOtp -> {
-                goToOtpVerification(state.email)
+            OtpScreenEffect.NavigateToHome -> {
+                goToHome()
             }
 
-            is LoginScreenEffect.ShowError -> {
+            is OtpScreenEffect.ShowError -> {
+                goToHome()
                 scope.launch {
                     snackBarHostState.showSnackbar(effect.message)
                 }
@@ -38,23 +47,28 @@ fun LoginScreen(
         }
     }
 
-    LoginScreen(
+    OtpScreen(
         state = state,
+        snackBarHostState = snackBarHostState,
         onIntent = {
             when (it) {
-                is LoginScreenIntent.UpdateEmail -> viewModel.updateEmail(it.email)
-                LoginScreenIntent.SubmitLogin -> viewModel.submitLogin()
+                is OtpScreenIntent.UpdateOtp -> {
+                    viewModel.updateOtp(it.otp)
+                }
+
+                OtpScreenIntent.SubmitOtpVerification -> {
+                    viewModel.submitOtpLoginVerification()
+                }
             }
-        },
-        snackBarHostState = snackBarHostState
+        }
     )
 }
 
 @Composable
-fun LoginScreen(
-    state: LoginScreenState,
-    onIntent: (LoginScreenIntent) -> Unit,
-    snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }
+fun OtpScreen(
+    state: OtpScreenState,
+    snackBarHostState: SnackbarHostState,
+    onIntent: (OtpScreenIntent) -> Unit
 ) {
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) }
@@ -69,28 +83,28 @@ fun LoginScreen(
         ) {
             Spacer(modifier = Modifier.weight(8f))
             Text(
-                text = "Login",
+                text = "Verify Otp",
                 style = MaterialTheme.typography.headlineMedium,
             )
             Spacer(modifier = Modifier.height(24.dp))
-            val emailBuffer = remember { mutableStateOf("") }
+            val otpBuffer = remember { mutableStateOf("") }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
-                value = if (state.enableEmailInputBuffering) emailBuffer.value else state.email,
+                value = if (state.enableOtpInputBuffering) otpBuffer.value else state.otp,
                 onValueChange = {
-                    emailBuffer.value = it
-                    onIntent(LoginScreenIntent.UpdateEmail(it))
+                    otpBuffer.value = it
+                    onIntent(OtpScreenIntent.UpdateOtp(it))
                 },
-                label = { Text("Email") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                isError = state.emailError != null,
-                supportingText = state.emailError?.let { { Text(it) } },
+                label = { Text("Otp") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = state.otpError != null,
+                supportingText = state.otpError?.let { { Text(it) } },
                 enabled = state.isTextInputEnabled
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { onIntent(LoginScreenIntent.SubmitLogin) },
+                onClick = { onIntent(OtpScreenIntent.SubmitOtpVerification) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.isSubmitButtonEnabled
             ) {
@@ -98,7 +112,7 @@ fun LoginScreen(
                     CircularProgressIndicator(modifier = Modifier.size(24.dp))
                     Spacer(Modifier.width(8.dp))
                 }
-                LabelLargeText(if (state.isLoading) "Requesting OTP..." else "Login")
+                LabelLargeText(if (state.isLoading) "Verifying OTP..." else "Verify")
             }
             Spacer(modifier = Modifier.weight(10f))
         }
@@ -108,41 +122,9 @@ fun LoginScreen(
 @Preview
 @Composable
 private fun Preview() {
-    LoginScreen(
-        state = LoginScreenState(),
-        onIntent = {}
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewWithEmail() {
-    LoginScreen(
-        state = LoginScreenState(email = "user@example.com"),
-        onIntent = {}
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewLoading() {
-    LoginScreen(
-        state = LoginScreenState(
-            email = "user@example.com",
-            isLoading = true
-        ),
-        onIntent = {}
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewWithError() {
-    LoginScreen(
-        state = LoginScreenState(
-            email = "invalid-email",
-            emailError = "Please enter a valid email address"
-        ),
+    OtpScreen(
+        state = OtpScreenState(),
+        snackBarHostState = remember { SnackbarHostState() },
         onIntent = {}
     )
 }

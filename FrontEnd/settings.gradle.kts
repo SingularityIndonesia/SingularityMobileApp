@@ -1,4 +1,4 @@
-rootProject.name = "Singularity"
+rootProject.name = "FrontEnd"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -28,5 +28,5 @@ dependencyResolutionManagement {
     }
 }
 
-includeBuild("Backend")
-includeBuild("FrontEnd")
+includeBuild("Android")
+includeBuild("IOS")
