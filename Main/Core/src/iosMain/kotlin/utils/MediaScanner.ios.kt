@@ -1,6 +1,7 @@
 package utils
 
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.DelicateCoroutinesApi
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Photos.PHPhotoLibrary
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, DelicateCoroutinesApi::class)
 actual fun notifyMediaScanner(uri: String, onScanCompleted: (path: String) -> Unit) {
     // On iOS, we need to add the image to the photo library for it to be visible in Photos app
     // This is different from Android's MediaScanner which just scans existing files
