@@ -1,4 +1,4 @@
-package com.singularityuniverse.singularity.android.utils
+package utils
 
 import android.Manifest
 import android.content.Context
@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.core.content.ContextCompat
 
 @Composable
-fun WithPermission(vararg permissions: String, content: @Composable () -> Unit) {
+actual fun WithPermission(vararg permissions: String, content: @Composable () -> Unit) {
     val isPreviewMode = LocalInspectionMode.current
     val context = LocalContext.current
 
