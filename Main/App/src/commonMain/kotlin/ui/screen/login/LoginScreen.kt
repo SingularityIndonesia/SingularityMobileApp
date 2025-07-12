@@ -86,13 +86,13 @@ fun LoginScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 isError = state.emailError != null,
                 supportingText = state.emailError?.let { { Text(it) } },
-                enabled = !state.isLoading
+                enabled = !state.isTextInputEnabled
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { onIntent(LoginScreenIntent.SubmitLogin) },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !state.isLoading
+                enabled = !state.isSubmitButtonEnabled
             ) {
                 if (state.isLoading) {
                     CircularProgressIndicator(modifier = Modifier.size(24.dp))

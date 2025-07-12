@@ -40,7 +40,11 @@ class LoginScreenViewModel(
 
         // start loading
         reduce {
-            state.copy(isLoading = true, emailError = null)
+            state.copy(
+                isLoading = true, emailError = null,
+                isSubmitButtonEnabled = false,
+                isTextInputEnabled = false
+            )
         }
 
         authenticationService.requestOtp(Email(state.email))
@@ -52,7 +56,11 @@ class LoginScreenViewModel(
             }
 
         reduce {
-            state.copy(isLoading = false)
+            state.copy(
+                isLoading = false,
+                isSubmitButtonEnabled = false,
+                isTextInputEnabled = false
+            )
         }
     }
 }
