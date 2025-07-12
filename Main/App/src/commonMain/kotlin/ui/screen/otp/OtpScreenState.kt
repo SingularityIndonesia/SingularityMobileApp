@@ -4,5 +4,7 @@ data class OtpScreenState(
     val otp: String = "",
     val enableOtpInputBuffering: Boolean = true,
     val otpError: String? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isTextInputEnabled: Boolean = true,
+    val isSubmitButtonEnabled: Boolean = false,
 )

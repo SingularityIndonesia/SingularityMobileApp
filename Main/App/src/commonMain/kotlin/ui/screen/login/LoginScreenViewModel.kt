@@ -60,7 +60,8 @@ class LoginScreenViewModel(
             state.copy(
                 isLoading = false,
                 isSubmitButtonEnabled = false,
-                isTextInputEnabled = false
+                isTextInputEnabled = false,
+                emailError = null
             )
         }
     }

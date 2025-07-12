@@ -99,13 +99,13 @@ fun OtpScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = state.otpError != null,
                 supportingText = state.otpError?.let { { Text(it) } },
-                enabled = !state.isLoading
+                enabled = state.isTextInputEnabled
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { onIntent(OtpScreenIntent.SubmitOtpVerification) },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !state.isLoading
+                enabled = state.isSubmitButtonEnabled
             ) {
                 if (state.isLoading) {
                     CircularProgressIndicator(modifier = Modifier.size(24.dp))

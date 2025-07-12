@@ -77,7 +77,7 @@ fun LoginScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
-                value = emailBuffer.value,
+                value = if (state.enableEmailInputBuffering) emailBuffer.value else state.email,
                 onValueChange = {
                     emailBuffer.value = it
                     onIntent(LoginScreenIntent.UpdateEmail(it))

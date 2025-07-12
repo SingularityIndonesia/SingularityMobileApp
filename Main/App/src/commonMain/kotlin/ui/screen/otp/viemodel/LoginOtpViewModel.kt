@@ -8,7 +8,7 @@ import service.authentication.AuthenticationService
 import service.session.SessionService
 import ui.screen.otp.OtpScreenEffect
 import ui.screen.otp.OtpScreenState
-import utils.otpIsValid
+import utils.isValidOtp
 
 interface LoginVerificationOtpViewModel {
     fun initLoginVerificationOtpViewModel(container: ContainerHost<OtpScreenState, OtpScreenEffect>)
@@ -44,7 +44,7 @@ class LoginVerificationOtpViewModelImpl(
                 return@intent
             }
 
-            check(otpIsValid(state.otp)) {
+            check(isValidOtp(state.otp)) {
                 reduce {
                     state.copy(otpError = "Please enter a valid OTP")
                 }
@@ -53,7 +53,7 @@ class LoginVerificationOtpViewModelImpl(
 
             // start loading
             reduce {
-                state.copy(isLoading = true, otpError = null)
+                state.copy(isLoading = true, otpError = null, isSubmitButtonEnabled = false, isTextInputEnabled = false)
             }
 
             val token = authenticationService.authenticateByOtp(Email(email.email), Otp(state.otp))
@@ -77,6 +77,13 @@ class LoginVerificationOtpViewModelImpl(
                 .onFailure { e ->
                     postSideEffect(OtpScreenEffect.ShowError(e.message ?: "Login failed"))
                 }
+
+            state.copy(
+                isLoading = true,
+                otpError = null,
+                isSubmitButtonEnabled = isValidOtp(state.otp),
+                isTextInputEnabled = true
+            )
         }
     }
 }

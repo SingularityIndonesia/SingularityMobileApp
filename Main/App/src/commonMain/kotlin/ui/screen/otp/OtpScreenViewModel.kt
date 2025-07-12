@@ -13,6 +13,7 @@ import service.session.SessionService
 import ui.navigation.Route
 import ui.screen.otp.viemodel.LoginVerificationOtpViewModel
 import ui.screen.otp.viemodel.LoginVerificationOtpViewModelImpl
+import utils.isValidOtp
 
 class OtpScreenViewModel(
     private val authenticationService: AuthenticationService,
@@ -47,7 +48,8 @@ class OtpScreenViewModel(
         reduce {
             state.copy(
                 otp = otp,
-                otpError = null
+                otpError = null,
+                isSubmitButtonEnabled = isValidOtp(otp)
             )
         }
     }

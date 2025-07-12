@@ -1,5 +1,5 @@
 package utils
 
-fun otpIsValid(otp: String): Boolean {
+fun isValidOtp(otp: String): Boolean {
     return otp.length == 6 && runCatching { otp.toInt() }.isSuccess
 }
