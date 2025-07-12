@@ -1,5 +1,9 @@
 package service.session.web
 
-interface SessionWebApiClient  {
+import model.particle.AuthenticationToken
+import service.session.db.entity.SessionEntity
 
+interface SessionWebApiClient {
+    suspend fun createSession(authenticationToken: AuthenticationToken): Result<SessionEntity>
 }
+

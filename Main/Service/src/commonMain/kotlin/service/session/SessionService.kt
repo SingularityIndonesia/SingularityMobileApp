@@ -1,25 +1,28 @@
 package service.session
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import model.particle.AuthenticationToken
 import service.session.db.entity.SessionEntity
 import service.session.web.SessionWebApiClient
-import utils.runCatching
 
-class SessionService(val sessionDB: SessionDB, val sessionApiClient: SessionWebApiClient) {
+class SessionService(
+    private val sessionDB: SessionDB,
+    private val sessionApiClient: SessionWebApiClient
+) {
     suspend fun start(authenticationToken: AuthenticationToken): Result<SessionEntity> {
-        val session = createSession(authenticationToken)
-            .onSuccess {
-                sessionDB.saveSession(it)
-            }
+        val session = sessionApiClient.createSession(authenticationToken)
+            .fold(
+                onSuccess = {
+                    sessionDB.saveSession(it)
+                },
+                onFailure = {
+                    Result.failure(it)
+                }
+            )
 
         return session
     }
 
-    private suspend fun createSession(authenticationToken: AuthenticationToken): Result<SessionEntity> {
-        return runCatching(Dispatchers.IO) {
-            TODO()
-        }
+    suspend fun stop() {
+
     }
 }

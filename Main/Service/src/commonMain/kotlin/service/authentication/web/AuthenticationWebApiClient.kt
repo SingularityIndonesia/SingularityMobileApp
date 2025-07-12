@@ -4,7 +4,7 @@ import model.particle.AuthenticationToken
 import model.particle.Email
 import model.particle.Otp
 
-interface AuthenticationWebApi {
+interface AuthenticationWebApiClient {
     suspend fun requestOtp(email: Email): Result<Unit>
     suspend fun authenticateByOtp(email: Email, otp: Otp): Result<AuthenticationToken>
 }

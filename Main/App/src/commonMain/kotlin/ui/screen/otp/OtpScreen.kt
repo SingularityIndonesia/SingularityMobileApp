@@ -29,15 +29,7 @@ fun OtpScreen(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(purpose, data) {
-        when (purpose) {
-            Route.OtpPurpose.LoginVerification if data != null -> {
-                viewModel.setEmail(Email(data))
-            }
-
-            else -> {
-
-            }
-        }
+        viewModel.setOtpPurpose(purpose, data)
     }
 
     CollectSideEffect(viewModel) { effect ->
@@ -64,7 +56,7 @@ fun OtpScreen(
                 }
 
                 OtpScreenIntent.SubmitOtpVerification -> {
-                    viewModel.submitOtpVerification()
+                    viewModel.submitOtpLoginVerification()
                 }
             }
         }

@@ -14,9 +14,9 @@ import service.authentication.web.request.RequestOtpRequest
 import service.authentication.web.response.AuthenticateByOtpResponse
 import utils.runCatching
 
-class KtorAuthenticationWebApi(
+class KtorAuthenticationWebApiClient(
     private val httpClient: HttpClient
-) : AuthenticationWebApi {
+) : AuthenticationWebApiClient {
 
     override suspend fun requestOtp(email: Email): Result<Unit> {
         return runCatching(Dispatchers.IO) {
