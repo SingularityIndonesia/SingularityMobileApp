@@ -59,8 +59,8 @@ class LoginScreenViewModel(
         reduce {
             state.copy(
                 isLoading = false,
-                isSubmitButtonEnabled = false,
-                isTextInputEnabled = false,
+                isSubmitButtonEnabled = isValidEmail(state.email),
+                isTextInputEnabled = true,
                 emailError = null
             )
         }

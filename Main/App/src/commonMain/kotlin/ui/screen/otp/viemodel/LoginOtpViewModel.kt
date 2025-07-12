@@ -79,7 +79,7 @@ class LoginVerificationOtpViewModelImpl(
                 }
 
             state.copy(
-                isLoading = true,
+                isLoading = false,
                 otpError = null,
                 isSubmitButtonEnabled = isValidOtp(state.otp),
                 isTextInputEnabled = true
