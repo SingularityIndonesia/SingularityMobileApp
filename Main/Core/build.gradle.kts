@@ -11,14 +11,15 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ksp)
 }
 
 compileAndroidLibrary(
-    namespace = "com.singularityuniverse.singularity.main"
+    namespace = "com.singularityuniverse.singularity.main.core"
 )
 
 compileIOSLibrary(
-    namespace = "com.singularityuniverse.singularity.main",
+    namespace = "com.singularityuniverse.singularity.main.core",
     baseName = "Core",
     isStatic = true
 )
@@ -79,6 +80,10 @@ dependency {
         api(libs.ktor.client.logging)
         api(libs.ktor.client.content.negotiation)
         api(libs.ktor.serialization.kotlinx.json)
+
+        // Room
+        api(libs.room.runtime)
+        api(libs.sqlite.bundled)
     }
 
     test {
@@ -89,4 +94,10 @@ dependency {
 
 dependencies {
     api(compose.uiTooling)
+
+    // KSP support for Room Compiler.
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
 }

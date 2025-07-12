@@ -13,11 +13,11 @@ plugins {
 }
 
 compileAndroidLibrary(
-    namespace = "com.singularityuniverse.singularity.main"
+    namespace = "com.singularityuniverse.singularity.main.font"
 )
 
 compileIOSLibrary(
-    namespace = "com.singularityuniverse.singularity.main",
+    namespace = "com.singularityuniverse.singularity.main.font",
     baseName = "Font",
     isStatic = true
 )

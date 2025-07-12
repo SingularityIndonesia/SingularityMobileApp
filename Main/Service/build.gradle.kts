@@ -8,14 +8,16 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 compileAndroidLibrary(
-    namespace = "com.singularityuniverse.singularity.main"
+    namespace = "com.singularityuniverse.singularity.main.service"
 )
 
 compileIOSLibrary(
-    namespace = "com.singularityuniverse.singularity.main",
+    namespace = "com.singularityuniverse.singularity.main.service",
     baseName = "Data",
     isStatic = true
 )
@@ -24,4 +26,8 @@ dependency {
     common {
         api(project(":Core"))
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

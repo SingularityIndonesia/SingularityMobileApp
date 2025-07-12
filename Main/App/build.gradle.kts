@@ -12,11 +12,11 @@ plugins {
 }
 
 compileAndroidLibrary(
-    namespace = "com.singularityuniverse.singularity.main"
+    namespace = "com.singularityuniverse.singularity.main.app"
 )
 
 compileIOSLibrary(
-    namespace = "com.singularityuniverse.singularity.main",
+    namespace = "com.singularityuniverse.singularity.main.app",
     baseName = "MainApp",
     isStatic = true
 )
