@@ -14,6 +14,8 @@ import kotlin.time.Duration.Companion.minutes
 
 suspend fun MPAI.requestLoginWithOtp(token: String, form: LoginWithOtpForm): Result<LoginWithOtpForm> {
     return runCatching {
+        val db = AuthDB.Instance()
+
         check(form.body.email.isNotBlank())
         check(isValidEmail(form.body.email))
 
@@ -28,14 +30,16 @@ suspend fun MPAI.requestLoginWithOtp(token: String, form: LoginWithOtpForm): Res
             )
         )
 
-        AuthDB.register(newForm).getOrThrow()
+        db.register(newForm).getOrThrow()
 
         newForm
     }
 }
 
 private suspend fun validate(form: LoginWithOtpForm): Throwable? {
-    return AuthDB.getExistingFormByEmail(form.body.email)
+    return AuthDB.Instance()
+        .getExistingFormByEmail(form.body.email)
+
         .mapCatching {
             val formValidUntilEpoch = it?.header?.validUntilEpoch ?: return null
             val isFormStillValid = formValidUntilEpoch > getTimeMillis()

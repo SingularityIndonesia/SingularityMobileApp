@@ -70,8 +70,8 @@ suspend fun notFound() {
         message = Response(
             success = false,
             data = null,
+            message = null,
             error = "There's nothing here, go away.\nSincere: Punk.",
-            message = "It's your fault obviously. Sincere: Karen.",
         )
     )
 }

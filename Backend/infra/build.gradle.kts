@@ -23,6 +23,16 @@ application {
 dependencies {
     api(project(":core"))
 
+    // Database dependencies
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.dao)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.kotlinDatetime)
+    implementation(libs.exposed.json)
+    implementation(libs.postgresql)
+    implementation(libs.h2) // for testing
+    implementation(libs.hikari)
+
     // Test dependencies
     testImplementation(libs.ktor.serverTestHost)
     testImplementation(libs.kotlin.testJunit)
