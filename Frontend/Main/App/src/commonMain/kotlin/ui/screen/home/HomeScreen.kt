@@ -3,7 +3,6 @@ package ui.screen.home
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
@@ -18,12 +17,17 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.pane.AccountPane
 import ui.pane.ColorsPane
 import ui.pane.MemoriesPane
+import utils.OnBackHandler
 
 @Preview
 @Composable
 fun HomeScreen() {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(0) { 4 }
+
+    OnBackHandler {
+
+    }
 
     Scaffold(
         bottomBar = {
