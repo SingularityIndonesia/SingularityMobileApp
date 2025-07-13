@@ -32,5 +32,5 @@ dependencies {
     // Test dependencies
     testImplementation(libs.ktor.serverTestHost)
     testImplementation(libs.kotlin.testJunit)
-    testImplementation("io.ktor:ktor-client-content-negotiation:3.2.0")
+    testImplementation(libs.ktor.clientContentNegotiation)
 }
