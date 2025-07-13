@@ -54,7 +54,3 @@ suspend fun requestLoginOtp() {
             return commonErrorHandling(it)
         }
 }
-
-fun generateDummyToken(): String {
-    return "dummy_token_${UUID.randomUUID().toString().substring(0, 8)}"
-}
