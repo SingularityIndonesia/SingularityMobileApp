@@ -7,12 +7,11 @@ import utils.MPAIResponsibility
 data class LoginWithOtpForm(
     @MPAIResponsibility
     val formHeader: FormHeader? = null,
-    val bffToken: String,
     val email: String,
 ) {
     companion object {
-        fun bffProto(bffToken: String, email: String): LoginWithOtpForm {
-            return LoginWithOtpForm(bffToken = bffToken, email = email)
+        fun bffProto(email: String): LoginWithOtpForm {
+            return LoginWithOtpForm(email = email)
         }
     }
 }

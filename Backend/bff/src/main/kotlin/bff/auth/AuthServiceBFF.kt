@@ -37,24 +37,22 @@ suspend fun requestLoginOtp() {
         return badRequest("Invalid email address")
     }
 
-    runCatching {
-        // Generate a dummy token (in real implementation, this would be sent via email)
-        val loginFormProto = LoginWithOtpForm.bffProto(email = request.email, bffToken = BFF_INFRA_TOKEN)
-        val loginForm = MPAI.requestLoginWithOtp(loginFormProto)
+    // Generate a dummy token (in real implementation, this would be sent via email)
+    val loginFormProto = LoginWithOtpForm.bffProto(email = request.email)
 
-        val token = generateDummyToken()
-
-        // Call BFF service
-        SuccessResponse(
-            success = true,
-            message = "OTP sent to ${request.email}",
-            data = loginForm
-        )
-    }.onSuccess {
-        return success(it)
-    }.onFailure {
-        return commonErrorHandling(it)
-    }
+    MPAI.requestLoginWithOtp(BFF_INFRA_TOKEN, loginFormProto)
+        .map {
+            // Call BFF service
+            SuccessResponse(
+                success = true,
+                message = "OTP sent to ${request.email}",
+                data = it
+            )
+        }.onSuccess {
+            return success(it)
+        }.onFailure {
+            return commonErrorHandling(it)
+        }
 }
 
 fun generateDummyToken(): String {
