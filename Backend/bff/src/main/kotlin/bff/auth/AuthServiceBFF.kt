@@ -2,6 +2,7 @@ package bff.auth
 
 import bff.BFF_INFRA_TOKEN
 import bff.model.request.LoginRequest
+import bff.model.response.LoginResponse
 import bff.model.response.SuccessResponse
 import bff.utils.badRequest
 import bff.utils.commonErrorHandling
@@ -46,7 +47,7 @@ suspend fun requestLoginOtp() {
             SuccessResponse(
                 success = true,
                 message = "OTP sent to ${request.email}",
-                data = it
+                data = LoginResponse(it)
             )
         }.onSuccess {
             return success(it)
