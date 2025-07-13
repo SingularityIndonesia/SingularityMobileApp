@@ -39,7 +39,7 @@ context(context: RoutingContext, route: Route)
 suspend fun notFound() {
     context.call.respond(
         HttpStatusCode.NotFound,
-        "There's nothing here, go away."
+        "There's nothing here, go away.\nSincere: Punk"
     )
 }
 
