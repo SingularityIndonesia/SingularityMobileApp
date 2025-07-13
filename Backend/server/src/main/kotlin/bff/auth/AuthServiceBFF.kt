@@ -15,7 +15,7 @@ context(route: Route)
 fun AuthServiceBFF() {
     with(route) {
         route("/auth") {
-            post("/login") {
+            post("/request-otp") {
                 requestLoginOtp()
             }
         }
