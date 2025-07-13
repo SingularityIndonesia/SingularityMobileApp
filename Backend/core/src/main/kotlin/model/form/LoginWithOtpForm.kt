@@ -6,12 +6,19 @@ import utils.MPAIResponsibility
 @Serializable
 data class LoginWithOtpForm(
     @MPAIResponsibility
-    val formHeader: FormHeader? = null,
-    val email: String,
+    val header: FormHeader? = null,
+    val body: LoginWithOtpFormData,
 ) {
     companion object {
         fun bffProto(email: String): LoginWithOtpForm {
-            return LoginWithOtpForm(email = email)
+            return LoginWithOtpForm(
+                body = LoginWithOtpFormData(email = email)
+            )
         }
     }
+
+    @Serializable
+    data class LoginWithOtpFormData(
+        val email: String
+    )
 }

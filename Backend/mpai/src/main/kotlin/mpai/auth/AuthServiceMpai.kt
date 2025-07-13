@@ -13,7 +13,7 @@ import kotlin.time.Duration.Companion.minutes
 suspend fun MPAI.requestLoginWithOtp(token: String, form: LoginWithOtpForm): Result<LoginWithOtpForm> {
     return runCatching {
         val newForm = form.copy(
-            formHeader = FormHeader(
+            header = FormHeader(
                 id = UUID.randomUUID().toString(),
                 type = FormType.REQUEST_LOGIN_WITH_OTP,
                 validUntilEpoch = getTimeMillis() + 5.minutes.inWholeMilliseconds,
