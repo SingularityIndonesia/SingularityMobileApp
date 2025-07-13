@@ -3,7 +3,7 @@ package bff.model.response
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SuccessResponse<T : Any>(
+data class Response<T : Any>(
     val success: Boolean,
     val message: String,
     val data: T

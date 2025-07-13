@@ -3,7 +3,6 @@ package bff.auth
 import bff.BFF_INFRA_TOKEN
 import bff.model.request.LoginRequest
 import bff.model.response.LoginResponse
-import bff.model.response.SuccessResponse
 import bff.utils.badRequest
 import bff.utils.commonErrorHandling
 import bff.utils.success
@@ -41,13 +40,9 @@ suspend fun requestLoginOtp() {
 
     MPAI.requestLoginWithOtp(BFF_INFRA_TOKEN, loginFormProto)
         .map {
-            SuccessResponse(
-                success = true,
-                message = "OTP sent to ${request.email}.",
-                data = LoginResponse(it)
-            )
+            LoginResponse(it)
         }.onSuccess {
-            return success(it)
+            return success(it, "OTP sent to ${request.email}.")
         }.onFailure {
             return commonErrorHandling(it)
         }
