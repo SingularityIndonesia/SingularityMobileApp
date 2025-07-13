@@ -1,7 +1,7 @@
 package infra.auth
 
-import infra.config.DatabaseConnection
 import infra.auth.table.LoginFormsTable
+import infra.config.DatabaseConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -59,6 +59,7 @@ internal class AuthDBImpl internal constructor() : AuthDB {
                     LoginFormsTable.insert {
                         it[email] = form.body.email
                         it[headerData] = form.header?.let { header -> Json.Default.encodeToString(header) }
+                        it[bodyData] = form.body.let { body -> Json.Default.encodeToString(body) }
                         it[createdAt] = now
                         it[updatedAt] = now
                     }
