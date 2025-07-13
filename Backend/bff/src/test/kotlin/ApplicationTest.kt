@@ -1,6 +1,7 @@
 import kotlin.test.Test
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import kotlin.test.assertTrue
 
 class ApplicationTest {
 
@@ -26,6 +27,7 @@ class ApplicationTest {
         val result = reader.readText()
         
         println(result)
+        assertTrue { result.contains("\"success\": true") }
     }
 
     @Test
