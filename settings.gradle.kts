@@ -29,4 +29,4 @@ dependencyResolutionManagement {
 }
 
 includeBuild("Backend")
-includeBuild("FrontEnd")
+includeBuild("Frontend")
