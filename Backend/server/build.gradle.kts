@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
@@ -28,11 +26,11 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.ktor.serverCore)
     implementation(libs.ktor.serverNetty)
-
-    // Add content negotiation dependencies directly
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:3.2.0")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:3.2.0")
-
+    implementation(libs.ktor.serverContentNegotiation)
+    implementation(libs.ktor.serializationKotlinxJson)
+    
+    // Test dependencies
     testImplementation(libs.ktor.serverTestHost)
     testImplementation(libs.kotlin.testJunit)
+    testImplementation("io.ktor:ktor-client-content-negotiation:3.2.0")
 }
