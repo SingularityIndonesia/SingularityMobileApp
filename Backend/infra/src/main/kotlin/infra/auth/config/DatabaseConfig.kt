@@ -7,9 +7,9 @@ import org.jetbrains.exposed.sql.Database
 object DatabaseConfig {
     fun init(
         driverClassName: String = "org.postgresql.Driver",
-        jdbcUrl: String = "jdbc:postgresql://localhost:5432/singularity_auth",
-        username: String = "postgres",
-        password: String = "postgres",
+        jdbcUrl: String = "jdbc:postgresql://localhost:5432/memories",
+        username: String = "root",
+        password: String = "root",
         maximumPoolSize: Int = 10
     ): Database {
         val config = HikariConfig().apply {
