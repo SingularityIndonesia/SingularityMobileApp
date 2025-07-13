@@ -14,7 +14,7 @@ application {
     mainClass.set("ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 
     kotlin {
         compilerOptions {
