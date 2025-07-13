@@ -24,10 +24,14 @@ fun Application.module() {
     }
 
     routing {
-        get("/") {
-            notFound()
-        }
 
         AuthServiceBFF()
+        
+        // Default 404 handler for any unmatched routes
+        route("{...}") {
+            handle {
+                notFound()
+            }
+        }
     }
 }
