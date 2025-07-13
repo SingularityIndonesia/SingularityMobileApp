@@ -1,0 +1,1 @@
+**Multi Purpose Api Interface** is the main business module that control business process and directly interact with infra models.
