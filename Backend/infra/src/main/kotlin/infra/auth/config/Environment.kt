@@ -1,4 +1,4 @@
-package infra.config
+package infra.auth.config
 
 data class DatabaseEnvironment(
     val driverClassName: String,

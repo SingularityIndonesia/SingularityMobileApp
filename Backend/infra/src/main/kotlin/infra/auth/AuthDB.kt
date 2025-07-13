@@ -1,6 +1,6 @@
 package infra.auth
 
-import infra.config.DatabaseConfig
+import infra.auth.config.DatabaseConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -41,7 +41,7 @@ class AuthDB private constructor() {
     }
 
     private suspend fun initializeDatabase(): Result<Unit> {
-        DatabaseConfig.init()
+        DatabaseConfig.initH2ForTesting()
         return runCatching(Dispatchers.IO) {
             newSuspendedTransaction {
                 SchemaUtils.create(LoginFormTable)

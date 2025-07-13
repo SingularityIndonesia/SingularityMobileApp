@@ -1,4 +1,4 @@
-package infra.config
+package infra.auth.config
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
