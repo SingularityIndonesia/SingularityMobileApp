@@ -40,5 +40,6 @@ class ApplicationTest {
         val result = reader.readText()
 
         println(result)
+        assertTrue { result.contains("\"success\": false") }
     }
 }
