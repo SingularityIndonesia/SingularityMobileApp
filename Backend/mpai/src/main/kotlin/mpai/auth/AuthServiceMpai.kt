@@ -23,7 +23,7 @@ suspend fun MPAI.requestLoginWithOtp(token: String, form: LoginWithOtpForm): Res
             header = FormHeader(
                 id = UUID.randomUUID().toString(),
                 type = FormType.REQUEST_LOGIN_WITH_OTP,
-                validUntilEpoch = getTimeMillis() + 5.minutes.inWholeMilliseconds,
+                validUntilEpoch = getTimeMillis() + 1.minutes.inWholeMilliseconds,
                 status = FormStatus.WAITING_FOR_VERIFICATION
             )
         )
