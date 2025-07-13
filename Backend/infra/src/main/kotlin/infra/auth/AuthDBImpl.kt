@@ -1,5 +1,6 @@
 package infra.auth
 
+import infra.auth.config.DatabaseConfig
 import infra.auth.table.AuthTables
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
@@ -8,6 +9,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
 import model.form.FormHeader
 import model.form.LoginWithOtpForm
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -15,6 +17,25 @@ import org.jetbrains.exposed.sql.update
 import utils.runCatching
 
 internal class AuthDBImpl internal constructor() : AuthDB {
+
+    internal suspend fun initializeDatabase(): Result<Unit> {
+        return runCatching(Dispatchers.IO) {
+            DatabaseConfig.init()
+            newSuspendedTransaction {
+                SchemaUtils.create(AuthTables)
+            }
+        }
+    }
+
+    internal suspend fun initializeInMemoryDatabase(): Result<Unit> {
+        return runCatching(Dispatchers.IO) {
+            DatabaseConfig.initH2ForTesting()
+
+            newSuspendedTransaction {
+                SchemaUtils.create(AuthTables)
+            }
+        }
+    }
 
     override suspend fun register(form: LoginWithOtpForm): Result<Unit> {
         return runCatching(Dispatchers.IO) {
