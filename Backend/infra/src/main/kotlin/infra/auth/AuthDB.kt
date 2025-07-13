@@ -22,8 +22,9 @@ class AuthDB private constructor() {
         suspend fun Instance(): AuthDB {
             if (instance == null) {
                 instance = AuthDB()
-                instance!!.initializeDatabase()
             }
+
+            instance?.initializeDatabase()
 
             return instance!!
         }
@@ -33,16 +34,27 @@ class AuthDB private constructor() {
         suspend fun TestInstance(): AuthDB {
             if (instance == null) {
                 instance = AuthDB()
-                instance!!.initializeDatabase()
             }
+
+            instance?.initializeInMemoryDatabase()
 
             return instance!!
         }
     }
 
     private suspend fun initializeDatabase(): Result<Unit> {
-        DatabaseConfig.initH2ForTesting()
         return runCatching(Dispatchers.IO) {
+            DatabaseConfig.init()
+            newSuspendedTransaction {
+                SchemaUtils.create(LoginFormTable)
+            }
+        }
+    }
+
+    private suspend fun initializeInMemoryDatabase(): Result<Unit> {
+        return runCatching(Dispatchers.IO) {
+            DatabaseConfig.initH2ForTesting()
+
             newSuspendedTransaction {
                 SchemaUtils.create(LoginFormTable)
             }
