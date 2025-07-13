@@ -25,8 +25,9 @@ suspend fun badRequest(error: String) {
         status = HttpStatusCode.BadRequest,
         message = Response(
             success = false,
+            data = null,
+            error = error,
             message = "Speak English! Sincere: Punk.",
-            data = error
         )
     )
 }
@@ -37,8 +38,9 @@ suspend fun internalServerError(error: String) {
         status = HttpStatusCode.InternalServerError,
         message = Response(
             success = false,
+            data = null,
+            error = error,
             message = "It's your fault obviously. Sincere: Karen.",
-            data = error
         )
     )
 }
@@ -49,20 +51,22 @@ suspend fun notFound() {
         status = HttpStatusCode.NotFound,
         message = Response(
             success = false,
+            data = null,
+            error = "There's nothing here, go away.\nSincere: Punk.",
             message = "It's your fault obviously. Sincere: Karen.",
-            data = "There's nothing here, go away.\nSincere: Punk."
         )
     )
 }
 
 context(context: RoutingContext, route: Route)
-suspend inline fun <reified T : Any> success(response: T, message: String = "") {
+suspend inline fun <reified T : Any> success(response: T, message: String? = null) {
     context.call.respond(
         HttpStatusCode.OK,
         Response(
             success = true,
             message = message,
-            data = response
+            data = response,
+            error = null
         )
     )
 }
