@@ -18,7 +18,7 @@ class ApplicationTest {
     
     @Test
     fun callLogin() {
-        val curl = arrayOf("curl", "-s", "-X", "POST", "$HOST_URL/auth/request-otp", "-H", "Content-Type: application/json", "-d", "{\"email\": \"testexample.com\"}")
+        val curl = arrayOf("curl", "-s", "-X", "POST", "$HOST_URL/auth/request-otp", "-H", "Content-Type: application/json", "-d", "{\"email\": \"test@example.com\"}")
         val process = ProcessBuilder(*curl)
             .start()
         
