@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Response<T : Any>(
-    val success: Boolean,
     val message: String,
+    val success: Boolean,
     val data: T
 )
