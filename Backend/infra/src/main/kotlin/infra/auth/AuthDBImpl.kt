@@ -1,6 +1,6 @@
 package infra.auth
 
-import infra.auth.config.DatabaseConfig
+import infra.config.DatabaseConfig
 import infra.auth.table.LoginFormsTable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
