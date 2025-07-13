@@ -6,11 +6,12 @@ plugins {
 
 group = "com.singularityuniverse.memories.service"
 version = "1.0.0"
+
 application {
-    mainClass.set("com.singularityuniverse.memories.service.ApplicationKt")
-    
+    mainClass.set("ApplicationKt")
+
     val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
 }
 
 dependencies {
