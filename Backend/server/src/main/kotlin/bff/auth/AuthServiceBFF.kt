@@ -29,7 +29,7 @@ suspend fun requestLoginOtp() {
     val request = context.call.receive<LoginRequest>()
 
     check(request.email.isNotBlank()) {
-        return badRequest("Missing field required: email")
+        return badRequest("Missing required field: email")
     }
 
     check(isValidEmail(request.email)) {
