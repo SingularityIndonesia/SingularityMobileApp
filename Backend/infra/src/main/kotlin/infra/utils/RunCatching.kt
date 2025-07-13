@@ -1,4 +1,4 @@
-package utils
+package infra.utils
 
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext

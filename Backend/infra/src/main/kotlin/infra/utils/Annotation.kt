@@ -1,4 +1,4 @@
-package utils
+package infra.utils
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
