@@ -20,16 +20,16 @@ internal class AuthDBImpl internal constructor() : AuthDB {
 
     internal suspend fun initializeDatabase(): Result<Unit> {
         return runCatching(Dispatchers.IO) {
-            DatabaseConnection.connect()
+            DatabaseConnection.connection()
             newSuspendedTransaction {
                 SchemaUtils.create(LoginFormsTable)
             }
         }
     }
 
-    internal suspend fun initializeInMemoryDatabase(): Result<Unit> {
+    internal suspend fun initializeTestingDatabase(): Result<Unit> {
         return runCatching(Dispatchers.IO) {
-            DatabaseConnection.connectH2ForTesting()
+            DatabaseConnection.testConnection()
 
             newSuspendedTransaction {
                 SchemaUtils.create(LoginFormsTable)

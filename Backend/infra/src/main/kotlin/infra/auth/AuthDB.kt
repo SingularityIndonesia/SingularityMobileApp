@@ -20,7 +20,7 @@ interface AuthDB {
         suspend fun TestInstance(): AuthDB {
             if (testInstance == null) {
                 val authDBImpl = AuthDBImpl()
-                authDBImpl.initializeInMemoryDatabase().getOrThrow()
+                authDBImpl.initializeTestingDatabase().getOrThrow()
                 testInstance = authDBImpl
             }
             return testInstance!!
