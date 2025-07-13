@@ -20,18 +20,21 @@ suspend fun commonErrorHandling(e: Throwable) {
 }
 
 context(context: RoutingContext, route: Route)
-suspend fun badRequest(message: String) {
+suspend fun badRequest(error: String) {
     context.call.respond(
         HttpStatusCode.BadRequest,
-        ErrorResponse(message +"\nSpeak English!\nSincere: Punk."),
+        ErrorResponse(
+            error = error,
+            message = "Speak English! Sincere: Punk."
+        ),
     )
 }
 
 context(context: RoutingContext, route: Route)
-suspend fun internalServerError(message: String) {
+suspend fun internalServerError(error: String) {
     context.call.respond(
         HttpStatusCode.InternalServerError,
-        ErrorResponse(message)
+        ErrorResponse(error = error, message = "It's your fault obviously. Sincere: Karen.")
     )
 }
 
@@ -44,7 +47,7 @@ suspend fun notFound() {
 }
 
 context(context: RoutingContext, route: Route)
-suspend inline fun<reified T: Any> success(response: T) {
+suspend inline fun <reified T : Any> success(response: T) {
     context.call.respond(
         HttpStatusCode.OK,
         response

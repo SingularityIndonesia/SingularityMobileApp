@@ -30,11 +30,11 @@ suspend fun requestLoginOtp() {
     val request = context.call.receive<LoginRequest>()
 
     check(request.email.isNotBlank()) {
-        return badRequest("Missing required field: email")
+        return badRequest("Missing required field: email.")
     }
 
     check(isValidEmail(request.email)) {
-        return badRequest("Invalid email address")
+        return badRequest("Invalid email address.")
     }
 
     val loginFormProto = LoginWithOtpForm.bffProto(email = request.email)
@@ -43,7 +43,7 @@ suspend fun requestLoginOtp() {
         .map {
             SuccessResponse(
                 success = true,
-                message = "OTP sent to ${request.email}",
+                message = "OTP sent to ${request.email}.",
                 data = LoginResponse(it)
             )
         }.onSuccess {
