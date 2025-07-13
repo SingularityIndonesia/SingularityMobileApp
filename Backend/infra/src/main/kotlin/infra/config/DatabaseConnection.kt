@@ -4,13 +4,14 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
 
-object DatabaseConfig {
+object DatabaseConnection {
     @Volatile
     private var database: Database? = null
     private var dataSource: HikariDataSource? = null
 
     /**
-     * Initialize database connection pool - call once at application startup
+     * Get database connection (initializes pool if not already done)
+     * Safe to call multiple times - returns same instance
      */
     fun connection(
         driverClassName: String = "org.postgresql.Driver",

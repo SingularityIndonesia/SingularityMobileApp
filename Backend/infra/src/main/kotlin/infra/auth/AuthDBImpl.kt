@@ -1,6 +1,6 @@
 package infra.auth
 
-import infra.config.DatabaseConfig
+import infra.config.DatabaseConnection
 import infra.auth.table.LoginFormsTable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
@@ -20,7 +20,7 @@ internal class AuthDBImpl internal constructor() : AuthDB {
 
     internal suspend fun initializeDatabase(): Result<Unit> {
         return runCatching(Dispatchers.IO) {
-            DatabaseConfig.connect()
+            DatabaseConnection.connect()
             newSuspendedTransaction {
                 SchemaUtils.create(LoginFormsTable)
             }
@@ -29,7 +29,7 @@ internal class AuthDBImpl internal constructor() : AuthDB {
 
     internal suspend fun initializeInMemoryDatabase(): Result<Unit> {
         return runCatching(Dispatchers.IO) {
-            DatabaseConfig.connectH2ForTesting()
+            DatabaseConnection.connectH2ForTesting()
 
             newSuspendedTransaction {
                 SchemaUtils.create(LoginFormsTable)
