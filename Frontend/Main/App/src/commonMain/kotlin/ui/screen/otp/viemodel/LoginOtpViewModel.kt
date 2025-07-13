@@ -79,12 +79,14 @@ class LoginVerificationOtpViewModelImpl(
                     postSideEffect(OtpScreenEffect.ShowError(e.message ?: "Login failed"))
                 }
 
-            state.copy(
-                isLoading = false,
-                otpError = null,
-                isSubmitButtonEnabled = isValidOtp(state.otp),
-                isTextInputEnabled = true
-            )
+            reduce {
+                state.copy(
+                    isLoading = false,
+                    otpError = null,
+                    isSubmitButtonEnabled = isValidOtp(state.otp),
+                    isTextInputEnabled = true
+                )
+            }
         }
     }
 }
