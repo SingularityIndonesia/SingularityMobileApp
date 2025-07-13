@@ -38,7 +38,6 @@ suspend fun requestLoginOtp() {
         return badRequest("Invalid email address")
     }
 
-    // Generate a dummy token (in real implementation, this would be sent via email)
     val loginFormProto = LoginWithOtpForm.bffProto(email = request.email)
 
     MPAI.requestLoginWithOtp(BFF_INFRA_TOKEN, loginFormProto)
