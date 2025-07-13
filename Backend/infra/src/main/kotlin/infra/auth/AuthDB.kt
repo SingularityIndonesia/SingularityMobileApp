@@ -8,24 +8,22 @@ interface AuthDB {
 
         suspend fun Instance(): AuthDB {
             if (instance == null) {
-                instance = AuthDBImpl()
+                val authDBImpl = AuthDBImpl()
+                authDBImpl.initializeDatabase().getOrThrow()
+                instance = authDBImpl
             }
-
-            (instance as? AuthDBImpl)?.initializeDatabase()
-
             return instance!!
         }
 
         private var testInstance: AuthDB? = null
 
         suspend fun TestInstance(): AuthDB {
-            if (instance == null) {
-                instance = AuthDBImpl()
+            if (testInstance == null) {
+                val authDBImpl = AuthDBImpl()
+                authDBImpl.initializeInMemoryDatabase().getOrThrow()
+                testInstance = authDBImpl
             }
-
-            (instance as? AuthDBImpl)?.initializeInMemoryDatabase()
-
-            return instance!!
+            return testInstance!!
         }
     }
 

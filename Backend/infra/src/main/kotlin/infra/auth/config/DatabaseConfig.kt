@@ -30,7 +30,7 @@ object DatabaseConfig {
     fun initH2ForTesting(): Database {
         return init(
             driverClassName = "org.h2.Driver",
-            jdbcUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;",
+            jdbcUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL",
             username = "sa",
             password = ""
         )
