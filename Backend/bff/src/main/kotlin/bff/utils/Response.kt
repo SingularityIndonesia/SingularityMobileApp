@@ -5,18 +5,36 @@ import io.ktor.http.*
 import io.ktor.server.plugins.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import model.exception.ExistingFormStillValid
 
 context(context: RoutingContext, route: Route)
 suspend fun commonErrorHandling(e: Throwable) {
-    when (e) {
+    return when (e) {
+        is IllegalCallerException -> {
+            illegalCaller(e.message ?: "Illegal request.")
+        }
+
         is IllegalStateException, is BadRequestException -> {
-            badRequest(e.message ?: "Invalid request")
+            badRequest(e.message ?: "Invalid request.")
         }
 
         else -> {
-            internalServerError(e.message ?: "Internal server error")
+            internalServerError(e.message ?: "Internal server error.")
         }
     }
+}
+
+context(context: RoutingContext, route: Route)
+suspend fun illegalCaller(error: String) {
+    context.call.respond(
+        status = HttpStatusCode.Forbidden,
+        message = Response(
+            success = false,
+            data = null,
+            error = error,
+            message = "Shut it! Angry: Punk.",
+        )
+    )
 }
 
 context(context: RoutingContext, route: Route)
