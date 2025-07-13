@@ -41,7 +41,6 @@ suspend fun requestLoginOtp() {
 
     MPAI.requestLoginWithOtp(BFF_INFRA_TOKEN, loginFormProto)
         .map {
-            // Call BFF service
             SuccessResponse(
                 success = true,
                 message = "OTP sent to ${request.email}",
