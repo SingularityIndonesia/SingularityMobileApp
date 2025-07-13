@@ -9,7 +9,7 @@ object DatabaseConfig {
     private var database: Database? = null
     private var dataSource: HikariDataSource? = null
     
-    fun init(
+    fun connect(
         driverClassName: String = "org.postgresql.Driver",
         jdbcUrl: String = "jdbc:postgresql://localhost:5432/memories",
         username: String = "root",
@@ -36,8 +36,8 @@ object DatabaseConfig {
         }
     }
     
-    fun initH2ForTesting(): Database {
-        return init(
+    fun connectH2ForTesting(): Database {
+        return connect(
             driverClassName = "org.h2.Driver",
             jdbcUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL",
             username = "sa",
@@ -52,6 +52,4 @@ object DatabaseConfig {
             database = null
         }
     }
-    
-    fun isInitialized(): Boolean = database != null
 }
