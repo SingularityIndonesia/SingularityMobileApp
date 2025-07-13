@@ -28,4 +28,6 @@ dependencyResolutionManagement {
     }
 }
 
-include(":server")
+include(":bff")
+include(":mpai")
+include(":infra")
