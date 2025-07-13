@@ -1,4 +1,0 @@
-package mpai
-
-object MPAI {
-}

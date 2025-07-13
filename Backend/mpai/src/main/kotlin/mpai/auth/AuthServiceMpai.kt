@@ -3,7 +3,7 @@ package mpai.auth
 import infra.auth.AuthDB
 import io.ktor.util.date.*
 import mpai.MPAI
-import mpai.model.form.LoginWithOtpForm
+import model.form.LoginWithOtpForm
 import java.util.*
 import kotlin.time.Duration.Companion.minutes
 

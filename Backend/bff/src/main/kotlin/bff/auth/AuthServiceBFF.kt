@@ -6,13 +6,13 @@ import bff.model.response.SuccessResponse
 import bff.model.response.TokenResponse
 import bff.utils.badRequest
 import bff.utils.commonErrorHandling
-import utils.isValidEmail
 import bff.utils.success
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
+import model.form.LoginWithOtpForm
 import mpai.MPAI
 import mpai.auth.requestLoginWithOtp
-import mpai.model.form.LoginWithOtpForm
+import utils.isValidEmail
 import java.util.*
 
 context(route: Route)

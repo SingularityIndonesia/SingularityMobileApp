@@ -1,7 +1,7 @@
 package infra.auth
 
+import model.form.LoginWithOtpForm
 import kotlinx.coroutines.Dispatchers
-import mpai.model.form.LoginWithOtpForm
 import utils.runCatching
 
 object AuthDB {

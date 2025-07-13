@@ -1,1 +1,0 @@
-**Backend for Frontend** is a presenter layer to represent the MPAI entities for specific frontend client.
