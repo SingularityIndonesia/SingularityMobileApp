@@ -1,6 +1,5 @@
 package infra.auth
 
-import io.ktor.util.date.*
 import kotlinx.coroutines.Dispatchers
 import model.form.LoginWithOtpForm
 import utils.runCatching
@@ -17,9 +16,13 @@ object AuthDB {
         }
     }
 
-    suspend fun getExistingFormByEmail(email: String): Result<LoginWithOtpForm> {
+    /**
+     * must return existing form or null, or exception
+     */
+    suspend fun getExistingFormByEmail(email: String): Result<LoginWithOtpForm?> {
+        // run catching is a must to catch the IO exception
         return runCatching(Dispatchers.IO) {
-            LoginFormDB.first { it.body.email == email }
+            LoginFormDB.firstOrNull { it.body.email == email }
         }
     }
 }

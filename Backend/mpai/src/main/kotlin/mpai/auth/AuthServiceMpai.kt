@@ -37,7 +37,7 @@ suspend fun MPAI.requestLoginWithOtp(token: String, form: LoginWithOtpForm): Res
 private suspend fun validate(form: LoginWithOtpForm): Throwable? {
     return AuthDB.getExistingFormByEmail(form.body.email)
         .mapCatching {
-            val formValidUntilEpoch = it.header?.validUntilEpoch ?: 0L
+            val formValidUntilEpoch = it?.header?.validUntilEpoch ?: return null
             val isFormStillValid = formValidUntilEpoch > getTimeMillis()
 
             if (isFormStillValid) {
