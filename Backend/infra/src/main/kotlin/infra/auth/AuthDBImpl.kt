@@ -7,7 +7,6 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
-import model.form.FormHeader
 import model.form.LoginWithOtpForm
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
@@ -15,8 +14,10 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
 import utils.runCatching
+import java.util.*
 
 internal class AuthDBImpl internal constructor() : AuthDB {
+    private val Json = Json { prettyPrint = true }
 
     internal suspend fun initializeDatabase(): Result<Unit> {
         return runCatching(Dispatchers.IO) {
@@ -51,15 +52,15 @@ internal class AuthDBImpl internal constructor() : AuthDB {
                 if (existingRow != null) {
                     // Update existing record
                     LoginFormsTable.update({ LoginFormsTable.email eq form.body.email }) {
-                        it[headerData] = form.header?.let { header -> Json.Default.encodeToString(header) }
+                        it[formData] = Json.encodeToString(form)
                         it[updatedAt] = now
                     }
                 } else {
                     // Insert new record
                     LoginFormsTable.insert {
+                        it[uuid] = form.header?.id ?: UUID.randomUUID().toString()
                         it[email] = form.body.email
-                        it[headerData] = form.header?.let { header -> Json.Default.encodeToString(header) }
-                        it[bodyData] = form.body.let { body -> Json.Default.encodeToString(body) }
+                        it[formData] = Json.encodeToString(form)
                         it[createdAt] = now
                         it[updatedAt] = now
                     }
@@ -79,16 +80,9 @@ internal class AuthDBImpl internal constructor() : AuthDB {
                     .where { LoginFormsTable.email eq email }
                     .singleOrNull()
                     ?.let { row ->
-                        val headerData = row[LoginFormsTable.headerData]?.let {
-                            Json.Default.decodeFromString<FormHeader>(it)
+                        row[LoginFormsTable.formData]?.let {
+                            Json.decodeFromString<LoginWithOtpForm>(it)
                         }
-
-                        LoginWithOtpForm(
-                            header = headerData,
-                            body = LoginWithOtpForm.LoginWithOtpFormData(
-                                email = row[LoginFormsTable.email]
-                            )
-                        )
                     }
             }
         }
