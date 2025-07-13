@@ -23,7 +23,7 @@ context(context: RoutingContext, route: Route)
 suspend fun badRequest(message: String) {
     context.call.respond(
         HttpStatusCode.BadRequest,
-        ErrorResponse(message)
+        ErrorResponse(message +"\nSpeak English!\nSincere: Punk."),
     )
 }
 
