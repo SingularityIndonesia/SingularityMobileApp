@@ -39,7 +39,7 @@ internal class AuthDBImpl internal constructor() : AuthDB {
 
     override suspend fun register(form: LoginWithOtpForm): Result<Unit> {
         return runCatching(Dispatchers.IO) {
-            newSuspendedTransaction {
+            newSuspendedTransaction(Dispatchers.IO) {
                 // Check if user exists and update, otherwise insert
                 val existingRow = LoginFormsTable
                     .selectAll()
@@ -72,7 +72,7 @@ internal class AuthDBImpl internal constructor() : AuthDB {
      */
     override suspend fun getExistingFormByEmail(email: String): Result<LoginWithOtpForm?> {
         return runCatching(Dispatchers.IO) {
-            newSuspendedTransaction {
+            newSuspendedTransaction(Dispatchers.IO) {
                 LoginFormsTable
                     .selectAll()
                     .where { LoginFormsTable.email eq email }
