@@ -44,7 +44,7 @@ suspend fun notFound() {
 }
 
 context(context: RoutingContext, route: Route)
-suspend fun success(response: String) {
+suspend inline fun<reified T: Any> success(response: T) {
     context.call.respond(
         HttpStatusCode.OK,
         response

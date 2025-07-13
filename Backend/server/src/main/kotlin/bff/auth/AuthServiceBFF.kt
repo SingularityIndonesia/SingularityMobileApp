@@ -1,16 +1,14 @@
 package bff.auth
 
-import bff.model.LoginOtpResponse
 import bff.model.LoginRequest
+import bff.model.SuccessResponse
+import bff.model.TokenResponse
 import bff.utils.badRequest
 import bff.utils.commonErrorHandling
 import bff.utils.isValidEmail
 import bff.utils.success
-import io.ktor.http.*
 import io.ktor.server.request.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.json.Json
 import java.util.*
 
 context(route: Route)
@@ -41,13 +39,13 @@ suspend fun requestLoginOtp() {
         val token = generateDummyToken()
 
         // Call BFF service
-        LoginOtpResponse(
+        SuccessResponse(
             success = true,
             message = "OTP sent to ${request.email}",
-            token = token
+            data = TokenResponse(token)
         )
     }.onSuccess {
-        return success(Json.encodeToString(it))
+        return success(it)
     }.onFailure {
         return commonErrorHandling(it)
     }
