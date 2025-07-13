@@ -1,4 +1,4 @@
-package bff.model
+package bff.model.request
 
 import kotlinx.serialization.Serializable
 

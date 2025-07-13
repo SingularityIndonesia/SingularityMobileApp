@@ -1,8 +1,8 @@
 package bff.auth
 
-import bff.model.LoginRequest
-import bff.model.SuccessResponse
-import bff.model.TokenResponse
+import bff.model.request.LoginRequest
+import bff.model.response.SuccessResponse
+import bff.model.response.TokenResponse
 import bff.utils.badRequest
 import bff.utils.commonErrorHandling
 import bff.utils.isValidEmail

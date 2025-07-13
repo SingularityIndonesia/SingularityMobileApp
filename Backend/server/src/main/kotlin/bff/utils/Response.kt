@@ -1,6 +1,6 @@
 package bff.utils
 
-import bff.model.ErrorResponse
+import bff.model.response.ErrorResponse
 import io.ktor.http.*
 import io.ktor.server.plugins.*
 import io.ktor.server.response.*

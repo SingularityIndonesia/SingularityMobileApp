@@ -1,4 +1,4 @@
-package bff.model
+package bff.model.response
 
 import kotlinx.serialization.Serializable
 
