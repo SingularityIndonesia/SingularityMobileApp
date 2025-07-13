@@ -31,7 +31,6 @@ fun LoginScreen(
             }
 
             is LoginScreenEffect.ShowError -> {
-                goToOtpVerification(state.email)
                 scope.launch {
                     snackBarHostState.showSnackbar(effect.message)
                 }

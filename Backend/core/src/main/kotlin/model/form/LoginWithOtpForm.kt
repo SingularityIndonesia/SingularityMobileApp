@@ -1,5 +1,6 @@
 package model.form
 
+import io.ktor.util.date.*
 import kotlinx.serialization.Serializable
 import utils.MPAIResponsibility
 
@@ -16,6 +17,8 @@ data class LoginWithOtpForm(
             )
         }
     }
+
+    fun isValid() = getTimeMillis() < (header?.validUntilEpoch ?: 0L)
 
     @Serializable
     data class LoginWithOtpFormData(
