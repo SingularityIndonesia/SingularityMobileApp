@@ -18,4 +18,8 @@ class FormDBClient : FormDB {
     override suspend fun <T : Form> updateFormByUUID(uuid: String, form: T): Result<T> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun isExist(uuid: String): Boolean {
+        TODO("Not yet implemented")
+    }
 }
