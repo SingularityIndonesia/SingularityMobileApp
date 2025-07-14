@@ -1,10 +1,6 @@
 package infra.form
 
-import infra.form.model.Form
-import infra.form.model.FormHeader
-import infra.form.model.FormType
-import infra.form.model.LoginForm
-import infra.form.model.LoginFormBody
+import infra.form.model.*
 import infra.form.table.FormsTable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
@@ -12,13 +8,27 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
-import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.update
 import utils.runCatching
 
 class FormDBClient : FormDB {
     private val json = Json { prettyPrint = true }
+
+    private fun <T : Form> formDecode(formType: FormType, proto: String): Result<T> {
+        return runCatching {
+            when (formType) {
+                FormType.LOGIN_FORM -> {
+                    @Suppress("UNCHECKED_CAST")
+                    json.decodeFromString<LoginForm>(proto) as T
+                }
+            }
+        }
+    }
 
     override suspend fun <T : Form> getFormByUUID(uuid: String): Result<T?> {
         return runCatching(Dispatchers.IO) {
@@ -33,19 +43,17 @@ class FormDBClient : FormDB {
                         }
                         val body = row[FormsTable.body]
 
-                        // Based on FormType, reconstruct the appropriate Form
-                        when (header?.type) {
-                            FormType.LOGIN_FORM -> {
-                                val loginBody = body?.let { json.decodeFromString<LoginFormBody>(it) }
-                                @Suppress("UNCHECKED_CAST")
-                                LoginForm(
-                                    uuid = uuid,
-                                    header = header,
-                                    body = loginBody
-                                ) as T
-                            }
-
-                            null -> null
+                        // Use the separate formDecode function for reification
+                        header?.type?.let { formType ->
+                            // Reconstruct the complete form JSON structure
+                            val bodyJson = body?.let { json.parseToJsonElement(it) }
+                            val completeForm = LoginForm(
+                                uuid = uuid,
+                                header = header,
+                                body = bodyJson?.let { json.decodeFromString<LoginFormBody>(body) }
+                            )
+                            val completeFormJson = json.encodeToString(completeForm)
+                            formDecode<T>(formType, completeFormJson).getOrNull()
                         }
                     }
             }
