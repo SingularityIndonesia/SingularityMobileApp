@@ -1,7 +1,7 @@
 package bff
 
-import bff.auth.AuthServiceBFF
 import bff.model.notFound
+import bff.service.auth.AuthServiceBFF
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -28,12 +28,8 @@ fun Application.module() {
     routing {
 
         AuthServiceBFF()
-        
+
         // Default 404 handler for any unmatched routes
-        route("{...}") {
-            handle {
-                notFound()
-            }
-        }
+        route("{...}") { handle { notFound() } }
     }
 }
