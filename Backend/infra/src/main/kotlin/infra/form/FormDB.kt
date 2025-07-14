@@ -55,5 +55,5 @@ interface FormDB {
     suspend fun <T : Form> insert(form: T): Result<T>
     suspend fun removeFormByUUID(uuid: String): Result<Unit>
     suspend fun <T : Form> updateFormByUUID(uuid: String, form: T): Result<T>
-    suspend fun isExist(uuid: String): Boolean
+    suspend fun isExist(uuid: String): Result<Boolean>
 }
