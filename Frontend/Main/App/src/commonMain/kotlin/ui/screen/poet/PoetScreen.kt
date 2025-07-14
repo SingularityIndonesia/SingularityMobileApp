@@ -59,7 +59,7 @@ fun PoetScreen() {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            
+
             if (mediaUris.isNotEmpty()) {
                 Medias(mediaUris)
             }
