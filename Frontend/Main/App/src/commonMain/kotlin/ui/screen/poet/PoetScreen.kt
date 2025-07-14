@@ -1,5 +1,6 @@
 package ui.screen.poet
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -116,7 +117,12 @@ fun Medias(
                 modifier = Modifier
                     .height(maxHeight)
                     .aspectRatio(imageAspectRatio.value)
-                    .clip(RoundedCornerShape(8.dp)),
+                    .clip(RoundedCornerShape(8.dp))
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = .1f),
+                        RoundedCornerShape(8.dp)
+                    ),
                 model = uri,
                 contentDescription = "Selected media",
                 contentScale = ContentScale.Crop,
