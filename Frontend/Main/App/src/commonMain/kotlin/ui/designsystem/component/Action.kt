@@ -151,8 +151,8 @@ fun SignOut(
         drawRes = Res.drawable.ic_logout,
         contentDescription = "SignOut",
         colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Color.Red.copy(alpha = .5f),
-            contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = MaterialTheme.colorScheme.error,
+            contentColor = MaterialTheme.colorScheme.onError
         ),
         onClick = onClick
     )
