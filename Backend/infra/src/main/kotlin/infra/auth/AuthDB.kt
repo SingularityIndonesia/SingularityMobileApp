@@ -1,13 +1,5 @@
 package infra.auth
 
-import infra.auth.table.LoginFormsTable
-import infra.config.DatabaseConnection
-import kotlinx.coroutines.Dispatchers
-import model.form.LoginWithOtpForm
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import utils.runCatching
-
 interface AuthDB {
     companion object {
         private var instance: AuthDB? = null
@@ -34,23 +26,23 @@ interface AuthDB {
     }
 
     suspend fun initializeDatabase(): Result<Unit> {
-        return runCatching(Dispatchers.IO) {
-            DatabaseConnection.connection()
-            newSuspendedTransaction {
-                SchemaUtils.create(LoginFormsTable)
-            }
-        }
+        // return runCatching(Dispatchers.IO) {
+        //     DatabaseConnection.connection()
+        //     newSuspendedTransaction {
+        //         SchemaUtils.create(LoginFormsTable)
+        //     }
+        // }
+        TODO()
     }
 
     suspend fun initializeTestingDatabase(): Result<Unit> {
-        return runCatching(Dispatchers.IO) {
-            DatabaseConnection.testConnection()
-
-            newSuspendedTransaction {
-                SchemaUtils.create(LoginFormsTable)
-            }
-        }
+        // return runCatching(Dispatchers.IO) {
+        //     DatabaseConnection.testConnection()
+        //     newSuspendedTransaction {
+        //         SchemaUtils.create(LoginFormsTable)
+        //     }
+        // }
+        TODO()
     }
-
 }
 
