@@ -8,9 +8,9 @@ interface AuthDB {
 
         suspend fun Instance(): AuthDB {
             if (instance == null) {
-                val authDBImpl = AuthDBImpl()
-                authDBImpl.initializeDatabase().getOrThrow()
-                instance = authDBImpl
+                val authDBClient = AuthDBClient()
+                authDBClient.initializeDatabase().getOrThrow()
+                instance = authDBClient
             }
             return instance!!
         }
@@ -19,9 +19,9 @@ interface AuthDB {
 
         suspend fun TestInstance(): AuthDB {
             if (testInstance == null) {
-                val authDBImpl = AuthDBImpl()
-                authDBImpl.initializeTestingDatabase().getOrThrow()
-                testInstance = authDBImpl
+                val authDBClient = AuthDBClient()
+                authDBClient.initializeTestingDatabase().getOrThrow()
+                testInstance = authDBClient
             }
             return testInstance!!
         }

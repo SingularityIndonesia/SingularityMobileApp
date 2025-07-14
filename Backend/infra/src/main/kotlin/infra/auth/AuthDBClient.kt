@@ -16,7 +16,7 @@ import org.jetbrains.exposed.sql.update
 import utils.runCatching
 import java.util.*
 
-internal class AuthDBImpl internal constructor() : AuthDB {
+internal class AuthDBClient internal constructor() : AuthDB {
     private val Json = Json { prettyPrint = true }
 
     internal suspend fun initializeDatabase(): Result<Unit> {
