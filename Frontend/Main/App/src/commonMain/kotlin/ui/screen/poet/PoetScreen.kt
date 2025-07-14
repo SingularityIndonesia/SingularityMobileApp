@@ -36,8 +36,14 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun PoetScreen() {
     val textFieldState = rememberTextFieldState()
-    val textFieldFocusRequester = remember { FocusRequester() }
     val mediaUris = remember { mutableStateListOf<String>() }
+
+    // auto save
+    LaunchedEffect(textFieldState.text, mediaUris) {
+        // TODO
+    }
+
+    val textFieldFocusRequester = remember { FocusRequester() }
 
     // autofocus to text field on init
     LaunchedEffect(Unit) {
