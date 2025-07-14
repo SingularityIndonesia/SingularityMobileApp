@@ -39,6 +39,7 @@ fun PoetScreen() {
     val textFieldFocusRequester = remember { FocusRequester() }
     val mediaUris = remember { mutableStateListOf<String>() }
 
+    // autofocus to text field on init
     LaunchedEffect(Unit) {
         textFieldFocusRequester.requestFocus(1.seconds)
     }
