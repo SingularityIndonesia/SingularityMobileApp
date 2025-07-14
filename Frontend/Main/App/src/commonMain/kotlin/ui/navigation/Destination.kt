@@ -18,6 +18,10 @@ object Route {
     val LoginDestination get() = "login"
     // endregion
 
+    // region poe
+    val PoetDestination get() = "poet"
+    // endregion
+
     // region otp
     val OtpVerificationDestination get() = "otp-verification?purpose={purpose}&data={data}"
 

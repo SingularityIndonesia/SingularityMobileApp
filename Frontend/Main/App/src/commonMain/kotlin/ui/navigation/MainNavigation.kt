@@ -19,6 +19,7 @@ import ui.screen.home.HomeScreen
 import ui.screen.login.LoginScreen
 import ui.screen.notification.NotificationSettingScreen
 import ui.screen.otp.OtpScreen
+import ui.screen.poet.PoetScreen
 import ui.screen.security.SecuritySettingScreen
 import ui.screen.support.HelpAndSupportScreen
 
@@ -33,7 +34,7 @@ fun MainNavigation(
     NavHost(
         modifier = modifier,
         navController = controller,
-        startDestination = Route.LoginDestination,
+        startDestination = Route.PoetDestination,
         enterTransition = { slideIn { IntOffset(x = it.width, y = 0) } },
         popEnterTransition = { slideIn { IntOffset(x = -it.width, y = 0) } },
         exitTransition = { slideOut { IntOffset(x = -it.width, y = 0) } },
@@ -52,6 +53,12 @@ fun MainNavigation(
                     )
                 }
             )
+        }
+
+        composable(
+            route = Route.PoetDestination
+        ) {
+            PoetScreen()
         }
 
         composable(

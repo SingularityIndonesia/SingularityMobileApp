@@ -7,25 +7,18 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import font.resources.Res
-import font.resources.ic_back
-import font.resources.ic_close
-import font.resources.ic_delete
-import font.resources.ic_edit
-import font.resources.ic_logout
-import font.resources.ic_more_horz
-import font.resources.ic_next
-import font.resources.ic_search
+import font.resources.*
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val LocalIconButtonColor = staticCompositionLocalOf<IconButtonColors?> { null }
 
+@Preview
 @Composable
 fun OptionsMenu(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
@@ -35,10 +28,11 @@ fun OptionsMenu(
     )
 }
 
+@Preview
 @Composable
 fun Edit(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
@@ -48,10 +42,25 @@ fun Edit(
     )
 }
 
+@Preview
+@Composable
+fun Add(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_add,
+        contentDescription = "Edit",
+        onClick = onClick
+    )
+}
+
+@Preview
 @Composable
 fun Delete(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
@@ -61,10 +70,11 @@ fun Delete(
     )
 }
 
+@Preview
 @Composable
 fun CloseSearch(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
@@ -74,10 +84,25 @@ fun CloseSearch(
     )
 }
 
+@Preview
+@Composable
+fun AddMedia(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_add_photo_alternate,
+        contentDescription = "CloseSearch",
+        onClick = onClick
+    )
+}
+
+@Preview
 @Composable
 fun Clear(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
@@ -87,10 +112,11 @@ fun Clear(
     )
 }
 
+@Preview
 @Composable
 fun Next(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
@@ -100,10 +126,11 @@ fun Next(
     )
 }
 
+@Preview
 @Composable
 fun Back(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
@@ -134,7 +161,7 @@ fun SignOut(
 @Composable
 fun Search(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ActionIcon(
         modifier = modifier,
