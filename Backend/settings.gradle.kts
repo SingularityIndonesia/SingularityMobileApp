@@ -28,7 +28,8 @@ dependencyResolutionManagement {
     }
 }
 
-include(":bff")
-include(":mpai")
-include(":core")
-include(":infra")
+include(":app")
+//include(":bff")
+//include(":mpai")
+//include(":core")
+//include(":infra")
