@@ -47,9 +47,7 @@ fun PoetScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                onMediaSelected = { uris ->
-                    mediaUris.addAll(uris)
-                }
+                onMediaSelected = mediaUris::addAll
             )
         }
     ) {
