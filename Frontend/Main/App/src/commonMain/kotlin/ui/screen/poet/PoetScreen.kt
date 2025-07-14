@@ -11,24 +11,24 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.SingularityTheme
 import ui.designsystem.component.TopAppBar
-import utils.date
+import utils.dateTime
 import utils.launchMediaPicker
 import utils.requestFocus
 import kotlin.time.Duration.Companion.seconds
@@ -37,6 +37,7 @@ import kotlin.time.Duration.Companion.seconds
 fun PoetScreen() {
     val textFieldState = rememberTextFieldState()
     val mediaUris = remember { mutableStateListOf<String>() }
+    val creationDate = remember { dateTime() }
 
     // auto save
     LaunchedEffect(textFieldState.text, mediaUris) {
@@ -53,6 +54,7 @@ fun PoetScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
+                title = creationDate,
                 onMediaSelected = mediaUris::addAll
             )
         }
@@ -60,18 +62,24 @@ fun PoetScreen() {
         Column(
             modifier = Modifier
                 .padding(it)
-                .padding(horizontal = 16.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
 
             if (mediaUris.isNotEmpty()) {
-                Medias(mediaUris)
+                Medias(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    uris = mediaUris
+                )
             }
 
             Note(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
                     .weight(1f),
                 state = textFieldState,
                 focusRequester = textFieldFocusRequester
@@ -81,22 +89,42 @@ fun PoetScreen() {
 }
 
 @Composable
-fun Medias(uris: List<String>) {
+fun Medias(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    uris: List<String>
+) {
+    val density = LocalDensity.current
+    val maxRatio = remember { 16f / 10f }
+
+    var availableWidth by remember { mutableStateOf(0) }
+    val maxHeight = remember(availableWidth, density) {
+        (availableWidth / density.density / maxRatio).dp
+    }
+
     LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 4.dp)
+        modifier = modifier
+            .onSizeChanged {
+                availableWidth = it.width
+            },
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = contentPadding
     ) {
         items(uris) { uri ->
+            val imageAspectRatio = remember { mutableStateOf(1f) }
             AsyncImage(
+                modifier = Modifier
+                    .height(maxHeight)
+                    .aspectRatio(imageAspectRatio.value)
+                    .clip(RoundedCornerShape(8.dp)),
                 model = uri,
                 contentDescription = "Selected media",
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                onSuccess = { success ->
+                    val width = success.result.image.width
+                    val height = success.result.image.height
+                    imageAspectRatio.value = width / height.toFloat()
+                }
             )
         }
     }
@@ -140,12 +168,13 @@ fun Note(
 
 @Composable
 fun TopAppBar(
+    title: String,
     onMediaSelected: (uris: List<String>) -> Unit = {},
     onCancel: () -> Unit = {}
 ) {
     TopAppBar(
         modifier = Modifier.statusBarsPadding(),
-        titleText = date(),
+        titleText = title,
         onAddMedia = {
             launchMediaPicker(
                 onMediaSelected = onMediaSelected,
@@ -161,4 +190,12 @@ private fun Preview() {
     SingularityTheme {
         PoetScreen()
     }
+}
+
+@Composable
+fun imageSizePreference(): IntSize {
+    // TODO: assume maximum ratio is 16:10 for landscape picture,
+    //  therefore; the preference height is 10/16 * available width space.
+    //  also because
+    TODO()
 }
