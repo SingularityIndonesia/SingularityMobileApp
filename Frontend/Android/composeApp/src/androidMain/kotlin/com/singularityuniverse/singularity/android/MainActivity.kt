@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import ui.navigation.Route
 import utils.RoomDBContextProvider
+import utils.MediaPickerContextProvider
 
 class MainActivity : ComponentActivity() {
 
@@ -27,6 +28,9 @@ class MainActivity : ComponentActivity() {
 
         // setup room
         RoomDBContextProvider.initialize(this)
+        
+        // setup media picker
+        MediaPickerContextProvider.setActivity(this)
 
         // setup route
         Route.set(ProjectContext)
