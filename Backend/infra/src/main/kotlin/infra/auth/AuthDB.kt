@@ -1,6 +1,12 @@
 package infra.auth
 
+import infra.auth.table.LoginFormsTable
+import infra.config.DatabaseConnection
+import kotlinx.coroutines.Dispatchers
 import model.form.LoginWithOtpForm
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import utils.runCatching
 
 interface AuthDB {
     companion object {
@@ -27,7 +33,24 @@ interface AuthDB {
         }
     }
 
-    suspend fun register(form: LoginWithOtpForm): Result<Unit>
-    suspend fun getExistingFormByEmail(email: String): Result<LoginWithOtpForm?>
+    suspend fun initializeDatabase(): Result<Unit> {
+        return runCatching(Dispatchers.IO) {
+            DatabaseConnection.connection()
+            newSuspendedTransaction {
+                SchemaUtils.create(LoginFormsTable)
+            }
+        }
+    }
+
+    suspend fun initializeTestingDatabase(): Result<Unit> {
+        return runCatching(Dispatchers.IO) {
+            DatabaseConnection.testConnection()
+
+            newSuspendedTransaction {
+                SchemaUtils.create(LoginFormsTable)
+            }
+        }
+    }
+
 }
 
