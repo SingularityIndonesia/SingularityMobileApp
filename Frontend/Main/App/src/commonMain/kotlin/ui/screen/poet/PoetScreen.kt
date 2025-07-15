@@ -62,14 +62,13 @@ fun PoetScreen() {
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
 
             if (mediaUris.isNotEmpty()) {
                 Medias(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .fillMaxWidth(),
                     contentPadding = PaddingValues(horizontal = 16.dp),
                     uris = mediaUris
                 )
@@ -111,12 +110,12 @@ fun Medias(
     ) {
         items(uris) { uri ->
             RatioImage(
-                modifier = Modifier.clip(RoundedCornerShape(8.dp))
+                modifier = Modifier
                     .border(
                         1.dp,
                         MaterialTheme.colorScheme.onSurface.copy(alpha = .1f),
-                        RoundedCornerShape(8.dp)
-                    ),
+                    )
+                    .padding(16.dp),
                 model = uri,
                 maxHeight = maxHeight
             )
@@ -150,7 +149,7 @@ fun Note(
             modifier = Modifier
                 .fillMaxSize()
                 .focusRequester(focusRequester),
-            textStyle = bodyText,
+            textStyle = bodyText.copy(color = textColor.copy(alpha = .8f)),
             state = state,
         )
     }
