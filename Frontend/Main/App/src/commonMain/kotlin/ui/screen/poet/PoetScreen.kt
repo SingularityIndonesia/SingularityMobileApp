@@ -6,13 +6,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -23,23 +20,67 @@ import designsystem.SingularityTheme
 import designsystem.component.RatioImage
 import designsystem.component.TopAppBar
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 import utils.dateTime
 import utils.launchMediaPicker
 import utils.requestFocus
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun PoetScreen() {
-    val textFieldState = rememberTextFieldState()
-    val mediaUris = remember { mutableStateListOf<String>() }
-    val creationDate = remember { dateTime() }
+fun PoetScreen(
+    viewModel: PoetScreenViewModel = koinViewModel()
+) {
+    val state by viewModel.collectAsState()
+    PoetScreen(
+        state = state,
+        onIntent = {
+            when (it) {
+                is PoetScreenIntent.UpdateTitle -> viewModel.updateTitle(it.title)
+                is PoetScreenIntent.AddMedia -> viewModel.addMedia(it.uris)
+                is PoetScreenIntent.RemoveMedia -> viewModel.removeMedia(it.uri)
+                is PoetScreenIntent.SaveDocument -> viewModel.saveDocument()
+                PoetScreenIntent.ClearError -> viewModel.clearError()
+            }
+        }
+    )
+}
 
-    // auto save
-    LaunchedEffect(textFieldState.text, mediaUris) {
-        // TODO
-    }
+data class PoetScreenState(
+    val documentId: String? = null,
+    val title: String = "Tanpa Judul",
+    val creationDate: String = dateTime(),
+    val textFieldState: TextFieldState = TextFieldState(),
+    val mediaUris: List<String> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null,
+)
 
+sealed class PoetScreenIntent {
+    data class AddMedia(val uris: List<String>) : PoetScreenIntent()
+    data class RemoveMedia(val uri: String) : PoetScreenIntent()
+    data class SaveDocument(val title: String) : PoetScreenIntent()
+    data class UpdateTitle(val title: String) : PoetScreenIntent()
+    data object ClearError : PoetScreenIntent()
+}
+
+@Composable
+fun PoetScreen(
+    state: PoetScreenState,
+    onIntent: (PoetScreenIntent) -> Unit
+) {
     val textFieldFocusRequester = remember { FocusRequester() }
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    // Show error message in snackbar
+    LaunchedEffect(state.error) {
+        check(state.error != null) {
+            return@LaunchedEffect
+        }
+
+        snackBarHostState.showSnackbar(state.error)
+        onIntent(PoetScreenIntent.ClearError)
+    }
 
     // autofocus to text field on init
     LaunchedEffect(Unit) {
@@ -49,38 +90,56 @@ fun PoetScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = "Tanpa Judul",
-                subTitle = creationDate,
-                onMediaSelected = mediaUris::addAll
+                title = state.title,
+                subTitle = state.creationDate,
+                onMediaSelected = {
+                    onIntent.invoke(PoetScreenIntent.AddMedia(it))
+                }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
         }
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize(),
+                .fillMaxSize()
         ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                if (state.mediaUris.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Medias(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        uris = state.mediaUris,
+                        onRemoveMedia = { uri ->
+                            onIntent(PoetScreenIntent.RemoveMedia(uri))
+                        }
+                    )
+                }
 
-            if (mediaUris.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
-                Medias(
+                Note(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    uris = mediaUris
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    state = state.textFieldState,
+                    focusRequester = textFieldFocusRequester
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
-            Note(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                state = textFieldState,
-                focusRequester = textFieldFocusRequester
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
+            // Loading indicator
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
     }
 }
@@ -89,7 +148,8 @@ fun PoetScreen() {
 fun Medias(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
-    uris: List<String>
+    uris: List<String>,
+    onRemoveMedia: (String) -> Unit = {}
 ) {
     val density = LocalDensity.current
     val maxRatio = remember { 16f / 10f }
