@@ -12,22 +12,20 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.SingularityTheme
+import ui.designsystem.component.RatioImage
 import ui.designsystem.component.TopAppBar
 import utils.dateTime
 import utils.launchMediaPicker
@@ -112,25 +110,15 @@ fun Medias(
         contentPadding = contentPadding
     ) {
         items(uris) { uri ->
-            val imageAspectRatio = remember { mutableStateOf(1f) }
-            AsyncImage(
-                modifier = Modifier
-                    .height(maxHeight)
-                    .aspectRatio(imageAspectRatio.value)
-                    .clip(RoundedCornerShape(8.dp))
+            RatioImage(
+                modifier = Modifier.clip(RoundedCornerShape(8.dp))
                     .border(
                         1.dp,
                         MaterialTheme.colorScheme.onSurface.copy(alpha = .1f),
                         RoundedCornerShape(8.dp)
                     ),
                 model = uri,
-                contentDescription = "Selected media",
-                contentScale = ContentScale.Crop,
-                onSuccess = { success ->
-                    val width = success.result.image.width
-                    val height = success.result.image.height
-                    imageAspectRatio.value = width / height.toFloat()
-                }
+                maxHeight = maxHeight
             )
         }
     }
@@ -142,29 +130,25 @@ fun Note(
     state: TextFieldState,
     focusRequester: FocusRequester = remember { FocusRequester() },
 ) {
-    val textMeasurer = rememberTextMeasurer()
     val bodyText = MaterialTheme.typography.bodyLarge
     val textColor = LocalContentColor.current
 
     SelectionContainer(
         modifier = modifier
     ) {
+        if (state.text.isBlank())
+            Text(
+                "Tell me story",
+                style = bodyText.copy(
+                    color = textColor.copy(
+                        alpha = .5f
+                    )
+                )
+            )
+
         BasicTextField(
             modifier = Modifier
                 .fillMaxSize()
-                .drawWithContent {
-                    if (state.text.isBlank())
-                        drawText(
-                            textMeasurer = textMeasurer,
-                            text = "Tell me story",
-                            style = bodyText.copy(
-                                color = textColor.copy(
-                                    alpha = .5f
-                                )
-                            ),
-                        )
-                    drawContent()
-                }
                 .focusRequester(focusRequester),
             textStyle = bodyText,
             state = state,
