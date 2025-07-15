@@ -20,8 +20,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.SingularityTheme
@@ -180,12 +178,4 @@ private fun Preview() {
     SingularityTheme {
         PoetScreen()
     }
-}
-
-@Composable
-fun imageSizePreference(): IntSize {
-    // TODO: assume maximum ratio is 16:10 for landscape picture,
-    //  therefore; the preference height is 10/16 * available width space.
-    //  also because
-    TODO()
 }
