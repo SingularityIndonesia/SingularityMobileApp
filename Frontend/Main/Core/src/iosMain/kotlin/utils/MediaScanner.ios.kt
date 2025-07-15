@@ -2,16 +2,14 @@ package utils
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.DelicateCoroutinesApi
-import platform.Foundation.NSFileManager
-import platform.Foundation.NSURL
-import platform.Photos.PHPhotoLibrary
-import platform.Photos.PHAssetChangeRequest
-import platform.UIKit.UIImage
-import platform.Foundation.NSData
-import platform.Foundation.dataWithContentsOfURL
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import platform.Foundation.NSFileManager
+import platform.Foundation.NSURL
+import platform.Photos.PHAssetChangeRequest
+import platform.Photos.PHPhotoLibrary
+import platform.UIKit.UIImage
 import kotlin.coroutines.resume
 
 @OptIn(ExperimentalForeignApi::class, DelicateCoroutinesApi::class)

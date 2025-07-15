@@ -2,7 +2,7 @@ package service.session.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.ktor.util.date.getTimeMillis
+import io.ktor.util.date.*
 
 @Entity(tableName = "sessions")
 data class SessionEntity(

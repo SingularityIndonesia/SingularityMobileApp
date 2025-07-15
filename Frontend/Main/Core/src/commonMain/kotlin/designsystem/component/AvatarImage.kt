@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.ImagePainter
 import designsystem.DarkThemePalette
+import font.resources.Res
+import font.resources.compose_multiplatform
 import model.Image
 import model.particle.ImageType
 import model.particle.LatLng
-import font.resources.Res
-import font.resources.compose_multiplatform
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

@@ -1,30 +1,14 @@
 package utils
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionRecordPermissionDenied
 import platform.AVFAudio.AVAudioSessionRecordPermissionGranted
 import platform.AVFAudio.AVAudioSessionRecordPermissionUndetermined
-import platform.CoreLocation.CLLocationManager
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedWhenInUse
-import platform.CoreLocation.kCLAuthorizationStatusDenied
-import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
-import platform.CoreLocation.kCLAuthorizationStatusRestricted
-import platform.Photos.PHAuthorizationStatus
-import platform.Photos.PHPhotoLibrary
-import platform.Photos.PHAuthorizationStatusAuthorized
-import platform.Photos.PHAuthorizationStatusDenied
-import platform.Photos.PHAuthorizationStatusLimited
-import platform.Photos.PHAuthorizationStatusNotDetermined
-import platform.Photos.PHAuthorizationStatusRestricted
-import kotlinx.coroutines.suspendCancellableCoroutine
+import platform.CoreLocation.*
+import platform.Photos.*
 import kotlin.coroutines.resume
 
 @OptIn(ExperimentalForeignApi::class)

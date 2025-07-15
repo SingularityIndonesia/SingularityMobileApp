@@ -1,6 +1,6 @@
 package utils
 
-import io.ktor.util.date.getTimeMillis
+import io.ktor.util.date.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlin.coroutines.coroutineContext

@@ -1,7 +1,6 @@
 import plugin.convention.companion.compileAndroidLibrary
 import plugin.convention.companion.compileIOSLibrary
 import plugin.convention.companion.dependency
-import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("ConventionUtils")

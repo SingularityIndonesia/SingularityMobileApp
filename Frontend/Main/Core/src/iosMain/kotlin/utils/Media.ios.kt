@@ -1,15 +1,9 @@
 package utils
 
-import platform.Foundation.NSURL
-import platform.PhotosUI.PHPickerConfiguration
-import platform.PhotosUI.PHPickerFilter
-import platform.PhotosUI.PHPickerViewController
-import platform.PhotosUI.PHPickerViewControllerDelegateProtocol
-import platform.PhotosUI.PHPickerResult
-import platform.UIKit.UIApplication
-import platform.UIKit.UIViewController
-import platform.darwin.NSObject
 import kotlinx.cinterop.ExperimentalForeignApi
+import platform.PhotosUI.*
+import platform.UIKit.UIApplication
+import platform.darwin.NSObject
 
 private var currentOnMediaSelected: ((List<String>) -> Unit)? = null
 private var currentOnCancelled: (() -> Unit)? = null

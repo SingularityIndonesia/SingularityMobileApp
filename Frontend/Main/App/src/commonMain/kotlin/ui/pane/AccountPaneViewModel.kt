@@ -1,10 +1,8 @@
 package ui.pane
 
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.compose.collectSideEffect
 import org.orbitmvi.orbit.viewmodel.container
 
 class AccountPaneViewModel : ContainerHost<AccountPaneState, AccountPaneEffect>, ViewModel() {

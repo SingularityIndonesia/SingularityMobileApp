@@ -2,7 +2,6 @@ import plugin.convention.companion.Main
 import plugin.convention.companion.compileAndroidApplication
 import plugin.convention.companion.dependency
 import plugin.convention.companion.envProp
-import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("ConventionUtils")
