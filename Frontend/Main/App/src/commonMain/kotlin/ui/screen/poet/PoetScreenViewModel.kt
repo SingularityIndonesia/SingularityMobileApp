@@ -9,9 +9,9 @@ import service.vault.VaultService
 
 class PoetScreenViewModel(
     private val vaultService: VaultService
-) : ViewModel(), ContainerHost<PoetScreenState, PoetScreenIntent> {
+) : ViewModel(), ContainerHost<PoetScreenState, PoetScreenEffect> {
 
-    override val container: Container<PoetScreenState, PoetScreenIntent> = container(PoetScreenState())
+    override val container: Container<PoetScreenState, PoetScreenEffect> = container(PoetScreenState())
 
     init {
         setupAutoSave()
@@ -57,46 +57,30 @@ class PoetScreenViewModel(
 
     }
 
-    fun clearError() = intent {
-        reduce {
-            state.copy(
-                error = null
-            )
-        }
-    }
-
     fun saveDocument() = intent {
         reduce {
-            state.copy(isLoading = true, error = null)
+            state.copy(isLoading = true)
         }
 
-        try {
-            val result = vaultService.newDocument()
-            result.fold(
-                onSuccess = { document ->
-                    reduce {
-                        state.copy(
-                            isLoading = false,
-                            documentId = document.id
-                        )
-                    }
-                },
-                onFailure = { exception ->
-                    reduce {
-                        state.copy(
-                            isLoading = false,
-                            error = exception.message ?: "Unknown error occurred"
-                        )
-                    }
+        vaultService.newDocument()
+            .onSuccess { document ->
+                reduce {
+                    state.copy(
+                        isLoading = false,
+                        documentId = document.id
+                    )
                 }
-            )
-        } catch (e: Exception) {
-            reduce {
-                state.copy(
-                    isLoading = false,
-                    error = e.message ?: "Unknown error occurred"
+            }
+            .onFailure { exception ->
+                reduce {
+                    state.copy(
+                        isLoading = false,
+                    )
+                }
+
+                postSideEffect(
+                    PoetScreenEffect.ShowError(exception.message ?: "Unknown error occurred")
                 )
             }
-        }
     }
 }

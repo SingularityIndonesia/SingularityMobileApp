@@ -22,7 +22,7 @@ import designsystem.component.TopAppBar
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
-import utils.dateTime
+import utils.CollectSideEffect
 import utils.launchMediaPicker
 import utils.requestFocus
 import kotlin.time.Duration.Companion.seconds
@@ -32,8 +32,17 @@ fun PoetScreen(
     viewModel: PoetScreenViewModel = koinViewModel()
 ) {
     val state by viewModel.collectAsState()
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    CollectSideEffect(viewModel) {
+        when (it) {
+            is PoetScreenEffect.ShowError -> snackBarHostState.showSnackbar(it.message)
+        }
+    }
+
     PoetScreen(
         state = state,
+        snackBarHostState = snackBarHostState,
         onIntent = {
             when (it) {
                 is PoetScreenIntent.UpdateTitle -> viewModel.updateTitle(it.title)
@@ -46,41 +55,13 @@ fun PoetScreen(
     )
 }
 
-data class PoetScreenState(
-    val documentId: String? = null,
-    val title: String = "Tanpa Judul",
-    val creationDate: String = dateTime(),
-    val textFieldState: TextFieldState = TextFieldState(),
-    val mediaUris: List<String> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String? = null,
-)
-
-sealed class PoetScreenIntent {
-    data class AddMedia(val uris: List<String>) : PoetScreenIntent()
-    data class RemoveMedia(val uri: String) : PoetScreenIntent()
-    data class SaveDocument(val title: String) : PoetScreenIntent()
-    data class UpdateTitle(val title: String) : PoetScreenIntent()
-    data object ClearError : PoetScreenIntent()
-}
-
 @Composable
 fun PoetScreen(
     state: PoetScreenState,
+    snackBarHostState: SnackbarHostState,
     onIntent: (PoetScreenIntent) -> Unit
 ) {
     val textFieldFocusRequester = remember { FocusRequester() }
-    val snackBarHostState = remember { SnackbarHostState() }
-
-    // Show error message in snackbar
-    LaunchedEffect(state.error) {
-        check(state.error != null) {
-            return@LaunchedEffect
-        }
-
-        snackBarHostState.showSnackbar(state.error)
-        onIntent(PoetScreenIntent.ClearError)
-    }
 
     // autofocus to text field on init
     LaunchedEffect(Unit) {
