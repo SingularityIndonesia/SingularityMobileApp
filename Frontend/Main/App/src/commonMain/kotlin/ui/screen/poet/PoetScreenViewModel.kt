@@ -54,7 +54,6 @@ class PoetScreenViewModel(
                 mediaUris = state.mediaUris.filter { it != uri }
             )
         }
-
     }
 
     fun saveDocument() = intent {
