@@ -8,13 +8,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.designsystem.component.BackSymbolic
+import ui.designsystem.component.CloseSearchSymbolic
+import ui.designsystem.component.LabelSmallText
 import ui.designsystem.component.TitleLargeText
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonTopAppBar(
-    titleText: String = "Home",
+    titleText: String? = null,
+    subTitle: String? = null,
     modifier: Modifier = Modifier.fillMaxWidth(),
     onNavigateBack: (() -> Unit)? = null,
     trailingActions: (@Composable RowScope.() -> Unit)? = null
@@ -28,10 +30,17 @@ fun CommonTopAppBar(
         if (onNavigateBack != null) {
             BackSymbolic { onNavigateBack.invoke() }
         }
-        TitleLargeText(
+        Column(
             modifier = Modifier.weight(1f),
-            text = titleText,
-        )
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            titleText?.let {
+                TitleLargeText(it)
+            }
+            subTitle?.let {
+                LabelSmallText(it)
+            }
+        }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -39,5 +48,16 @@ fun CommonTopAppBar(
                 trailingActions()
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    CommonTopAppBar(
+        titleText = "Home",
+        subTitle = "June 12, 2025"
+    ) {
+        CloseSearchSymbolic {  }
     }
 }

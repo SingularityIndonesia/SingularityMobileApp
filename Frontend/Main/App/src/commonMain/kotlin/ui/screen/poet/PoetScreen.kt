@@ -49,7 +49,8 @@ fun PoetScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = creationDate,
+                title = "Tanpa Judul",
+                subTitle = creationDate,
                 onMediaSelected = mediaUris::addAll
             )
         }
@@ -61,17 +62,16 @@ fun PoetScreen() {
         ) {
 
             if (mediaUris.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 Medias(
                     modifier = Modifier
                         .fillMaxWidth(),
                     contentPadding = PaddingValues(horizontal = 16.dp),
                     uris = mediaUris
                 )
-                Spacer(modifier = Modifier.height(16.dp))
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             Note(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -153,12 +153,14 @@ fun Note(
 @Composable
 fun TopAppBar(
     title: String,
+    subTitle: String? = null,
     onMediaSelected: (uris: List<String>) -> Unit = {},
     onCancel: () -> Unit = {}
 ) {
     TopAppBar(
         modifier = Modifier.statusBarsPadding(),
         titleText = title,
+        subTitle = subTitle,
         onAddMedia = {
             launchMediaPicker(
                 onMediaSelected = onMediaSelected,

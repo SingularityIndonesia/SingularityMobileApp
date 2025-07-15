@@ -9,6 +9,7 @@ import ui.screen.home.CommonTopAppBar
 @Composable
 fun TopAppBar(
     titleText: String = "Account",
+    subTitle: String? = null,
     modifier: Modifier = Modifier,
     onSearch: (() -> Unit)? = null,
     onCloseSearch: (() -> Unit)? = null,
@@ -18,6 +19,7 @@ fun TopAppBar(
     CommonTopAppBar(
         modifier = modifier,
         titleText = titleText,
+        subTitle = subTitle
     ) {
         onSearch?.let { SearchSymbolic(onClick = it) }
         onCloseSearch?.let { CloseSearchSymbolic(onClick = it) }
