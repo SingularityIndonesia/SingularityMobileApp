@@ -53,9 +53,9 @@ val LightThemePalette = lightColorScheme(
 
 val LightThemePaletteV2 = lightColorScheme(
     background = Color.White,
-    onBackground = Color.Black,
-    surface = Color.White, // fixme: change to paper white
-    onSurface = Color.Black, // fixme: change to pen black
+    onBackground = Color(0xff181e25),
+    surface = Color(0xfffcfcfc), // paper white
+    onSurface = Color(0xff181e25), // pen black
 )
 
 val DarkThemePalette = darkColorScheme(

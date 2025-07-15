@@ -52,7 +52,7 @@ internal val TextSansSerif24NormalLS0LH32 = TextStyle(
     lineHeight = 32.sp,
 )
 internal val TextSansSerif22NormalLS0LH28 = TextStyle(
-    fontFamily = FontFamily.SansSerif,
+    fontFamily = FontFamily.Serif,
     fontSize = 22.sp,
     fontWeight = FontWeight.Normal,
     letterSpacing = 0.sp,
@@ -87,7 +87,7 @@ internal val TextSansSerif14NormalLS10percentLH20 = TextStyle(
     lineHeight = 20.sp,
 )
 internal val TextSansSerif16NormalLS50percentLH24 = TextStyle(
-    fontFamily = FontFamily.SansSerif,
+    fontFamily = FontFamily.Serif,
     fontSize = 16.sp,
     fontWeight = FontWeight.Normal,
     letterSpacing = (0.5).sp,

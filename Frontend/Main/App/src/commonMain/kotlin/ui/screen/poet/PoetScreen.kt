@@ -4,7 +4,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -15,15 +14,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.LightThemePalette
 import ui.designsystem.SingularityTheme
 import ui.designsystem.component.RatioImage
 import ui.designsystem.component.TopAppBar
@@ -130,7 +126,6 @@ fun Note(
     focusRequester: FocusRequester = remember { FocusRequester() },
 ) {
     val bodyText = MaterialTheme.typography.bodyLarge
-    val textColor = LocalContentColor.current
 
     SelectionContainer(
         modifier = modifier
@@ -138,18 +133,15 @@ fun Note(
         if (state.text.isBlank())
             Text(
                 "Tell me story",
-                style = bodyText.copy(
-                    color = textColor.copy(
-                        alpha = .5f
-                    )
-                )
+                style = bodyText,
+                color = LocalContentColor.current.copy(alpha = .6f)
             )
 
         BasicTextField(
             modifier = Modifier
                 .fillMaxSize()
                 .focusRequester(focusRequester),
-            textStyle = bodyText.copy(color = textColor.copy(alpha = .8f)),
+            textStyle = bodyText,
             state = state,
         )
     }
@@ -176,12 +168,7 @@ fun TopAppBar(
 @Preview
 @Composable
 private fun Preview() {
-    MaterialTheme(
-        colorScheme = LightThemePalette.copy(
-            surface = Color.White,
-            background = Color.White,
-        )
-    ) {
+    SingularityTheme {
         PoetScreen()
     }
 }
