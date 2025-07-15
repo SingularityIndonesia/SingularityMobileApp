@@ -1,10 +1,11 @@
 package service.vault.web
 
-import model.VaultDocument
+import model.Response
+import service.vault.web.response.VaultDocumentResponse
 import service.vault.web.request.CatalogRequest
 
 interface VaultWebApiClient {
-    suspend fun newDocument(): Result<VaultDocument>
-    suspend fun catalogue(request: CatalogRequest): Result<List<VaultDocument>>
+    suspend fun newDocument(): Result<VaultDocumentResponse>
+    suspend fun catalogue(request: CatalogRequest): Result<List<VaultDocumentResponse>>
 }
 

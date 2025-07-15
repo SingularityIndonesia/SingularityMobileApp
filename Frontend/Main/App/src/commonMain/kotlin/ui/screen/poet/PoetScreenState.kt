@@ -1,10 +1,10 @@
 package ui.screen.poet
 
 import androidx.compose.foundation.text.input.TextFieldState
-import model.VaultDocument
+import service.vault.web.response.VaultDocumentResponse
 
 data class PoetScreenState(
-    val document: VaultDocument = VaultDocument(),
+    val document: VaultDocumentResponse = VaultDocumentResponse(),
     val textFieldState: TextFieldState = TextFieldState(),
     val isLoading: Boolean = false,
 )

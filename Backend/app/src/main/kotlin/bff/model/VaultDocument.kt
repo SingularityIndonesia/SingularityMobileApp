@@ -1,30 +1,23 @@
-package model
+package bff.model
 
 import io.ktor.util.date.*
+import kotlinx.serialization.Serializable
+import java.util.*
 
+// FIXME: move to infra
+@Serializable
 data class VaultDocument(
-    val id: String = "",
+    val id: String = UUID.randomUUID().toString(),
     val dateCreated: Long = getTimeMillis(),
     val content: Content = Content()
 ) {
-    suspend fun addMedia(uris: List<String>) {
-        TODO()
-    }
-
-    suspend fun removeMedia(uri: String) {
-        TODO()
-    }
-
-    suspend fun setTitle(title: String) {
-        TODO("Not yet implemented")
-    }
-
+    @Serializable
     data class Content(
-        val title: String = "",
-        val story: String = "",
+        val title: String = "Untitled",
         val media: List<Media> = emptyList()
     )
 
+    @Serializable
     data class Media(
         val type: MediaType = MediaType.IMAGE,
         val uri: String = ""

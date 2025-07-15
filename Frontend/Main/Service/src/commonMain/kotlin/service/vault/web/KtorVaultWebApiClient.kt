@@ -6,12 +6,13 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import model.VaultDocument
+import model.Response
 import service.vault.web.request.CatalogRequest
+import service.vault.web.response.VaultDocumentResponse
 import utils.runCatching
 
 class KtorVaultWebApiClient(private val httpClient: HttpClient) : VaultWebApiClient {
-    override suspend fun newDocument(): Result<VaultDocument> {
+    override suspend fun newDocument(): Result<VaultDocumentResponse> {
         return runCatching(Dispatchers.IO) {
             val response = httpClient.get("vault/document/new") {
                 contentType(ContentType.Application.Json)
@@ -21,11 +22,17 @@ class KtorVaultWebApiClient(private val httpClient: HttpClient) : VaultWebApiCli
                 throw Exception("Failed to create new document: ${response.status}")
             }
 
-            response.body<VaultDocument>()
+            val resp = response.body<Response<VaultDocumentResponse>>()
+
+            check(resp.success && resp.data != null) {
+                throw Exception(resp.error)
+            }
+
+            resp.data
         }
     }
 
-    override suspend fun catalogue(request: CatalogRequest): Result<List<VaultDocument>> {
+    override suspend fun catalogue(request: CatalogRequest): Result<List<VaultDocumentResponse>> {
         return runCatching {
             val response = httpClient.get("vault/documents") {
                 contentType(ContentType.Application.Json)
@@ -36,7 +43,13 @@ class KtorVaultWebApiClient(private val httpClient: HttpClient) : VaultWebApiCli
                 throw Exception("Failed to create new document: ${response.status}")
             }
 
-            response.body<List<VaultDocument>>()
+            val resp = response.body<Response<List<VaultDocumentResponse>>>()
+
+            check(resp.success && resp.data != null) {
+                throw Exception(resp.error)
+            }
+
+            resp.data
         }
     }
 }

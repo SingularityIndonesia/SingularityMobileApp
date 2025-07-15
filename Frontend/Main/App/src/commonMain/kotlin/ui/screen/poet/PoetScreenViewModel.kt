@@ -45,15 +45,15 @@ class PoetScreenViewModel(
     }
 
     fun setTitle(title: String) = intent {
-        state.document.setTitle(title)
+//        state.document.setTitle(title)
     }
 
     fun addMedia(uris: List<String>) = intent {
-        state.document.addMedia(uris)
+//        state.document.addMedia(uris)
     }
 
     fun removeMedia(uri: String) = intent {
-        state.document.removeMedia(uri)
+//        state.document.removeMedia(uri)
     }
 
     fun saveDocument() = intent {
