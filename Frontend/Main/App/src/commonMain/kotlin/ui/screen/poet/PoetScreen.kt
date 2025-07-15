@@ -25,6 +25,7 @@ import org.orbitmvi.orbit.compose.collectAsState
 import utils.CollectSideEffect
 import utils.launchMediaPicker
 import utils.requestFocus
+import utils.toDateTime
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -45,7 +46,7 @@ fun PoetScreen(
         snackBarHostState = snackBarHostState,
         onIntent = {
             when (it) {
-                is PoetScreenIntent.UpdateTitle -> viewModel.updateTitle(it.title)
+                is PoetScreenIntent.UpdateTitle -> viewModel.setTitle(it.title)
                 is PoetScreenIntent.AddMedia -> viewModel.addMedia(it.uris)
                 is PoetScreenIntent.RemoveMedia -> viewModel.removeMedia(it.uri)
                 is PoetScreenIntent.SaveDocument -> viewModel.saveDocument()
@@ -70,8 +71,8 @@ fun PoetScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = state.title,
-                subTitle = state.creationDate,
+                title = state.document.content.title,
+                subTitle = state.document.dateCreated.toDateTime(),
                 onMediaSelected = {
                     onIntent.invoke(PoetScreenIntent.AddMedia(it))
                 }
@@ -89,13 +90,13 @@ fun PoetScreen(
             Column(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                if (state.mediaUris.isNotEmpty()) {
+                if (state.document.content.media.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(24.dp))
                     Medias(
                         modifier = Modifier
                             .fillMaxWidth(),
                         contentPadding = PaddingValues(horizontal = 16.dp),
-                        uris = state.mediaUris,
+                        uris = state.document.content.media.map { it.uri },
                         onRemoveMedia = { uri ->
                             onIntent(PoetScreenIntent.RemoveMedia(uri))
                         }

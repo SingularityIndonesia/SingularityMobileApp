@@ -1,31 +1,33 @@
 package model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import io.ktor.util.date.*
 
-@Serializable
 data class VaultDocument(
-    @SerialName("id")
-    val id: String,
-    @SerialName("content")
-    val content: Content
+    val id: String = "",
+    val dateCreated: Long = getTimeMillis(),
+    val content: Content = Content()
 ) {
-    @Serializable
+    suspend fun addMedia(uris: List<String>) {
+        TODO()
+    }
+
+    suspend fun removeMedia(uri: String) {
+        TODO()
+    }
+
+    suspend fun setTitle(title: String) {
+        TODO("Not yet implemented")
+    }
+
     data class Content(
-        @SerialName("title")
-        val title: String,
-        @SerialName("story")
-        val story: String,
-        @SerialName("media")
-        val media: List<Media>
+        val title: String = "",
+        val story: String = "",
+        val media: List<Media> = emptyList()
     )
 
-    @Serializable
     data class Media(
-        @SerialName("type")
-        val type: MediaType,
-        @SerialName("url")
-        val url: String
+        val type: MediaType = MediaType.IMAGE,
+        val uri: String = ""
     )
 
     enum class MediaType {

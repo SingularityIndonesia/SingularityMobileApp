@@ -1,13 +1,10 @@
 package ui.screen.poet
 
 import androidx.compose.foundation.text.input.TextFieldState
-import utils.dateTime
+import model.VaultDocument
 
 data class PoetScreenState(
-    val documentId: String? = null,
-    val title: String = "Tanpa Judul",
-    val creationDate: String = dateTime(),
+    val document: VaultDocument = VaultDocument(),
     val textFieldState: TextFieldState = TextFieldState(),
-    val mediaUris: List<String> = emptyList(),
     val isLoading: Boolean = false,
 )

@@ -7,11 +7,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import model.VaultDocument
-import model.particle.AuthenticationToken
-import service.session.db.entity.SessionEntity
-import service.session.web.SessionWebApiClient
-import service.session.web.request.CreateSessionRequest
-import service.session.web.response.CreateSessionResponse
+import service.vault.web.request.CatalogRequest
 import utils.runCatching
 
 class KtorVaultWebApiClient(private val httpClient: HttpClient) : VaultWebApiClient {
@@ -26,6 +22,21 @@ class KtorVaultWebApiClient(private val httpClient: HttpClient) : VaultWebApiCli
             }
 
             response.body<VaultDocument>()
+        }
+    }
+
+    override suspend fun catalogue(request: CatalogRequest): Result<List<VaultDocument>> {
+        return runCatching {
+            val response = httpClient.get("vault/documents") {
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            }
+
+            check(response.status.isSuccess()) {
+                throw Exception("Failed to create new document: ${response.status}")
+            }
+
+            response.body<List<VaultDocument>>()
         }
     }
 }
