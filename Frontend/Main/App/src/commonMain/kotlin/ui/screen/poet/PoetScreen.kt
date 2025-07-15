@@ -58,26 +58,29 @@ fun PoetScreen() {
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
 
             if (mediaUris.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
                 Medias(
                     modifier = Modifier
                         .fillMaxWidth(),
                     contentPadding = PaddingValues(horizontal = 16.dp),
                     uris = mediaUris
                 )
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
+            Spacer(modifier = Modifier.height(8.dp))
             Note(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .weight(1f),
+                    .padding(horizontal = 16.dp),
                 state = textFieldState,
                 focusRequester = textFieldFocusRequester
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

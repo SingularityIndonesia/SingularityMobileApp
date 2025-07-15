@@ -100,7 +100,7 @@ internal val TextSansSerif16NormalLS50percentLH24
         fontFamily = PTSerifFontFamily(),
         fontSize = 16.sp,
         fontWeight = FontWeight.Normal,
-        letterSpacing = (0.5).sp,
+        letterSpacing = (0.7).sp,
         lineHeight = 24.sp,
     )
 internal val TextSansSerif14NormalLS25percentLH20
