@@ -38,11 +38,3 @@ fun SingularityTheme(
         )
     }
 }
-
-object SingularityTheme {
-
-    @Suppress("DEPRECATION")
-    val attr: SystemToken
-        @Composable
-        get() = DesignToken.current
-}
