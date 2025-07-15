@@ -84,6 +84,11 @@ dependency {
         api(libs.room.runtime)
         api(libs.sqlite.bundled)
 
+        // IO
+        api(libs.kotlinx.io.core)
+        api(libs.kotlinx.io.okio)
+        api(libs.kotlinx.io.bytestring)
+
         // Font
         api(project(":Font"))
     }

@@ -24,6 +24,7 @@ koin = "4.0.3"
 room = "2.7.2"
 sqlite = "2.5.2"
 ksp = "2.2.0-2.0.2"
+kotlinx-io = "0.8.0"
 
 [libraries]
 compose-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeGradlePlugin" }
@@ -77,6 +78,11 @@ koin-test-android-test = { module = "io.insert-koin:koin-android-test" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
+# IO
+kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
+kotlinx-io-okio = { module = "org.jetbrains.kotlinx:kotlinx-io-okio", version.ref = "kotlinx-io" }
+kotlinx-io-bytestring = { module = "org.jetbrains.kotlinx:kotlinx-io-bytestring", version.ref = "kotlinx-io" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
