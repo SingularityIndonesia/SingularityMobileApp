@@ -23,15 +23,17 @@ fun SingularityTheme(
             LightThemePaletteV2
     }
 
+    val typeSystem = TypingSystem
+
     @Suppress("DEPRECATION")
-    val systemToken = remember { SystemToken(colorScheme) }
+    val systemToken = remember { SystemToken(colorScheme, typeSystem) }
 
     CompositionLocalProvider(
         DesignToken provides systemToken,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = TypingSystem,
+            typography = typeSystem,
             content = content
         )
     }

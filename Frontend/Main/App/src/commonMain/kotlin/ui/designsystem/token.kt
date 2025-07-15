@@ -5,6 +5,7 @@
 package ui.designsystem
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.staticCompositionLocalOf
 
 /**
@@ -19,11 +20,11 @@ import androidx.compose.runtime.staticCompositionLocalOf
     ),
 )
 data class SystemToken(
-    val color: ColorScheme
+    val color: ColorScheme,
+    val typography: Typography = Typography()
 )
 
 
-val DesignToken = staticCompositionLocalOf {
-    @Suppress("DEPRECATION")
-    SystemToken(LightThemePalette)
+val DesignToken = staticCompositionLocalOf<SystemToken> {
+    error("not provided")
 }

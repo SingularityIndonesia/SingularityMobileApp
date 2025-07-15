@@ -5,9 +5,10 @@
 package ui.designsystem
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 
 // Set of Material typography styles to start with
-val TypingSystem = Typography(
+val TypingSystem @Composable get() = Typography(
     displayLarge = TextSansSerif57NormalLSmin25percentLH64,
     displayMedium = TextSansSerif45NormalLS0LH52,
     displaySmall = TextSansSerif36NormalLS0LH44,
