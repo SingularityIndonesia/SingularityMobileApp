@@ -49,7 +49,6 @@ fun PoetScreen(
                 is PoetScreenIntent.AddMedia -> viewModel.addMedia(it.uris)
                 is PoetScreenIntent.RemoveMedia -> viewModel.removeMedia(it.uri)
                 is PoetScreenIntent.SaveDocument -> viewModel.saveDocument()
-                PoetScreenIntent.ClearError -> viewModel.clearError()
             }
         }
     )
@@ -215,6 +214,10 @@ fun TopAppBar(
 @Composable
 private fun Preview() {
     SingularityTheme {
-        PoetScreen()
+        PoetScreen(
+            state = PoetScreenState(),
+            snackBarHostState = remember { SnackbarHostState() },
+            onIntent = {},
+        )
     }
 }
