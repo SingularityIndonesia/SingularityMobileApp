@@ -1,28 +1,27 @@
 package bff.model
 
-import io.ktor.util.date.*
 import kotlinx.serialization.Serializable
-import java.util.*
 
 // FIXME: move to infra
 @Serializable
 data class VaultDocument(
-    val id: String = UUID.randomUUID().toString(),
-    val dateCreated: Long = getTimeMillis(),
-    val content: Content = Content()
+    val id: String,
+    val dateCreated: Long,
+    val content: Content,
 ) {
     @Serializable
     data class Content(
-        val title: String = "Untitled",
-        val media: List<Media> = emptyList()
+        val title: String,
+        val media: List<Media>,
     )
 
     @Serializable
     data class Media(
-        val type: MediaType = MediaType.IMAGE,
-        val uri: String = ""
+        val type: MediaType,
+        val uri: String,
     )
 
+    @Serializable
     enum class MediaType {
         IMAGE, VIDEO
     }

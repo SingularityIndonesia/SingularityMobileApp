@@ -25,7 +25,10 @@ suspend fun requestNewDocument() {
         VaultDocument(
             id = UUID.randomUUID().toString(),
             dateCreated = getTimeMillis(),
-            content = VaultDocument.Content(),
+            content = VaultDocument.Content(
+                title = "Untitled",
+                media = (0..5).map { VaultDocument.Media(VaultDocument.MediaType.VIDEO, "$it") },
+            ),
         )
     }.onSuccess {
         return success(it)
