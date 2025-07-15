@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun Search(
+fun SearchSymbolic(
     query: String = "",
     modifier: Modifier = Modifier,
     buffered: Boolean = false,
@@ -57,7 +57,7 @@ fun Search(
 @Composable
 private fun SearchSectionPreview() {
     Surface {
-        Search()
+        SearchSymbolic()
     }
 }
 
@@ -65,6 +65,6 @@ private fun SearchSectionPreview() {
 @Composable
 private fun SearchSectionPreviewOnSearch() {
     Surface {
-        Search("asda")
+        SearchSymbolic("asda")
     }
 }

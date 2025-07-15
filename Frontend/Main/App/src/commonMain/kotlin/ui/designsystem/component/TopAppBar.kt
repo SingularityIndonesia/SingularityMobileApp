@@ -19,9 +19,9 @@ fun TopAppBar(
         modifier = modifier,
         titleText = titleText,
     ) {
-        onSearch?.let { Search(onClick = it) }
-        onCloseSearch?.let { CloseSearch(onClick = it) }
-        onAdd?.let { Add(onClick = it) }
+        onSearch?.let { SearchSymbolic(onClick = it) }
+        onCloseSearch?.let { CloseSearchSymbolic(onClick = it) }
+        onAdd?.let { AddSymbolic(onClick = it) }
         onAddMedia?.let { AddMedia(onClick = it) }
     }
 }

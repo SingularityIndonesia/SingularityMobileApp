@@ -20,7 +20,7 @@ fun SingularityTheme(
         if (darkTheme)
             DarkThemePalette
         else
-            LightThemePalette
+            LightThemePaletteV2
     }
 
     @Suppress("DEPRECATION")

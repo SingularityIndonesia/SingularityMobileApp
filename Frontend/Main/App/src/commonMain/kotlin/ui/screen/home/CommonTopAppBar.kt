@@ -7,8 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.component.Back
-import ui.designsystem.component.CloseSearch
+import ui.designsystem.component.BackSymbolic
 import ui.designsystem.component.TitleLargeText
 
 @Preview
@@ -27,7 +26,7 @@ fun CommonTopAppBar(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (onNavigateBack != null) {
-            Back { onNavigateBack.invoke() }
+            BackSymbolic { onNavigateBack.invoke() }
         }
         TitleLargeText(
             modifier = Modifier.weight(1f),

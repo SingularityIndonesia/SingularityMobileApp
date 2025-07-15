@@ -1,11 +1,11 @@
 package ui.designsystem.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import font.resources.*
 import org.jetbrains.compose.resources.DrawableResource
@@ -16,11 +16,11 @@ val LocalIconButtonColor = staticCompositionLocalOf<IconButtonColors?> { null }
 
 @Preview
 @Composable
-fun OptionsMenu(
+fun OptionsMenuSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_more_horz,
         contentDescription = "OptionsMenu",
@@ -30,11 +30,11 @@ fun OptionsMenu(
 
 @Preview
 @Composable
-fun Edit(
+fun EditSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_edit,
         contentDescription = "Edit",
@@ -44,11 +44,11 @@ fun Edit(
 
 @Preview
 @Composable
-fun Add(
+fun AddSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_add,
         contentDescription = "Edit",
@@ -58,11 +58,11 @@ fun Add(
 
 @Preview
 @Composable
-fun Delete(
+fun DeleteSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_delete,
         contentDescription = "Dekete",
@@ -72,13 +72,27 @@ fun Delete(
 
 @Preview
 @Composable
-fun CloseSearch(
+fun CloseSearchSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_close,
+        contentDescription = "CloseSearch",
+        onClick = onClick
+    )
+}
+
+@Preview
+@Composable
+fun AddMediaSymbolic(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    SymbolicActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.ic_add_photo_alternate,
         contentDescription = "CloseSearch",
         onClick = onClick
     )
@@ -92,7 +106,7 @@ fun AddMedia(
 ) {
     ActionIcon(
         modifier = modifier,
-        drawRes = Res.drawable.ic_add_photo_alternate,
+        drawRes = Res.drawable.folder_pictures_add,
         contentDescription = "CloseSearch",
         onClick = onClick
     )
@@ -100,11 +114,11 @@ fun AddMedia(
 
 @Preview
 @Composable
-fun Clear(
+fun ClearSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_close,
         contentDescription = "Clear",
@@ -114,11 +128,11 @@ fun Clear(
 
 @Preview
 @Composable
-fun Next(
+fun NextSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_next,
         contentDescription = "Next",
@@ -128,11 +142,11 @@ fun Next(
 
 @Preview
 @Composable
-fun Back(
+fun BackSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_back,
         contentDescription = "Back",
@@ -142,11 +156,11 @@ fun Back(
 
 @Preview
 @Composable
-fun SignOut(
+fun SignOutSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_logout,
         contentDescription = "SignOut",
@@ -159,16 +173,38 @@ fun SignOut(
 }
 
 @Composable
-fun Search(
+fun SearchSymbolic(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ActionIcon(
+    SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_search,
         contentDescription = "Search",
         onClick = onClick
     )
+}
+
+@Composable
+private fun SymbolicActionIcon(
+    modifier: Modifier = Modifier,
+    drawRes: DrawableResource,
+    contentDescription: String,
+    colors: IconButtonColors = LocalIconButtonColor.current
+        ?: IconButtonDefaults.iconButtonColors(),
+    onClick: () -> Unit,
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = onClick,
+        colors = colors
+    ) {
+        Icon(
+            modifier = Modifier.size(24.dp),
+            painter = painterResource(drawRes),
+            contentDescription = contentDescription
+        )
+    }
 }
 
 @Composable
@@ -185,8 +221,8 @@ private fun ActionIcon(
         onClick = onClick,
         colors = colors
     ) {
-        Icon(
-            modifier = Modifier.size(24.dp),
+        Image(
+            modifier = Modifier.size(28.dp),
             painter = painterResource(drawRes),
             contentDescription = contentDescription
         )

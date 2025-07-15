@@ -71,7 +71,7 @@ fun UserProfile(
             )
         },
         actions = {
-            Edit {}
+            EditSymbolic {}
         }
     )
 }

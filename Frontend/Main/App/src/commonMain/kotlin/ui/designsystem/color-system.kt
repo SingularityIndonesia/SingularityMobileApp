@@ -4,6 +4,7 @@ package ui.designsystem
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.ui.graphics.Color
 
 val LightThemePalette = lightColorScheme(
     primary = HawkingRadiation[60]!!,
@@ -48,6 +49,13 @@ val LightThemePalette = lightColorScheme(
     inversePrimary = HawkingRadiation[80]!!,
 
     scrim = SpaceDark[0]!!,
+)
+
+val LightThemePaletteV2 = lightColorScheme(
+    background = Color.White,
+    onBackground = Color.Black,
+    surface = Color.White, // fixme: change to paper white
+    onSurface = Color.Black, // fixme: change to pen black
 )
 
 val DarkThemePalette = darkColorScheme(

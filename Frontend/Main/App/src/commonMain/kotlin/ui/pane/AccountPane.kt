@@ -88,7 +88,7 @@ fun AccountPane(
             stickyHeader {
                 val resultCount by rememberUpdatedState(state.filteredMenuItems.size)
                 Surface {
-                    Search(
+                    SearchSymbolic(
                         modifier = Modifier.padding(
                             horizontal = 16.dp
                         ).padding(bottom = 16.dp),
@@ -115,10 +115,10 @@ fun AccountPane(
                     searchQuery = if (state.showSearch) state.searchQuery else "",
                     trailingActions = {
                         if (menuItem.title.contains("sign out", true))
-                            SignOut { }
+                            SignOutSymbolic { }
                         else
-                            Next {
-                                check(menuItem.actionDeepLink != null) { return@Next }
+                            NextSymbolic {
+                                check(menuItem.actionDeepLink != null) { return@NextSymbolic }
                                 uriHandler.openUri(menuItem.actionDeepLink)
                             }
                     }
