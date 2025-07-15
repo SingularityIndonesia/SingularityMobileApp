@@ -13,10 +13,6 @@ class PoetScreenViewModel(
 
     override val container: Container<PoetScreenState, PoetScreenEffect> = container(PoetScreenState())
 
-    init {
-        setupAutoSave()
-    }
-
     @OptIn(FlowPreview::class)
     private fun setupAutoSave() {
         // Auto-save when text changes
