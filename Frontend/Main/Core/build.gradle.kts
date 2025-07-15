@@ -84,6 +84,9 @@ dependency {
         // Room
         api(libs.room.runtime)
         api(libs.sqlite.bundled)
+
+        // Font
+        api(project(":Font"))
     }
 
     test {

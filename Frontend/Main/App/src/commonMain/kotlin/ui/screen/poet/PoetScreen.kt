@@ -20,9 +20,9 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.SingularityTheme
-import ui.designsystem.component.RatioImage
-import ui.designsystem.component.TopAppBar
+import designsystem.SingularityTheme
+import designsystem.component.RatioImage
+import designsystem.component.TopAppBar
 import utils.dateTime
 import utils.launchMediaPicker
 import utils.requestFocus

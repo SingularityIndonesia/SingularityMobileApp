@@ -23,7 +23,7 @@ import font.resources.Res
 import font.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.component.FlowLayout
+import designsystem.component.FlowLayout
 
 abstract class PagingSource<T> {
     protected val _items = mutableStateListOf<GalleryItemDisplay>()

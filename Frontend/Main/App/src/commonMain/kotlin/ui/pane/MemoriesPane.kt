@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.component.CreateNewFab
+import designsystem.component.CreateNewFab
 
 @Composable
 fun MemoriesPane(

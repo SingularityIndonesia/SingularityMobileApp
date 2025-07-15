@@ -1,14 +1,15 @@
 package ui.navigation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import designsystem.component.HeadlineMediumText
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.component.HeadlineMediumText
 
 /**
  * Just launch the preview to test deeplinks.

@@ -1,16 +1,8 @@
 package ui.pane
 
-import font.resources.Res
-import font.resources.ic_disk_filled
-import font.resources.ic_download_filled
-import font.resources.ic_info_filled
-import font.resources.ic_nothing
-import font.resources.ic_notification_filled
-import font.resources.ic_person_filled
-import font.resources.ic_security_privacy_filled
-import font.resources.ic_support_agent_filled
-import ui.designsystem.component.AccountMenuItemDisplay
-import ui.designsystem.component.UserProfileDisplay
+import designsystem.component.AccountMenuItemDisplay
+import font.resources.*
+import ui.component.UserProfileDisplay
 import ui.navigation.Route
 
 data class AccountPaneState(

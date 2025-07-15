@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
-import ui.designsystem.component.LabelLargeText
+import designsystem.component.LabelLargeText
 import utils.CollectSideEffect
 
 @Composable

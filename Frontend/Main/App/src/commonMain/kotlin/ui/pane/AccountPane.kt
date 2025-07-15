@@ -12,7 +12,9 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
-import ui.designsystem.component.*
+import designsystem.component.*
+import ui.component.UserProfile
+import ui.component.UserProfileDisplay
 import ui.pane.AccountPaneEffect.FocusOnSearchInput
 import ui.pane.AccountPaneIntent.HideSearch
 import ui.pane.AccountPaneIntent.SearchFor
@@ -118,8 +120,9 @@ fun AccountPane(
                             SignOutSymbolic { }
                         else
                             NextSymbolic {
-                                check(menuItem.actionDeepLink != null) { return@NextSymbolic }
-                                uriHandler.openUri(menuItem.actionDeepLink)
+                                val deeplink = menuItem.actionDeepLink
+                                check(deeplink != null) { return@NextSymbolic }
+                                uriHandler.openUri(deeplink)
                             }
                     }
                 )

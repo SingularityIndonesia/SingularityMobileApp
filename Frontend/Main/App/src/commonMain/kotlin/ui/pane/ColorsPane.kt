@@ -10,8 +10,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.designsystem.component.PostItem
-import ui.designsystem.component.PostItemDisplay
+import ui.component.PostItem
+import ui.component.PostItemDisplay
 
 @Preview
 @Composable
