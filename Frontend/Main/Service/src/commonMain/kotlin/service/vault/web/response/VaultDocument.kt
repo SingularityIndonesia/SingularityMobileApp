@@ -4,7 +4,7 @@ import io.ktor.util.date.*
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class VaultDocumentResponse(
+data class VaultDocument(
     val id: String = "",
     val dateCreated: Long = getTimeMillis(),
     val content: Content = Content()

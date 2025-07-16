@@ -1,9 +1,12 @@
 package ui.screen.poet
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -15,6 +18,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import designsystem.SingularityTheme
 import designsystem.component.RatioImage
@@ -25,7 +29,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 import utils.CollectSideEffect
 import utils.MediaPicker
 import utils.requestFocus
-import utils.toDateTime
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -62,6 +65,7 @@ fun PoetScreen(
     onIntent: (PoetScreenIntent) -> Unit
 ) {
     val textFieldFocusRequester = remember { FocusRequester() }
+    val scrollState = rememberScrollState()
 
     // autofocus to text field on init
     LaunchedEffect(Unit) {
@@ -71,8 +75,8 @@ fun PoetScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = state.document.content.title,
-                subTitle = state.document.dateCreated.toDateTime(),
+                title = state.title,
+                subTitle = state.dateCreated,
                 onMediaSelected = {
                     onIntent.invoke(PoetScreenIntent.AddMedia(it))
                 }
@@ -82,41 +86,46 @@ fun PoetScreen(
             SnackbarHost(hostState = snackBarHostState)
         }
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize()
+                .scrollable(scrollState, orientation = Orientation.Vertical),
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                if (state.document.content.mediaUris.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Medias(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        uris = state.document.content.mediaUris.map { it },
-                        onRemoveMedia = { uri ->
-                            onIntent(PoetScreenIntent.RemoveMedia(uri))
-                        }
-                    )
-                }
-
+            if (state.mediaUris.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
-                Note(
+                Medias(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    state = state.textFieldState,
-                    focusRequester = textFieldFocusRequester
+                        .fillMaxWidth(),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    uris = state.mediaUris.map { it },
+                    onRemoveMedia = { uri ->
+                        onIntent(PoetScreenIntent.RemoveMedia(uri))
+                    }
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // Loading indicator
-            if (state.isLoading) {
+            Spacer(modifier = Modifier.height(24.dp))
+            Note(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize()
+                    .padding(horizontal = 16.dp),
+                state = state.textFieldState,
+                focusRequester = textFieldFocusRequester,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier
+                    .padding(it)
+                    .fillMaxSize()
+            ) {
+                // Loading indicator
+
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -183,7 +192,8 @@ fun Note(
 
         BasicTextField(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .focusRequester(focusRequester),
             textStyle = bodyText,
             state = state,
@@ -216,7 +226,10 @@ fun TopAppBar(
 private fun Preview() {
     SingularityTheme {
         PoetScreen(
-            state = PoetScreenState(),
+            state = PoetScreenState(
+                title = "Untitled",
+                dateCreated = "June 12, 2024"
+            ),
             snackBarHostState = remember { SnackbarHostState() },
             onIntent = {},
         )

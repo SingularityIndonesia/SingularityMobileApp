@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ksp)
 }
 
 compileAndroidLibrary(
@@ -27,4 +28,11 @@ dependency {
         api(project(":Font"))
         api(project(":Core"))
     }
+}
+
+dependencies {
+    add("kspAndroid", libs.arrow.optics.ksp.plugin)
+    add("kspIosSimulatorArm64", libs.arrow.optics.ksp.plugin)
+    add("kspIosX64", libs.arrow.optics.ksp.plugin)
+    add("kspIosArm64", libs.arrow.optics.ksp.plugin)
 }

@@ -27,10 +27,8 @@ class PoetScreenViewModel(
         vaultService.newDocument()
             .onSuccess {
                 reduce {
-                    state.copy(
-                        document = it,
-                        isLoading = false
-                    )
+                    state.composeWith(it)
+                        .copy(isLoading = false)
                 }
             }
             .onFailure {
@@ -45,43 +43,24 @@ class PoetScreenViewModel(
 
     fun setTitle(title: String) = intent {
         reduce {
-            // fixme: use lenses
-            state.copy(
-                document = state.document.copy(
-                    content = state.document.content.copy(
-                        title = title
-                    )
-                )
-            )
+            state.copy(title = title)
         }
     }
 
     fun addMedia(uris: List<String>) = intent {
-        val newUris = state.document.content.mediaUris + uris
-
-        // fixme: use lenses
+        val newUris = state.mediaUris + uris
         reduce {
             state.copy(
-                document = state.document.copy(
-                    content = state.document.content.copy(
-                        mediaUris = newUris
-                    )
-                )
+                mediaUris = newUris
             )
         }
     }
 
     fun removeMedia(uri: String) = intent {
-        val newUris = state.document.content.mediaUris.filterNot { it == uri }
-
-        // fixme: use lenses
+        val newUris = state.mediaUris.filterNot { it == uri }
         reduce {
             state.copy(
-                document = state.document.copy(
-                    content = state.document.content.copy(
-                        mediaUris = newUris
-                    )
-                )
+                mediaUris = newUris
             )
         }
     }

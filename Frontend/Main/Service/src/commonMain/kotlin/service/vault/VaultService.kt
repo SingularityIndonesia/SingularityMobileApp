@@ -1,17 +1,17 @@
 package service.vault
 
-import service.vault.web.response.VaultDocumentResponse
+import service.vault.web.response.VaultDocument
 import service.vault.web.VaultWebApiClient
 import service.vault.web.request.CatalogRequest
 
 class VaultService(
     private val vaultWebApiClient: VaultWebApiClient
 ) {
-    suspend fun newDocument(): Result<VaultDocumentResponse> {
+    suspend fun newDocument(): Result<VaultDocument> {
         return vaultWebApiClient.newDocument()
     }
 
-    suspend fun catalogue(catalogRequest: CatalogRequest): Result<List<VaultDocumentResponse>> {
+    suspend fun catalogue(catalogRequest: CatalogRequest): Result<List<VaultDocument>> {
         return vaultWebApiClient.catalogue(catalogRequest)
     }
 }
