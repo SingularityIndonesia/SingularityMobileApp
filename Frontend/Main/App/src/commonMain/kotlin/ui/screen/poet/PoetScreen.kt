@@ -23,7 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import utils.CollectSideEffect
-import utils.launchMediaPicker
+import utils.MediaPicker
 import utils.requestFocus
 import utils.toDateTime
 import kotlin.time.Duration.Companion.seconds
@@ -203,7 +203,7 @@ fun TopAppBar(
         titleText = title,
         subTitle = subTitle,
         onAddMedia = {
-            launchMediaPicker(
+            MediaPicker.launchMediaPicker(
                 onMediaSelected = onMediaSelected,
                 onCancelled = onCancel
             )

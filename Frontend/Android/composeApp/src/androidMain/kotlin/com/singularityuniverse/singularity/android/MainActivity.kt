@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import ui.navigation.Route
 import utils.ContextProvider
+import utils.MediaPicker
 
 class MainActivity : ComponentActivity() {
 
@@ -27,6 +28,9 @@ class MainActivity : ComponentActivity() {
 
         // setup context provider
         ContextProvider.initialize(this)
+
+        // setup media picker
+        MediaPicker.setupMediaPickerLauncher(this)
 
         // setup route
         Route.set(ProjectContext)
