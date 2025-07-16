@@ -1,11 +1,11 @@
 package model.particle
 
+import utils.isValidEmail
 import kotlin.jvm.JvmInline
 
 @JvmInline
 value class Email(val email: String) {
-    fun isValid(): Boolean {
-        // fixme: apply email validation regex
-        return true
+    init {
+        check(isValidEmail(email))
     }
 }
