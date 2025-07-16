@@ -90,13 +90,13 @@ fun PoetScreen(
             Column(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                if (state.document.content.media.isNotEmpty()) {
+                if (state.document.content.mediaUris.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(24.dp))
                     Medias(
                         modifier = Modifier
                             .fillMaxWidth(),
                         contentPadding = PaddingValues(horizontal = 16.dp),
-                        uris = state.document.content.media.map { it.uri },
+                        uris = state.document.content.mediaUris.map { it },
                         onRemoveMedia = { uri ->
                             onIntent(PoetScreenIntent.RemoveMedia(uri))
                         }

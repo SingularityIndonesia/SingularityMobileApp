@@ -1,6 +1,6 @@
 package service.vault.web.response
 
-import io.ktor.util.date.getTimeMillis
+import io.ktor.util.date.*
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,16 +13,6 @@ data class VaultDocumentResponse(
     @Serializable
     data class Content(
         val title: String = "",
-        val media: List<Media> = emptyList()
+        val mediaUris: List<String> = emptyList()
     )
-
-    @Serializable
-    data class Media(
-        val type: MediaType = MediaType.IMAGE,
-        val uri: String = ""
-    )
-
-    enum class MediaType {
-        IMAGE, VIDEO
-    }
 }

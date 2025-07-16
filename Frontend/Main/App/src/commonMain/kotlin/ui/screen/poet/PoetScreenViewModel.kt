@@ -1,7 +1,6 @@
 package ui.screen.poet
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.FlowPreview
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
@@ -45,15 +44,46 @@ class PoetScreenViewModel(
     }
 
     fun setTitle(title: String) = intent {
-//        state.document.setTitle(title)
+        reduce {
+            // fixme: use lenses
+            state.copy(
+                document = state.document.copy(
+                    content = state.document.content.copy(
+                        title = title
+                    )
+                )
+            )
+        }
     }
 
     fun addMedia(uris: List<String>) = intent {
-//        state.document.addMedia(uris)
+        val newUris = state.document.content.mediaUris + uris
+
+        // fixme: use lenses
+        reduce {
+            state.copy(
+                document = state.document.copy(
+                    content = state.document.content.copy(
+                        mediaUris = newUris
+                    )
+                )
+            )
+        }
     }
 
     fun removeMedia(uri: String) = intent {
-//        state.document.removeMedia(uri)
+        val newUris = state.document.content.mediaUris.filterNot { it == uri }
+
+        // fixme: use lenses
+        reduce {
+            state.copy(
+                document = state.document.copy(
+                    content = state.document.content.copy(
+                        mediaUris = newUris
+                    )
+                )
+            )
+        }
     }
 
     fun saveDocument() = intent {
