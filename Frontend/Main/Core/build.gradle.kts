@@ -100,7 +100,13 @@ dependency {
 }
 
 dependencies {
-    api(compose.uiTooling)
+    debugApi(compose.uiTooling)
+
+    // pluto
+    debugApi(libs.android.pluto)
+    debugApi(libs.android.pluto.network)
+    releaseApi(libs.android.pluto.no.op)
+    releaseApi(libs.android.pluto.network.no.op)
 
     // KSP support for Room Compiler.
     add("kspAndroid", libs.room.compiler)

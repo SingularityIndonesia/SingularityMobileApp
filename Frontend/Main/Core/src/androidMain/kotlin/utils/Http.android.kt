@@ -1,6 +1,7 @@
 package utils
 
 import android.util.Log
+import com.pluto.plugins.network.interceptors.ktor.PlutoKtorInterceptor
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.plugins.*
@@ -28,6 +29,8 @@ actual fun defaultHttpClient(webHostUrl: String): HttpClient {
             }
             level = LogLevel.ALL
         }
+
+        install(PlutoKtorInterceptor)
 
         defaultRequest {
             // Replace with your actual API base URL

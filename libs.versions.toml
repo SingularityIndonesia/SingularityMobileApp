@@ -88,6 +88,8 @@ kotlinx-io-bytestring = { module = "org.jetbrains.kotlinx:kotlinx-io-bytestring"
 # Pluto
 android-pluto = { module = "com.androidpluto:pluto", version.ref = "android-pluto" }
 android-pluto-no-op = { module = "com.androidpluto:pluto-no-op", version.ref = "android-pluto" }
+android-pluto-network = { module = "com.androidpluto.plugins:network", version.ref = "android-pluto" }
+android-pluto-network-no-op = { module = "com.androidpluto.plugins:network-no-op", version.ref = "android-pluto" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

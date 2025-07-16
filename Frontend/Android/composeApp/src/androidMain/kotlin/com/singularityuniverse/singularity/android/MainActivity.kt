@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.tooling.preview.Preview
+import com.pluto.Pluto
+import com.pluto.plugins.network.PlutoNetworkPlugin
 import org.koin.compose.KoinApplication
 import ui.navigation.Route
 import utils.ContextProvider
@@ -25,6 +27,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // setup pluto
+        Pluto.Installer(this.application)
+            .addPlugin(PlutoNetworkPlugin())
+            .install()
 
         // setup context provider
         ContextProvider.initialize(this)

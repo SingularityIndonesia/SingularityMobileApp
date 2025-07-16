@@ -2,7 +2,6 @@ import plugin.convention.companion.Main
 import plugin.convention.companion.compileAndroidApplication
 import plugin.convention.companion.dependency
 import plugin.convention.companion.envProp
-import plugin.convention.companion.releaseImplementation
 
 plugins {
     id("ConventionUtils")
@@ -16,8 +15,8 @@ val versionCode = 1
 val versionName = "1.0.0"
 
 envProp("env.properties") {
-    put("VERSION_CODE",versionCode.toString())
-    put("VERSION_NAME",versionName)
+    put("VERSION_CODE", versionCode.toString())
+    put("VERSION_NAME", versionName)
 }
 
 compileAndroidApplication(
@@ -32,12 +31,3 @@ dependency {
         Main("App", true)
     }
 }
-
-dependencies {
-    debugImplementation(compose.uiTooling)
-
-    // pluto
-    debugImplementation(libs.android.pluto)
-    releaseImplementation(libs.android.pluto.no.op)
-}
-
