@@ -3,7 +3,6 @@ package model.particle
 import stdextra.assertSuccess
 import kotlin.test.Test
 import kotlin.test.assertFails
-import kotlin.test.assertTrue
 
 class EmailTest {
     @Test()
