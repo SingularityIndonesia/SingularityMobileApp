@@ -1,5 +1,6 @@
 package model.particle
 
+import stdextra.assertSuccess
 import kotlin.test.Test
 import kotlin.test.assertFails
 import kotlin.test.assertTrue
@@ -7,8 +8,7 @@ import kotlin.test.assertTrue
 class EmailTest {
     @Test()
     fun `valid email`() {
-        val email = runCatching { Email("some.email@somehwere.com") }
-        assertTrue { email.isSuccess }
+        assertSuccess { Email("some.email@somehwere.com") }
     }
 
     @Test()
