@@ -1,17 +1,18 @@
 package model.particle
 
-import stdextra.assertSuccess
+import stdextra.Fail
+import stdextra.Success
+import stdextra.must
 import kotlin.test.Test
-import kotlin.test.assertFails
 
 class EmailTest {
     @Test()
     fun `valid email`() {
-        assertSuccess { Email("some.email@somehwere.com") }
+        { Email("some.email@somehwere.com") } must Success
     }
 
     @Test()
     fun `invalid email`() {
-        assertFails { Email("ssdsfsfsf") }
+        { Email("ssdsfsfsf") } must Fail
     }
 }
