@@ -1,5 +1,6 @@
 package ui.screen.poet
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -10,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -90,7 +92,7 @@ fun PoetScreen(
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize()
-                .scrollable(scrollState, orientation = Orientation.Vertical),
+                .verticalScroll(scrollState),
         ) {
             if (state.mediaUris.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
