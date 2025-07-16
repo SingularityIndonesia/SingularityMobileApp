@@ -26,6 +26,7 @@ sqlite = "2.5.2"
 ksp = "2.2.0-2.0.2"
 kotlinx-io = "0.8.0"
 android-pluto = "3.0.0"
+arrow = "2.1.0"
 
 [libraries]
 compose-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeGradlePlugin" }
@@ -96,6 +97,12 @@ android-pluto-preferences = { module = "com.androidpluto.plugins:preferences", v
 android-pluto-preferences-no-op = { module = "com.androidpluto.plugins:preferences-no-op", version.ref = "android-pluto" }
 android-pluto-datastore-pref = { module = "com.androidpluto.plugins:datastore-pref", version.ref = "android-pluto" }
 android-pluto-datastore-pref-no-op = { module = "com.androidpluto.plugins:datastore-pref-no-op", version.ref = "android-pluto" }
+
+# Arrow
+arrow-optics-ksp-plugin = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
+arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

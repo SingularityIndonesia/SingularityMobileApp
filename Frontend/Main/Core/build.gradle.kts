@@ -62,11 +62,9 @@ dependency {
         api(libs.coil.compose)
         api(libs.coil.network.ktor3)
 
-        // Core of Orbit, providing state management and unidirectional data flow (multiplatform)
+        // Orbit
         api(libs.orbit.core)
-        // Integrates Orbit with Android and Common ViewModel for lifecycle-aware state handling (Android, iOS, desktop)
         api(libs.orbit.viewmodel)
-        // Enables Orbit support for Jetpack Compose and Compose Multiplatform (Android, iOS, desktop)
         api(libs.orbit.compose)
 
         // Koin
@@ -87,6 +85,11 @@ dependency {
         // IO
         api(libs.kotlinx.io.core)
         api(libs.kotlinx.io.okio)
+
+        // Arrow
+        api(libs.arrow.core)
+        api(libs.arrow.fx.coroutines)
+        api(libs.arrow.optics)
         api(libs.kotlinx.io.bytestring)
 
         // Font
@@ -114,6 +117,11 @@ dependencies {
     releaseApi(libs.android.pluto.exceptions.no.op)
     releaseApi(libs.android.pluto.preferences.no.op)
     releaseApi(libs.android.pluto.datastore.pref.no.op)
+
+    add("kspAndroid", libs.arrow.optics.ksp.plugin)
+    add("kspIosSimulatorArm64", libs.arrow.optics.ksp.plugin)
+    add("kspIosX64", libs.arrow.optics.ksp.plugin)
+    add("kspIosArm64", libs.arrow.optics.ksp.plugin)
 
     // KSP support for Room Compiler.
     add("kspAndroid", libs.room.compiler)
