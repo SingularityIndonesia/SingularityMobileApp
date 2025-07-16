@@ -14,7 +14,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.tooling.preview.Preview
 import com.pluto.Pluto
+import com.pluto.plugins.datastore.pref.PlutoDatastorePreferencesPlugin
+import com.pluto.plugins.exceptions.PlutoExceptionsPlugin
 import com.pluto.plugins.network.PlutoNetworkPlugin
+import com.pluto.plugins.preferences.PlutoSharePreferencesPlugin
 import org.koin.compose.KoinApplication
 import ui.navigation.Route
 import utils.ContextProvider
@@ -31,6 +34,9 @@ class MainActivity : ComponentActivity() {
         // setup pluto
         Pluto.Installer(this.application)
             .addPlugin(PlutoNetworkPlugin())
+            .addPlugin(PlutoDatastorePreferencesPlugin())
+            .addPlugin(PlutoSharePreferencesPlugin())
+            .addPlugin(PlutoExceptionsPlugin())
             .install()
 
         // setup context provider

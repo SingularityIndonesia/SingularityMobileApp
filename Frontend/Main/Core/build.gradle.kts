@@ -105,8 +105,15 @@ dependencies {
     // pluto
     debugApi(libs.android.pluto)
     debugApi(libs.android.pluto.network)
+    debugApi(libs.android.pluto.exceptions)
+    debugApi(libs.android.pluto.preferences)
+    debugApi(libs.android.pluto.datastore.pref)
+
     releaseApi(libs.android.pluto.no.op)
     releaseApi(libs.android.pluto.network.no.op)
+    releaseApi(libs.android.pluto.exceptions.no.op)
+    releaseApi(libs.android.pluto.preferences.no.op)
+    releaseApi(libs.android.pluto.datastore.pref.no.op)
 
     // KSP support for Room Compiler.
     add("kspAndroid", libs.room.compiler)

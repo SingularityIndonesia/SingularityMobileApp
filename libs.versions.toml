@@ -90,6 +90,12 @@ android-pluto = { module = "com.androidpluto:pluto", version.ref = "android-plut
 android-pluto-no-op = { module = "com.androidpluto:pluto-no-op", version.ref = "android-pluto" }
 android-pluto-network = { module = "com.androidpluto.plugins:network", version.ref = "android-pluto" }
 android-pluto-network-no-op = { module = "com.androidpluto.plugins:network-no-op", version.ref = "android-pluto" }
+android-pluto-exceptions = { module = "com.androidpluto.plugins:exceptions", version.ref = "android-pluto" }
+android-pluto-exceptions-no-op = { module = "com.androidpluto.plugins:exceptions-no-op", version.ref = "android-pluto" }
+android-pluto-preferences = { module = "com.androidpluto.plugins:preferences", version.ref = "android-pluto" }
+android-pluto-preferences-no-op = { module = "com.androidpluto.plugins:preferences-no-op", version.ref = "android-pluto" }
+android-pluto-datastore-pref = { module = "com.androidpluto.plugins:datastore-pref", version.ref = "android-pluto" }
+android-pluto-datastore-pref-no-op = { module = "com.androidpluto.plugins:datastore-pref-no-op", version.ref = "android-pluto" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
