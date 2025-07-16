@@ -58,7 +58,11 @@ fun MainNavigation(
         composable(
             route = Route.PoetDestination
         ) {
-            PoetScreen()
+            PoetScreen(
+                onNavigateBack = {
+                    controller.popBackStack()
+                }
+            )
         }
 
         composable(

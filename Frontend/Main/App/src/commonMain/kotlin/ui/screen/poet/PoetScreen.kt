@@ -31,7 +31,8 @@ import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun PoetScreen(
-    viewModel: PoetScreenViewModel = koinViewModel()
+    viewModel: PoetScreenViewModel = koinViewModel(),
+    onNavigateBack: (() -> Unit) = {},
 ) {
     val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -51,6 +52,7 @@ fun PoetScreen(
                 is PoetScreenIntent.AddMedia -> viewModel.addMedia(it.uris)
                 is PoetScreenIntent.RemoveMedia -> viewModel.removeMedia(it.uri)
                 is PoetScreenIntent.SaveDocument -> viewModel.saveDocument()
+                is PoetScreenIntent.NavigateBack -> onNavigateBack.invoke()
             }
         }
     )
@@ -60,7 +62,7 @@ fun PoetScreen(
 fun PoetScreen(
     state: PoetScreenState,
     snackBarHostState: SnackbarHostState,
-    onIntent: (PoetScreenIntent) -> Unit
+    onIntent: (PoetScreenIntent) -> Unit,
 ) {
     val textFieldFocusRequester = remember { FocusRequester() }
     val scrollState = rememberScrollState()
@@ -71,10 +73,14 @@ fun PoetScreen(
     }
 
     Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding(),
         topBar = {
             TopAppBar(
                 title = state.title,
                 subTitle = state.dateCreated,
+                onNavigateBack = {},
                 onMediaSelected = {
                     onIntent.invoke(PoetScreenIntent.AddMedia(it))
                 }
@@ -203,11 +209,13 @@ fun Note(
 fun TopAppBar(
     title: String,
     subTitle: String? = null,
+    onNavigateBack: (() -> Unit) = {},
     onMediaSelected: (uris: List<String>) -> Unit = {},
     onCancel: () -> Unit = {}
 ) {
     TopAppBar(
         modifier = Modifier.statusBarsPadding(),
+        onNavigateBack = onNavigateBack,
         titleText = title,
         subTitle = subTitle,
         onAddMedia = {

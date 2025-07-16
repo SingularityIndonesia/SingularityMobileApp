@@ -106,7 +106,7 @@ fun AddMedia(
 ) {
     ActionIcon(
         modifier = modifier,
-        drawRes = Res.drawable.folder_pictures_add,
+        drawRes = Res.drawable.add_image,
         contentDescription = "CloseSearch",
         onClick = onClick
     )
@@ -149,6 +149,20 @@ fun BackSymbolic(
     SymbolicActionIcon(
         modifier = modifier,
         drawRes = Res.drawable.ic_back,
+        contentDescription = "Back",
+        onClick = onClick
+    )
+}
+
+@Preview
+@Composable
+fun Back(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    ActionIcon(
+        modifier = modifier,
+        drawRes = Res.drawable.go_previous,
         contentDescription = "Back",
         onClick = onClick
     )

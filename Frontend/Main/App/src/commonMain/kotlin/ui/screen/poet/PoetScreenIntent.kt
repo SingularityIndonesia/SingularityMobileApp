@@ -5,4 +5,5 @@ sealed class PoetScreenIntent {
     data class RemoveMedia(val uri: String) : PoetScreenIntent()
     data class SaveDocument(val title: String) : PoetScreenIntent()
     data class UpdateTitle(val title: String) : PoetScreenIntent()
+    data object NavigateBack : PoetScreenIntent()
 }

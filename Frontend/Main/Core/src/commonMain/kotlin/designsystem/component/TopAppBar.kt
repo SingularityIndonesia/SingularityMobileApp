@@ -10,6 +10,7 @@ fun TopAppBar(
     titleText: String = "Account",
     subTitle: String? = null,
     modifier: Modifier = Modifier,
+    onNavigateBack: (() -> Unit)? = null,
     onSearch: (() -> Unit)? = null,
     onCloseSearch: (() -> Unit)? = null,
     onAdd: (() -> Unit)? = null,
@@ -18,6 +19,7 @@ fun TopAppBar(
     CommonTopAppBar(
         modifier = modifier,
         titleText = titleText,
+        onNavigateBack = onNavigateBack,
         subTitle = subTitle
     ) {
         onSearch?.let { SearchSymbolic(onClick = it) }
@@ -32,6 +34,7 @@ fun TopAppBar(
 private fun TopAppBarPreview() {
     Surface {
         TopAppBar(
+            onNavigateBack = {},
             onSearch = {},
             onCloseSearch = {},
             onAdd = {},
