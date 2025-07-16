@@ -2,7 +2,7 @@ package utils
 
 import android.content.Context
 
-object RoomDBContextProvider {
+object ContextProvider {
     private var applicationContext: Context? = null
 
     fun initialize(context: Context) {

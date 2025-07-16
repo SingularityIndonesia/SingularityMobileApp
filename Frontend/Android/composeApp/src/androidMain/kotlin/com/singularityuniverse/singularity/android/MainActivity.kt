@@ -15,8 +15,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import ui.navigation.Route
-import utils.MediaPickerContextProvider
-import utils.RoomDBContextProvider
+import utils.ContextProvider
 
 class MainActivity : ComponentActivity() {
 
@@ -26,11 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        // setup room
-        RoomDBContextProvider.initialize(this)
-        
-        // setup media picker
-        MediaPickerContextProvider.setActivity(this)
+        // setup context provider
+        ContextProvider.initialize(this)
 
         // setup route
         Route.set(ProjectContext)

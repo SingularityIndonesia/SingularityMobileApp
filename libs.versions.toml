@@ -25,6 +25,7 @@ room = "2.7.2"
 sqlite = "2.5.2"
 ksp = "2.2.0-2.0.2"
 kotlinx-io = "0.8.0"
+android-pluto = "3.0.0"
 
 [libraries]
 compose-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeGradlePlugin" }
@@ -83,6 +84,10 @@ sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sql
 kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
 kotlinx-io-okio = { module = "org.jetbrains.kotlinx:kotlinx-io-okio", version.ref = "kotlinx-io" }
 kotlinx-io-bytestring = { module = "org.jetbrains.kotlinx:kotlinx-io-bytestring", version.ref = "kotlinx-io" }
+
+# Pluto
+android-pluto = { module = "com.androidpluto:pluto", version.ref = "android-pluto" }
+android-pluto-no-op = { module = "com.androidpluto:pluto-no-op", version.ref = "android-pluto" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

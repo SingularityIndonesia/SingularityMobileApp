@@ -6,23 +6,9 @@ import androidx.core.net.toFile
 import androidx.core.net.toUri
 import java.io.File
 
-object MediaScannerContextProvider {
-    private var applicationContext: Context? = null
-
-    fun initialize(context: Context) {
-        applicationContext = context.applicationContext
-    }
-
-    fun getContext(): Context {
-        return applicationContext ?: throw IllegalStateException(
-            "ContextProvider not initialized. Call ContextProvider.initialize(context) in your Application class."
-        )
-    }
-}
-
 actual fun notifyMediaScanner(uri: String, onScanCompleted: (String) -> Unit) {
     notifyMediaScanner(
-        MediaScannerContextProvider.getContext(),
+        ContextProvider.getContext(),
         uri.toUri().toFile(),
         onScanCompleted
     )

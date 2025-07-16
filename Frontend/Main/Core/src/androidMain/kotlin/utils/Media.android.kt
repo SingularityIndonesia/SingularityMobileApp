@@ -2,30 +2,9 @@ package utils
 
 import android.app.Activity
 import android.content.Intent
-import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 
 private var mediaPickerLauncher: ActivityResultLauncher<Intent>? = null
-
-object MediaPickerContextProvider {
-    private var currentActivity: ComponentActivity? = null
-
-    fun setActivity(activity: ComponentActivity) {
-        currentActivity = activity
-        setupMediaPickerLauncher(activity)
-    }
-
-    fun getActivity(): ComponentActivity? = currentActivity
-    
-    private fun setupMediaPickerLauncher(activity: ComponentActivity) {
-        mediaPickerLauncher = activity.registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            handleActivityResult(result.resultCode, result.data)
-        }
-    }
-}
 
 private var currentOnMediaSelected: ((List<String>) -> Unit)? = null
 private var currentOnCancelled: (() -> Unit)? = null
