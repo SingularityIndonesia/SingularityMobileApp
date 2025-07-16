@@ -97,7 +97,6 @@ private fun Preview() {
                     AddMedia { }
                 }
             }
-
         }
     }
 }
