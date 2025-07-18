@@ -167,9 +167,9 @@ fun Medias(
                         1.dp,
                         MaterialTheme.colorScheme.onSurface.copy(alpha = .1f),
                     )
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .height(maxHeight),
                 model = uri,
-                maxHeight = maxHeight
             )
         }
     }

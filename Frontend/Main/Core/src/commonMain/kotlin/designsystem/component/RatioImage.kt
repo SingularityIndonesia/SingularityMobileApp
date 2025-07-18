@@ -1,27 +1,22 @@
 package designsystem.component
 
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
 import coil3.compose.AsyncImage
 
 @Composable
 fun RatioImage(
     model: Any,
     modifier: Modifier = Modifier,
-    maxHeight: Dp
 ) {
     val imageAspectRatio = remember { mutableStateOf(1f) }
     AsyncImage(
-        modifier = Modifier
-            .height(maxHeight)
-            .aspectRatio(imageAspectRatio.value)
-            .then(modifier),
+        modifier = modifier
+            .aspectRatio(imageAspectRatio.value),
         model = model,
         contentDescription = "Selected media",
         contentScale = ContentScale.Crop,
