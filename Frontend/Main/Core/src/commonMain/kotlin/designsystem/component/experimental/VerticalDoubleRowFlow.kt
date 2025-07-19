@@ -39,18 +39,18 @@ fun VerticalDoubleRowFlow(
 ) {
     val density = LocalDensity.current
     val scope = VerticalDoubleRowFlowScope().apply { builder() }
+    val panelSize = remember { mutableStateOf(IntSize.Zero) }
+    val ratios = remember { mutableMapOf<Any, Float>() }
+    val itemRect = remember { mutableMapOf<Any, Rect>() }
+
     val contentTopPadding = rememberUpdatedState(contentPadding.calculateTopPadding())
     val contentBottomPadding = rememberUpdatedState(contentPadding.calculateBottomPadding())
     val contentPaddingStart = rememberUpdatedState(contentPadding.calculateStartPadding(LayoutDirection.Rtl))
     val contentPaddingEnd = rememberUpdatedState(contentPadding.calculateEndPadding(LayoutDirection.Ltr))
-    val panelSize = remember { mutableStateOf(IntSize.Zero) }
     val totalHorizontalPadding = rememberUpdatedState(contentPaddingStart.value + contentPaddingEnd.value)
-    val availableWidth =
-        rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
+    val availableWidth = rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
     val itemWidth = rememberUpdatedState(availableWidth.value / 2f)
     val itemWidthPx = rememberUpdatedState(itemWidth.value.value * density.density)
-    val ratios = remember { mutableMapOf<Any, Float>() }
-    val itemRect = remember { mutableMapOf<Any, Rect>() }
 
     Box(
         modifier = modifier
