@@ -28,6 +28,11 @@ class VerticalDoubleRowFlowScope {
     }
 }
 
+class StageManager(private val density: Density) {
+    val itemRect = mutableMapOf<Any, Rect>()
+    val spacerHeight = (itemRect.values.maxOfOrNull { it.bottom } ?: 0f)
+}
+
 @Composable
 fun VerticalDoubleRowFlow(
     modifier: Modifier = Modifier,
@@ -51,13 +56,14 @@ fun VerticalDoubleRowFlow(
     val availableWidth = rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
     val itemWidth = rememberUpdatedState(availableWidth.value / 2f)
     val itemWidthPx = rememberUpdatedState(itemWidth.value.value * density.density)
+    val spacerHeight = rememberUpdatedState(((itemRect.values.maxOfOrNull { it.bottom } ?: 0f) / density.density).dp)
 
     Box(
         modifier = modifier
             .onSizeChanged { panelSize.value = it }
             .verticalScroll(scrollState)
     ) {
-        val spacerHeight = rememberUpdatedState(((itemRect.values.maxOfOrNull { it.bottom } ?: 0f) / density.density).dp)
+        // Trigger Scrollable by drawing spacer with height == total height
         Spacer(
             modifier = Modifier
                 .padding(bottom = contentBottomPadding.value)
@@ -134,11 +140,11 @@ fun <T> defineYPositionRelative(
 fun VerticalDoubleRowFlowPreview() {
     val images = remember {
         mutableStateListOf(
+            "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=",
             "https://cnc-magazine.oramiland.com/parenting/images/kim-da-hyun.width-800.format-webp.webp",
-            "https://pbs.twimg.com/media/GllvhtPW4AAUnRR?format=jpg&name=large",
+            "https://burst.shopifycdn.com/photos/fashion-model-in-fur.jpg?width=1000&format=pjpg&exif=0&iptc=0",
             "https://cdn.shopify.com/s/files/1/0469/3927/5428/files/TWICE-Dahyun-for-A-pieu-2023-Juicy-Pang-Tint-documents-2.jpg?v=1738754206",
             "https://i.pinimg.com/736x/3f/10/a6/3f10a655fbe33402d858bffa7193df16.jpg",
-            "https://burst.shopifycdn.com/photos/fashion-model-in-fur.jpg?width=1000&format=pjpg&exif=0&iptc=0",
             "https://images.saatchiart.com/saatchi/2199861/art/10341725/9404341-JUYLYEKQ-32.jpg"
         )
     }
@@ -147,7 +153,7 @@ fun VerticalDoubleRowFlowPreview() {
         delay(2000)
         images.addAll(
             listOf(
-                "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=",
+                "https://pbs.twimg.com/media/GllvhtPW4AAUnRR?format=jpg&name=large",
                 "https://img.freepik.com/free-photo/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head_488145-3540.jpg?semt=ais_hybrid&w=740",
                 "https://images.panda.org/assets/images/pages/welcome/orangutan_1600x1000_279157.jpg",
                 "https://media.istockphoto.com/id/2148595463/photo/african-elephant-in-wilderness-at-sunset.jpg?s=612x612&w=0&k=20&c=WmZfQYFpQOKTIyB95U6NQ6h8WQM-Pjp9TCMvF63-Xf4=",
