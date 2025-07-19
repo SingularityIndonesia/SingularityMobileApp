@@ -34,7 +34,7 @@ fun MainNavigation(
     NavHost(
         modifier = modifier,
         navController = controller,
-        startDestination = Route.PoetDestination,
+        startDestination = Route.HomeDestination,
         enterTransition = { slideIn { IntOffset(x = it.width, y = 0) } },
         popEnterTransition = { slideIn { IntOffset(x = -it.width, y = 0) } },
         exitTransition = { slideOut { IntOffset(x = -it.width, y = 0) } },
