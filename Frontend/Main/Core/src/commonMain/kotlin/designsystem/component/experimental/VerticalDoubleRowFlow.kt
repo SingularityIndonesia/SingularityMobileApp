@@ -28,11 +28,6 @@ class VerticalDoubleRowFlowScope {
     }
 }
 
-class StageManager(private val density: Density) {
-    val itemRect = mutableMapOf<Any, Rect>()
-    val spacerHeight = (itemRect.values.maxOfOrNull { it.bottom } ?: 0f)
-}
-
 @Composable
 fun VerticalDoubleRowFlow(
     modifier: Modifier = Modifier,
