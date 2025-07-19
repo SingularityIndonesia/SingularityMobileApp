@@ -32,8 +32,8 @@ fun <T> VerticalDoubleRowFlow(
 ) {
     val density = LocalDensity.current
     val panelSize = remember { mutableStateOf(IntSize.Zero) }
-    val ratios = remember { mutableMapOf<T, Float>() }
-    val itemRect = remember { mutableMapOf<T, Rect>() }
+    val ratios = remember { mutableStateMapOf<T, Float>() }
+    val itemRect = remember { mutableStateMapOf<T, Rect>() }
 
     val contentTopPadding = rememberUpdatedState(contentPadding.calculateTopPadding())
     val contentBottomPadding = rememberUpdatedState(contentPadding.calculateBottomPadding())
