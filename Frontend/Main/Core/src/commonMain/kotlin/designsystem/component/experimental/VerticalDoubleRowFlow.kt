@@ -40,8 +40,7 @@ fun <T> VerticalDoubleRowFlow(
     val contentPaddingStart = rememberUpdatedState(contentPadding.calculateStartPadding(LayoutDirection.Rtl))
     val contentPaddingEnd = rememberUpdatedState(contentPadding.calculateEndPadding(LayoutDirection.Ltr))
     val totalHorizontalPadding = rememberUpdatedState(contentPaddingStart.value + contentPaddingEnd.value)
-    val availableWidth =
-        rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
+    val availableWidth = rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
     val itemWidth = rememberUpdatedState(availableWidth.value / 2f)
     val itemWidthPx = rememberUpdatedState(itemWidth.value.value * density.density)
     val spacerHeight = rememberUpdatedState(((itemRect.values.maxOfOrNull { it.bottom } ?: 0f) / density.density).dp)
@@ -57,8 +56,7 @@ fun <T> VerticalDoubleRowFlow(
                 .padding(bottom = contentBottomPadding.value)
                 .size(width = 0.dp, height = spacerHeight.value)
         )
-        items.indices.map { i ->
-            val item = remember(i) { items[i] }
+        items.map { item ->
             val position = defineYPositionRelative(
                 key = item,
                 keys = items,
