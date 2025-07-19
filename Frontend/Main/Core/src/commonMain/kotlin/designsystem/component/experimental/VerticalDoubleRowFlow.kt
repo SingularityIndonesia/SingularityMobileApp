@@ -76,6 +76,7 @@ fun VerticalDoubleRowFlow(
             )
             val isLeft = rememberUpdatedState(position.value.first)
             val offsetTop = rememberUpdatedState(position.value.second)
+            val rect = rememberUpdatedState(itemRect[item.first])
 
             Box(
                 modifier = Modifier
@@ -85,7 +86,11 @@ fun VerticalDoubleRowFlow(
                     .offset(x = if (isLeft.value) contentPaddingStart.value else -contentPaddingEnd.value)
                     .align(if (isLeft.value) Alignment.TopStart else Alignment.TopEnd)
                     .onGloballyPositioned {
-                        itemRect[item.first] = it.boundsInParent()
+                        val newRect = it.boundsInParent()
+                        if (rect.value == newRect)
+                            return@onGloballyPositioned
+
+                        itemRect[item.first] = newRect
                     }
                     .onSizeChanged {
                         ratios[item.first] = it.width.toFloat() / it.height.toFloat()
