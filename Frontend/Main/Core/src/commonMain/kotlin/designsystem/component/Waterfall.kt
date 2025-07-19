@@ -1,9 +1,8 @@
-package designsystem.component.experimental
+package designsystem.component
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
@@ -15,19 +14,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import designsystem.component.RatioImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import utils.px
-import kotlin.math.min
 
 @Composable
-fun <T> VerticalDoubleRowFlow(
+fun <T> Waterfall(
     modifier: Modifier = Modifier,
     items: List<T> = emptyList(),
     scrollState: ScrollState = rememberScrollState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalGap: Dp = 0.dp,
     horizontalGap: Dp = 0.dp,
+    rowCount: Int = 2,
     content: @Composable (T) -> Unit = {}
 ) {
     val density = LocalDensity.current
@@ -40,8 +38,9 @@ fun <T> VerticalDoubleRowFlow(
     val contentPaddingStart = rememberUpdatedState(contentPadding.calculateStartPadding(LayoutDirection.Rtl))
     val contentPaddingEnd = rememberUpdatedState(contentPadding.calculateEndPadding(LayoutDirection.Ltr))
     val totalHorizontalPadding = rememberUpdatedState(contentPaddingStart.value + contentPaddingEnd.value)
-    val availableWidth = rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
-    val itemWidth = rememberUpdatedState(availableWidth.value / 2f)
+    val availableWidth =
+        rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap * (rowCount - 1))
+    val itemWidth = rememberUpdatedState(availableWidth.value / rowCount)
     val itemWidthPx = rememberUpdatedState(itemWidth.value.value * density.density)
     val spacerHeight = rememberUpdatedState(((itemRect.values.maxOfOrNull { it.bottom } ?: 0f) / density.density).dp)
 
@@ -64,17 +63,22 @@ fun <T> VerticalDoubleRowFlow(
                 ratios = ratios,
                 maxWidth = itemWidthPx.value,
                 verticalGap = verticalGap,
+                rowCount = rowCount
             )
-            val isLeft = rememberUpdatedState(position.value.first)
+            val rowIndex = rememberUpdatedState(position.value.first)
             val offsetTop = rememberUpdatedState(position.value.second)
+            val offsetStart = rememberUpdatedState(itemWidth.value * rowIndex.value)
+            val horizontalGapOffsetExtra = rememberUpdatedState(horizontalGap * rowIndex.value)
+
             Box(
                 modifier = Modifier
                     .width(itemWidth.value)
                     .wrapContentHeight()
-                    .align(if (isLeft.value) Alignment.TopStart else Alignment.TopEnd)
                     .offset(y = offsetTop.value)
                     .offset(y = contentTopPadding.value)
-                    .offset(x = if (isLeft.value) contentPaddingStart.value else -contentPaddingEnd.value)
+                    .offset(x = offsetStart.value)
+                    .offset(x = contentPaddingStart.value)
+                    .offset(x = horizontalGapOffsetExtra.value)
                     .onSizeChanged {
                         ratios[item] = it.width.toFloat() / it.height.toFloat()
                     }
@@ -88,7 +92,7 @@ fun <T> VerticalDoubleRowFlow(
     }
 }
 
-// return position left if result.first == true
+// result.first is the row index
 // result.second is the ratio relative magnitude
 @Composable
 private fun <T> defineYPositionRelative(
@@ -97,32 +101,41 @@ private fun <T> defineYPositionRelative(
     ratios: Map<T, Float>,
     maxWidth: Float,
     verticalGap: Dp,
-): State<Pair<Boolean, Dp>> {
+    rowCount: Int
+): State<Pair<Int, Dp>> {
     val density = LocalDensity.current
-    var leftOccupation = 0f
-    var rightOccupation = 0f
+    val rowOccupation = mutableListOf(*(0..rowCount - 1).map { 0f }.toTypedArray())
     val verticalGapPx = verticalGap.value * density.density
 
     for (e: T in keys) {
         if (e == key) break
 
         val keyRatio = ratios[e] ?: 1f
-        if (leftOccupation <= rightOccupation) {
-            leftOccupation += (maxWidth / keyRatio) + verticalGapPx
-        } else {
-            rightOccupation += (maxWidth / keyRatio) + verticalGapPx
-        }
+        val minimumOccupiedRowIndex = rowOccupation
+            .foldIndexed(0 to Float.MAX_VALUE) { i, acc, n ->
+                if (acc.second > n)
+                    i to n
+                else acc
+            }
+            .first
+        rowOccupation[minimumOccupiedRowIndex] += (maxWidth / keyRatio) + verticalGapPx
     }
 
-    val isLeft = leftOccupation <= rightOccupation
-    val top = min(leftOccupation, rightOccupation) / density.density
+    val row = rowOccupation
+        .foldIndexed(0 to Float.MAX_VALUE) { i, acc, n ->
+            if (acc.second > n)
+                i to n
+            else acc
+        }
+    val index = row.first
+    val top = (row.second / density.density).dp
 
-    return rememberUpdatedState(isLeft to top.dp)
+    return rememberUpdatedState(index to top)
 }
 
 @Preview
 @Composable
-fun VerticalDoubleRowFlowPreview() {
+fun WaterfallPreview() {
     val images = remember {
         listOf(
             "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=",
@@ -142,20 +155,21 @@ fun VerticalDoubleRowFlowPreview() {
 
     val items = remember { (0..30).toList() }
 
-    VerticalDoubleRowFlow(
+    Waterfall(
         modifier = Modifier
             .systemBarsPadding()
             .fillMaxSize(),
         items = items,
         verticalGap = 4.dp,
         horizontalGap = 4.dp,
-        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
+        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+        rowCount = 5
     ) { item ->
         RatioImage(
             modifier = Modifier
                 .background(Color.White)
                 .border(BorderStroke(1.px, Color.Black.copy(alpha = .5f)))
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxWidth(),
             model = images.random()
         )
