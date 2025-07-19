@@ -38,8 +38,7 @@ fun <T> Waterfall(
     val contentPaddingStart = rememberUpdatedState(contentPadding.calculateStartPadding(LayoutDirection.Rtl))
     val contentPaddingEnd = rememberUpdatedState(contentPadding.calculateEndPadding(LayoutDirection.Ltr))
     val totalHorizontalPadding = rememberUpdatedState(contentPaddingStart.value + contentPaddingEnd.value)
-    val availableWidth =
-        rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap * (rowCount - 1))
+    val availableWidth = rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap * (rowCount - 1))
     val itemWidth = rememberUpdatedState(availableWidth.value / rowCount)
     val itemWidthPx = rememberUpdatedState(itemWidth.value.value * density.density)
     val spacerHeight = rememberUpdatedState(((itemRect.values.maxOfOrNull { it.bottom } ?: 0f) / density.density).dp)
