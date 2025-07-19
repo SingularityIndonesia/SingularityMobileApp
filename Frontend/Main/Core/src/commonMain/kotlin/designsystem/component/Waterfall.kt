@@ -169,7 +169,6 @@ fun WaterfallPreview() {
             .fillMaxSize()
             .onSizeChanged {
                 width.value = (it.width / density.density).dp
-                println("asdnlasn $width")
             },
         items = items,
         verticalGap = 4.dp,
