@@ -20,38 +20,28 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.min
 
-@Immutable
-class VerticalDoubleRowFlowScope {
-    private val _items = mutableStateListOf<Pair<Any, @Composable () -> Unit>>()
-    val items = _items as List<Pair<Any, @Composable () -> Unit>>
-
-    fun item(key: Any, bloc: @Composable () -> Unit) {
-        _items.removeAll { it.first == key }
-        _items.add(key to bloc)
-    }
-}
-
 @Composable
-fun VerticalDoubleRowFlow(
+fun <T> VerticalDoubleRowFlow(
     modifier: Modifier = Modifier,
+    items: List<T> = emptyList(),
     scrollState: ScrollState = rememberScrollState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalGap: Dp = 0.dp,
     horizontalGap: Dp = 0.dp,
-    builder: VerticalDoubleRowFlowScope.() -> Unit = {}
+    content: @Composable (T) -> Unit = {}
 ) {
     val density = LocalDensity.current
-    val scope = VerticalDoubleRowFlowScope().apply { builder() }
     val panelSize = remember { mutableStateOf(IntSize.Zero) }
-    val ratios = remember { mutableMapOf<Any, Float>() }
-    val itemRect = remember { mutableMapOf<Any, Rect>() }
+    val ratios = remember { mutableMapOf<T, Float>() }
+    val itemRect = remember { mutableMapOf<T, Rect>() }
 
     val contentTopPadding = rememberUpdatedState(contentPadding.calculateTopPadding())
     val contentBottomPadding = rememberUpdatedState(contentPadding.calculateBottomPadding())
     val contentPaddingStart = rememberUpdatedState(contentPadding.calculateStartPadding(LayoutDirection.Rtl))
     val contentPaddingEnd = rememberUpdatedState(contentPadding.calculateEndPadding(LayoutDirection.Ltr))
     val totalHorizontalPadding = rememberUpdatedState(contentPaddingStart.value + contentPaddingEnd.value)
-    val availableWidth = rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
+    val availableWidth =
+        rememberUpdatedState((panelSize.value.width / density.density).dp - totalHorizontalPadding.value - horizontalGap)
     val itemWidth = rememberUpdatedState(availableWidth.value / 2f)
     val itemWidthPx = rememberUpdatedState(itemWidth.value.value * density.density)
     val spacerHeight = rememberUpdatedState(((itemRect.values.maxOfOrNull { it.bottom } ?: 0f) / density.density).dp)
@@ -67,20 +57,17 @@ fun VerticalDoubleRowFlow(
                 .padding(bottom = contentBottomPadding.value)
                 .size(width = 0.dp, height = spacerHeight.value)
         )
-
-        scope.items.indices.map { i ->
-            val item = remember(i) { scope.items[i] }
+        items.indices.forEach { i ->
+            val item = remember(i) { items[i] }
             val position = defineYPositionRelative(
-                key = item.first,
-                keys = scope.items.map { it.first },
+                key = item,
+                keys = items,
                 ratios = ratios,
                 maxWidth = itemWidthPx.value,
                 verticalGap = verticalGap,
             )
             val isLeft = rememberUpdatedState(position.value.first)
             val offsetTop = rememberUpdatedState(position.value.second)
-            val rect = rememberUpdatedState(itemRect[item.first])
-
             Box(
                 modifier = Modifier
                     .width(itemWidth.value)
@@ -89,17 +76,13 @@ fun VerticalDoubleRowFlow(
                     .offset(x = if (isLeft.value) contentPaddingStart.value else -contentPaddingEnd.value)
                     .align(if (isLeft.value) Alignment.TopStart else Alignment.TopEnd)
                     .onGloballyPositioned {
-                        val newRect = it.boundsInParent()
-                        if (rect.value == newRect)
-                            return@onGloballyPositioned
-
-                        itemRect[item.first] = newRect
+                        itemRect[item] = it.boundsInParent()
                     }
                     .onSizeChanged {
-                        ratios[item.first] = it.width.toFloat() / it.height.toFloat()
+                        ratios[item] = it.width.toFloat() / it.height.toFloat()
                     }
             ) {
-                item.second.invoke()
+                content.invoke(item)
             }
         }
     }
@@ -170,22 +153,19 @@ fun VerticalDoubleRowFlowPreview() {
         modifier = Modifier
             .systemBarsPadding()
             .fillMaxSize(),
+        items = images,
         verticalGap = 4.dp,
         horizontalGap = 4.dp,
         contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
-    ) {
-        images.map {
-            item(it) {
-                RatioImage(
-                    modifier = Modifier
-                        .background(Color.White)
-                        .border(BorderStroke(1.px, Color.Black.copy(alpha = .5f)))
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    model = it
-                )
-            }
-        }
+    ) { item ->
+        RatioImage(
+            modifier = Modifier
+                .background(Color.White)
+                .border(BorderStroke(1.px, Color.Black.copy(alpha = .5f)))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            model = item
+        )
     }
 }
 
