@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import designsystem.component.RatioImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import utils.px
 import kotlin.math.min
 
 @Composable
@@ -90,7 +91,7 @@ fun <T> VerticalDoubleRowFlow(
 // return position left if result.first == true
 // result.second is the ratio relative magnitude
 @Composable
-fun <T> defineYPositionRelative(
+private fun <T> defineYPositionRelative(
     key: T,
     keys: List<T>,
     ratios: Map<T, Float>,
@@ -160,9 +161,3 @@ fun VerticalDoubleRowFlowPreview() {
         )
     }
 }
-
-val Number.px: Dp
-    @Composable get() {
-        val density = LocalDensity.current
-        return this.toFloat().dp / density.density
-    }
