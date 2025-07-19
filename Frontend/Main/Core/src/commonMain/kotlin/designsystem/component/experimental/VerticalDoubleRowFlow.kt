@@ -57,7 +57,7 @@ fun <T> VerticalDoubleRowFlow(
                 .padding(bottom = contentBottomPadding.value)
                 .size(width = 0.dp, height = spacerHeight.value)
         )
-        items.indices.forEach { i ->
+        items.indices.map { i ->
             val item = remember(i) { items[i] }
             val position = defineYPositionRelative(
                 key = item,
@@ -71,15 +71,16 @@ fun <T> VerticalDoubleRowFlow(
             Box(
                 modifier = Modifier
                     .width(itemWidth.value)
+                    .wrapContentHeight()
+                    .align(if (isLeft.value) Alignment.TopStart else Alignment.TopEnd)
                     .offset(y = offsetTop.value)
                     .offset(y = contentTopPadding.value)
                     .offset(x = if (isLeft.value) contentPaddingStart.value else -contentPaddingEnd.value)
-                    .align(if (isLeft.value) Alignment.TopStart else Alignment.TopEnd)
-                    .onGloballyPositioned {
-                        itemRect[item] = it.boundsInParent()
-                    }
                     .onSizeChanged {
                         ratios[item] = it.width.toFloat() / it.height.toFloat()
+                    }
+                    .onGloballyPositioned {
+                        itemRect[item] = it.boundsInParent()
                     }
             ) {
                 content.invoke(item)
