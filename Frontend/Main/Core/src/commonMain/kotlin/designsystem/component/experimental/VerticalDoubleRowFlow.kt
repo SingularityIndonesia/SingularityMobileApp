@@ -56,6 +56,7 @@ fun <T> VerticalDoubleRowFlow(
                 .padding(bottom = contentBottomPadding.value)
                 .size(width = 0.dp, height = spacerHeight.value)
         )
+
         items.map { item ->
             val position = defineYPositionRelative(
                 key = item,
@@ -86,7 +87,6 @@ fun <T> VerticalDoubleRowFlow(
         }
     }
 }
-
 
 // return position left if result.first == true
 // result.second is the ratio relative magnitude
