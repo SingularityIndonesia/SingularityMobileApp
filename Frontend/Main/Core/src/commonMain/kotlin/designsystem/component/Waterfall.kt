@@ -135,6 +135,7 @@ private fun <T> defineYPositionRelative(
 @Preview
 @Composable
 fun WaterfallPreview() {
+    val density = LocalDensity.current
     val images = remember {
         listOf(
             "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=",
@@ -153,24 +154,36 @@ fun WaterfallPreview() {
     }
 
     val items = remember { (0..30).toList() }
+    val width = remember { mutableStateOf(0.dp) }
+    val rowCount = rememberUpdatedState(
+        when {
+            width.value in 440.dp..600.dp -> 3
+            width.value > 600.dp -> 4
+            else -> 2
+        }
+    )
 
     Waterfall(
         modifier = Modifier
             .systemBarsPadding()
-            .fillMaxSize(),
+            .fillMaxSize()
+            .onSizeChanged {
+                width.value = (it.width / density.density).dp
+                println("asdnlasn $width")
+            },
         items = items,
         verticalGap = 4.dp,
         horizontalGap = 4.dp,
         contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
-        rowCount = 5
+        rowCount = rowCount.value
     ) { item ->
         RatioImage(
             modifier = Modifier
                 .background(Color.White)
                 .border(BorderStroke(1.px, Color.Black.copy(alpha = .5f)))
-                .padding(8.dp)
+                .padding(16.dp)
                 .fillMaxWidth(),
-            model = images.random()
+            model = images[item % images.size]
         )
     }
 }
