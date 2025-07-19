@@ -58,10 +58,6 @@ fun VerticalDoubleRowFlow(
             .verticalScroll(scrollState)
     ) {
         val spacerHeight = rememberUpdatedState(((itemRect.values.maxOfOrNull { it.bottom } ?: 0f) / density.density).dp)
-
-        LaunchedEffect(spacerHeight.value) {
-            println("asdnlasdn ${spacerHeight.value}")
-        }
         Spacer(
             modifier = Modifier
                 .padding(bottom = contentBottomPadding.value)
