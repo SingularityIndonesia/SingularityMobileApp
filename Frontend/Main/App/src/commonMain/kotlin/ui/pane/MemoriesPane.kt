@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import designsystem.component.CreateNewFab
+import designsystem.component.experimental.VerticalDoubleRowFlowPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -29,10 +30,11 @@ fun MemoriesPane(
                 bottom = 88.dp
             )
         )
-        GalleryPane(
-            dataSource = dataSource,
-            contentPadding = contentPadding
-        )
+        // GalleryPane(
+        //     dataSource = dataSource,
+        //     contentPadding = contentPadding
+        // )
+        VerticalDoubleRowFlowPreview()
         CreateNewFab(
             Modifier
                 .align(Alignment.BottomEnd)
