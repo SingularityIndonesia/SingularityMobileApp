@@ -1,19 +1,17 @@
 package designsystem.component
 
 import Waterfall
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.boundsInParent
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import utils.px
@@ -41,13 +39,6 @@ fun WaterfallPreview() {
 
     val items = remember { (0..30).toList() }
     val width = remember { mutableStateOf(0.dp) }
-    val rowCount = rememberUpdatedState(
-        when {
-            width.value in 440.dp..600.dp -> 3
-            width.value > 600.dp -> 4
-            else -> 2
-        }
-    )
 
     Waterfall(
         modifier = Modifier
@@ -57,10 +48,10 @@ fun WaterfallPreview() {
                 width.value = (it.width / density.density).dp
             },
         items = items,
-        verticalGap = 4.dp,
-        horizontalGap = 4.dp,
-        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
-        rowCount = rowCount.value
+        verticalGap = { panelWidth, rowCount -> if (rowCount > 2) 16.dp else 4.dp },
+        horizontalGap = { panelWidth, rowCount -> if (rowCount > 2) 16.dp else 4.dp },
+        contentPadding = { panelWidth, rowCount -> PaddingValues(if (rowCount > 2) 24.dp else 8.dp) },
+        minWidth = { if (it > 800.dp) 300.dp else 200.dp }
     ) { item ->
         RatioImage(
             modifier = Modifier
