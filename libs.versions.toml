@@ -27,6 +27,7 @@ ksp = "2.2.0-2.0.2"
 kotlinx-io = "0.8.0"
 android-pluto = "3.0.0"
 arrow = "2.1.0"
+waterfall = "1.0.0"
 
 [libraries]
 compose-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "composeGradlePlugin" }
@@ -103,6 +104,9 @@ arrow-optics-ksp-plugin = { module = "io.arrow-kt:arrow-optics-ksp-plugin", vers
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
+
+# Singularity SDK
+waterfall = { module = "io.github.stefanusayudha:waterfall", version.ref = "waterfall" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

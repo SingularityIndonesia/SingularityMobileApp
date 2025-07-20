@@ -92,6 +92,9 @@ dependency {
         api(libs.arrow.optics)
         api(libs.kotlinx.io.bytestring)
 
+        // Singularity
+        api(libs.waterfall)
+
         // Font
         api(project(":Font"))
     }
