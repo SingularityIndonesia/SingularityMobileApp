@@ -1,4 +1,4 @@
-package designsystem.font
+package designsystemold.font
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily

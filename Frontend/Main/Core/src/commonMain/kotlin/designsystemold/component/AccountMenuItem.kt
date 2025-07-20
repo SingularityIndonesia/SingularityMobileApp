@@ -1,4 +1,4 @@
-package designsystem.component
+package designsystemold.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -11,7 +11,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import designsystem.DarkThemePalette
+import designsystemold.DarkThemePalette
 import font.resources.Res
 import font.resources.ic_more_horz
 import font.resources.ic_person

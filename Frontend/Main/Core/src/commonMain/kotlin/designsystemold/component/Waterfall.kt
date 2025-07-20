@@ -1,4 +1,4 @@
-package designsystem.component
+package designsystemold.component
 
 import Waterfall
 import androidx.compose.foundation.BorderStroke

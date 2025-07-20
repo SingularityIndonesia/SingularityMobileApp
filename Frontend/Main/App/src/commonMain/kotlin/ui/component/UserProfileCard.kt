@@ -8,11 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import designsystem.DarkThemePalette
-import designsystem.component.AvatarImage
-import designsystem.component.BodyMediumText
-import designsystem.component.EditSymbolic
-import designsystem.component.HeadlineSmallText
+import designsystemold.DarkThemePalette
+import designsystemold.component.AvatarImage
+import designsystemold.component.BodyMediumText
+import designsystemold.component.EditSymbolic
+import designsystemold.component.HeadlineSmallText
 import model.Image
 import model.User
 import org.jetbrains.compose.ui.tooling.preview.Preview

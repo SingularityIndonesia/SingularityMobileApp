@@ -1,4 +1,4 @@
-package designsystem.component
+package designsystemold.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

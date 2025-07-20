@@ -1,4 +1,4 @@
-package designsystem.component
+package designsystemold.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition

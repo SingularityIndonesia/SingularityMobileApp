@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION", "ObjectPropertyName")
 
-package designsystem
+package designsystemold
 
 val SystemToken.`small-spacing` get() = SIZE_4
 val SystemToken.`medium-spacing` get() = SIZE_8

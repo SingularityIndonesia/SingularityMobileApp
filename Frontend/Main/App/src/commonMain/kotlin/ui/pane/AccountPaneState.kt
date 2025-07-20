@@ -1,6 +1,6 @@
 package ui.pane
 
-import designsystem.component.AccountMenuItemDisplay
+import designsystemold.component.AccountMenuItemDisplay
 import font.resources.*
 import ui.component.UserProfileDisplay
 import ui.navigation.Route

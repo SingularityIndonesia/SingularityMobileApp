@@ -18,7 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import designsystem.component.FlowLayout
+import designsystemold.component.FlowLayout
 import font.resources.Res
 import font.resources.compose_multiplatform
 import kotlinx.coroutines.*

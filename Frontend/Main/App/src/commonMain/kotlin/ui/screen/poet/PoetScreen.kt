@@ -18,9 +18,9 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import designsystem.SingularityTheme
-import designsystem.component.RatioImage
-import designsystem.component.TopAppBar
+import designsystemold.SingularityTheme
+import designsystemold.component.RatioImage
+import designsystemold.component.TopAppBar
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState

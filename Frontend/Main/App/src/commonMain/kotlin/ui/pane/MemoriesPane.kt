@@ -6,8 +6,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import designsystem.component.CreateNewFab
-import designsystem.component.WaterfallPreview
+import designsystemold.component.CreateNewFab
+import designsystemold.component.WaterfallPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

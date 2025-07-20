@@ -19,9 +19,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import designsystem.DesignToken
-import designsystem.component.BodyMediumText
-import designsystem.component.TitleMediumText
+import designsystemold.DesignToken
+import designsystemold.component.BodyMediumText
+import designsystemold.component.TitleMediumText
 import model.User
 
 data class PostItemDisplay(

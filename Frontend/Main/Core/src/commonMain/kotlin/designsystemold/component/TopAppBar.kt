@@ -1,4 +1,4 @@
-package designsystem.component
+package designsystemold.component
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
