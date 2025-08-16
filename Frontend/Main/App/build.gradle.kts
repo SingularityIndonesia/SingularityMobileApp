@@ -1,6 +1,7 @@
 import plugin.convention.companion.compileAndroidLibrary
 import plugin.convention.companion.compileIOSLibrary
 import plugin.convention.companion.dependency
+import plugin.convention.companion.withKotlinMultiplatformExtension
 
 plugins {
     id("ConventionUtils")
@@ -21,6 +22,12 @@ compileIOSLibrary(
     baseName = "MainApp",
     isStatic = true
 )
+
+withKotlinMultiplatformExtension {
+    sourceSets.commonMain {
+        kotlin.srcDir("main")
+    }
+}
 
 dependency {
     common {

@@ -51,7 +51,7 @@ data class AccountPaneState(
         ),
         AccountMenuItemDisplay(
             title = "About",
-            subtitle = "App info and legal",
+            subtitle = ".App info and legal",
             iconRes = Res.drawable.ic_info_filled,
             actionDeepLink = Route.AboutCustomDeepLink
         ),

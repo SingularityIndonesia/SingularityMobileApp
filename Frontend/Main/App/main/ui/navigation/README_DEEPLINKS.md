@@ -54,7 +54,7 @@ For iOS, you can test deeplinks using:
 
 ### 1. AndroidManifest.xml
 - Added intent filters for both HTTPS and custom scheme
-- Set `android:autoVerify="true"` for App Links
+- Set `android:autoVerify="true"` for .App Links
 - Added `android:launchMode="singleTop"` to prevent multiple instances
 
 ### 2. Navigation Setup
@@ -65,7 +65,7 @@ For iOS, you can test deeplinks using:
 ### 3. MainActivity
 - Handles incoming intents with deeplink data
 - Supports both cold start and warm start scenarios
-- Passes deeplink URL to App composable
+- Passes deeplink URL to .App composable
 
 ## Adding More Deep Links
 
@@ -136,7 +136,7 @@ fun handleDeepLink(url: String): Boolean {
 ### Common Issues:
 1. **Deeplink not working**: Check AndroidManifest.xml intent filters
 2. **Wrong destination**: Verify URL patterns match exactly
-3. **App not opening**: Ensure the package name is correct in ADB commands
+3. **.App not opening**: Ensure the package name is correct in ADB commands
 4. **Multiple instances**: Use `launchSingleTop = true` in navigation
 
 ### Debugging:

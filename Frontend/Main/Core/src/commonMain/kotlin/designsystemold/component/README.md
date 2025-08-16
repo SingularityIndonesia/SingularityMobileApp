@@ -72,7 +72,7 @@ A reusable menu item component:
 AccountMenuItemCard(
     menuItem = AccountMenuItem(
         title = "Settings",
-        subtitle = "App preferences",
+        subtitle = ".App preferences",
         iconRes = Res.drawable.ic_settings,
         onClick = { /* handle click */ }
     ),
