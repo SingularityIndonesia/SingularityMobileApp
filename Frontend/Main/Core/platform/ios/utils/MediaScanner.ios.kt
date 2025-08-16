@@ -8,6 +8,8 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Photos.PHAssetChangeRequest
+import platform.Photos.PHAuthorizationStatusAuthorized
+import platform.Photos.PHAuthorizationStatusLimited
 import platform.Photos.PHPhotoLibrary
 import platform.UIKit.UIImage
 import kotlin.coroutines.resume
@@ -79,6 +81,6 @@ fun notifyMediaScannerWithImage(
 @OptIn(ExperimentalForeignApi::class)
 fun hasPhotoLibraryPermission(): Boolean {
     val status = PHPhotoLibrary.authorizationStatus()
-    return status == platform.Photos.PHAuthorizationStatusAuthorized || 
-           status == platform.Photos.PHAuthorizationStatusLimited
+    return status == PHAuthorizationStatusAuthorized ||
+           status == PHAuthorizationStatusLimited
 }

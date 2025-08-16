@@ -64,7 +64,7 @@ actual object MediaPicker {
         currentOnCancelled = onCancelled
 
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "image/*"
+            Intent.setType = "image/*"
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             addCategory(Intent.CATEGORY_OPENABLE)
         }

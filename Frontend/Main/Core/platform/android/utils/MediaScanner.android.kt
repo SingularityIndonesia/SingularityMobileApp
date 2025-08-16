@@ -2,6 +2,7 @@ package utils
 
 import android.content.Context
 import android.media.MediaScannerConnection
+import android.net.Uri
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import java.io.File
@@ -23,7 +24,7 @@ fun notifyMediaScanner(
         context,
         arrayOf(file.absolutePath),
         arrayOf("image/jpeg"),
-    ) { path: String, uri: android.net.Uri ->
+    ) { path: String, uri: Uri ->
         onScanCompleted.invoke(path)
     }
 }

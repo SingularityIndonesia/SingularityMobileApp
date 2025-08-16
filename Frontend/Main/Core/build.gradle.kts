@@ -23,6 +23,21 @@ compileIOSLibrary(
     isStatic = true
 )
 
+withKotlinMultiplatformExtension {
+    sourceSets.commonMain {
+        kotlin.srcDir("main")
+    }
+    sourceSets.commonTest {
+        kotlin.srcDir("mainTest")
+    }
+    sourceSets.androidMain {
+        kotlin.srcDir("platform/android")
+    }
+    sourceSets.iosMain {
+        kotlin.srcDir("platform/ios")
+    }
+}
+
 dependency {
     android {
         withKotlinMultiplatformExtension {

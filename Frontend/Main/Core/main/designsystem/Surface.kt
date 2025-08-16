@@ -2,6 +2,7 @@ package designsystem
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +23,7 @@ fun SSurface(
     border: BorderStroke? = null,
     content: @Composable () -> Unit
 ) {
-    androidx.compose.material3.Surface(
+    Surface(
         modifier = modifier,
         shape = shape,
         contentColor = contentColor,

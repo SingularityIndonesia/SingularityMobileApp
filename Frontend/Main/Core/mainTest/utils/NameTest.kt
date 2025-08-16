@@ -2,7 +2,6 @@ package utils
 
 import stdextra.shouldBe
 import kotlin.test.Test
-import kotlin.test.assertTrue
 
 class NameTest {
     @Test

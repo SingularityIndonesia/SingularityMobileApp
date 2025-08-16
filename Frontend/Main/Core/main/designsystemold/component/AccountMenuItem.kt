@@ -7,6 +7,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -120,7 +121,7 @@ fun AccountMenuItem(
 private fun highlightSearchText(
     text: String,
     searchQuery: String
-): androidx.compose.ui.text.AnnotatedString {
+): AnnotatedString {
     if (searchQuery.isEmpty()) {
         return buildAnnotatedString { append(text) }
     }
