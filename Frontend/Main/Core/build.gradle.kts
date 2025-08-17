@@ -48,6 +48,13 @@ dependency {
         // Android-specific HTTP client
         api(libs.ktor.client.okhttp)
         api(libs.ktor.client.android)
+
+        // Room
+        api(libs.room.runtime)
+        api(libs.sqlite.bundled)
+
+        // Singularity
+        api(libs.waterfall)
     }
 
     ios {
@@ -55,6 +62,13 @@ dependency {
 
         // iOS-specific HTTP client
         api(libs.ktor.client.darwin)
+
+        // Room
+        api(libs.room.runtime)
+        api(libs.sqlite.bundled)
+
+        // Singularity
+        api(libs.waterfall)
     }
 
     common {
@@ -93,10 +107,6 @@ dependency {
         api(libs.ktor.client.content.negotiation)
         api(libs.ktor.serialization.kotlinx.json)
 
-        // Room
-        api(libs.room.runtime)
-        api(libs.sqlite.bundled)
-
         // IO
         api(libs.kotlinx.io.core)
         api(libs.kotlinx.io.okio)
@@ -106,9 +116,6 @@ dependency {
         api(libs.arrow.fx.coroutines)
         api(libs.arrow.optics)
         api(libs.kotlinx.io.bytestring)
-
-        // Singularity
-        api(libs.waterfall)
 
         // Font
         api(project(":Font"))

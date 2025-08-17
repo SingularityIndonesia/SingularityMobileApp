@@ -8,8 +8,10 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.PluginManager
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 fun Project.withKotlinMultiplatformExtension(
     bloc: KotlinMultiplatformExtension.() -> Unit
@@ -157,6 +159,34 @@ fun Project.compileIOSLibrary(
                 this.baseName = baseName
                 this.isStatic = isStatic
             }
+        }
+    }
+}
+
+fun Project.compileWasmJs(
+    outputFileName: String = "composeApp.js",
+    outputModuleName: String = "composeApp"
+) {
+    withKotlinMultiplatformExtension {
+
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            this.outputModuleName.set(outputModuleName)
+            browser {
+                val rootDirPath = project.rootDir.path
+                val projectDirPath = project.projectDir.path
+                commonWebpackConfig {
+                    this.outputFileName = outputFileName
+                    devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                        static = (static ?: mutableListOf()).apply {
+                            // Serve sources to debug inside browser
+                            add(rootDirPath)
+                            add(projectDirPath)
+                        }
+                    }
+                }
+            }
+            binaries.executable()
         }
     }
 }

@@ -1,5 +1,6 @@
 import plugin.convention.companion.compileAndroidLibrary
 import plugin.convention.companion.compileIOSLibrary
+import plugin.convention.companion.compileWasmJs
 import plugin.convention.companion.dependency
 import plugin.convention.companion.withKotlinMultiplatformExtension
 
@@ -22,6 +23,11 @@ compileIOSLibrary(
     isStatic = true
 )
 
+compileWasmJs(
+    outputFileName = "MainService.js",
+    outputModuleName = "MainService"
+)
+
 withKotlinMultiplatformExtension {
     sourceSets.commonMain {
         kotlin.srcDir("main")
@@ -35,11 +41,22 @@ withKotlinMultiplatformExtension {
     sourceSets.iosMain {
         kotlin.srcDir("platform/ios")
     }
+    sourceSets.wasmJsMain {
+        kotlin.srcDir("platform/wasm")
+    }
 }
 
 dependency {
     common {
         api(project(":Core"))
+    }
+
+    android {
+        implementation(libs.room.runtime)
+        implementation(libs.sqlite.bundled)
+    }
+
+    ios {
         implementation(libs.room.runtime)
         implementation(libs.sqlite.bundled)
     }
